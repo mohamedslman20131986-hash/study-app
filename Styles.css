@@ -1,0 +1,227 @@
+root {
+  --primary: #0b6e4f;
+  --primary-dark: #084c3a;
+  --bg: #f7f7f7;
+  --text: #222;
+  --card: #fff;
+  --border: #ddd;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--primary);
+  color: #fff;
+  padding: 0.5em 1em;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 1.4em;
+  cursor: pointer;
+}
+
+.side {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 220px;
+  background: #fff;
+  border-left: 1px solid var(--border);
+  padding: 1em;
+  overflow-y: auto;
+  transition: transform 0.3s;
+  z-index: 1000;
+}
+
+.side.hidden {
+  transform: translateX(100%);
+}
+
+.side ul {
+  list-style: none;
+  padding: 0;
+}
+
+.side li {
+  padding: 0.6em;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.side li.active,
+.side li:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+.side-footer {
+  margin-top: 2em;
+  font-size: 0.8em;
+  color: #666;
+}
+
+main {
+  padding: 1em;
+}
+
+.view {
+  display: block;
+}
+
+.view.hidden {
+  display: none;
+}
+
+.view-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1em;
+  margin-bottom: 1em;
+}
+
+.summary-grid {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1em;
+}
+
+.summary-item {
+  text-align: center;
+}
+
+.summary-item .num {
+  font-size: 1.4em;
+  font-weight: bold;
+  color: var(--primary);
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+}
+
+.list li {
+  padding: 0.8em;
+  margin: 0.3em 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.flashcard {
+  padding: 2em;
+  font-size: 1.3em;
+  text-align: center;
+  border: 2px dashed var(--primary);
+  border-radius: 10px;
+  cursor: pointer;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flash-controls {
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+  margin-top: 0.5em;
+}
+
+.timer-card {
+  text-align: center;
+}
+
+#timerDisplay {
+  font-size: 2em;
+  margin-bottom: 0.5em;
+}
+
+textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 0.5em;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  resize: vertical;
+}
+
+.primary {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 0.6em 1.2em;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.primary:hover {
+  background: var(--primary-dark);
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-card {
+  background: #fff;
+  padding: 1em;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 400px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5em;
+  margin-top: 1em;
+}
+
+.bottombar {
+  text-align: center;
+  padding: 0.5em;
+  font-size: 0.85em;
+  color: #666;
+}

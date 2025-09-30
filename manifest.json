@@ -1,9 +1,0 @@
-{
-  "name": "StudyBuddy",
-  "short_name": "StudyBuddy",
-  "start_url": "./index.html",
-  "display": "standalone",
-  "background_color": "#f7f7f7",
-  "theme_color": "#0b6e4f",
-  "icons": []
-}

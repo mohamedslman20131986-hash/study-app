@@ -7,54 +7,58 @@
   <title>StudyBuddy — تطبيق الدراسة</title>
 
   <style>
-    /* ============================
-       Styles (ملف مضمّن)
-       انتبه: لا تغيّر أسماء العناصر إلا إذا عدّلت السكربت أيضاً
-       ============================ */
+    /* ---------- ستايل عام (مضمّن) ---------- */
     :root{
-      --primary:#0b6e4f;--muted:#777;--bg:#f5f5f5;--card:#fff;
+      --primary:#0b6e4f; --muted:#6b6b6b; --bg:#f6f6f6; --card:#fff;
+      --nav-transition: 120ms; /* سرعة التنقل/الفتح — غيرها لو تحب */
     }
     *{box-sizing:border-box}
     html,body{height:100%;margin:0;font-family:Tahoma,Arial,sans-serif;background:var(--bg);color:#222;direction:rtl}
-    .topbar{display:flex;align-items:center;justify-content:space-between;background:var(--primary);color:#fff;padding:12px 16px;position:sticky;top:0;z-index:50}
-    .brand{font-size:22px;font-weight:700}
+    .topbar{display:flex;align-items:center;justify-content:space-between;background:var(--primary);color:#fff;padding:12px 16px;position:sticky;top:0;z-index:90}
+    .brand{font-size:20px;font-weight:700}
     .icon-btn{background:none;border:0;color:#fff;font-size:20px;cursor:pointer;padding:6px}
-    .main{padding:18px 14px 80px}
-    .side{position:fixed;top:0;right:0;height:100%;width:260px;padding:16px;background:var(--card);border-left:1px solid #e9e9e9;box-shadow:-8px 0 18px rgba(0,0,0,0.05);transform:translateX(110%);transition:transform .2s ease;z-index:60}
+    .container{display:flex;min-height:calc(100vh - 56px)}
+    /* القائمة الجانبية */
+    .side{width:300px;background:var(--card);border-left:1px solid #eaeaea;padding:12px;box-shadow:-6px 0 18px rgba(0,0,0,0.05);transition:transform var(--nav-transition) ease;transform:translateX(0)}
     .side.hidden{transform:translateX(110%)}
     .side ul{list-style:none;padding:0;margin:0}
-    .side li{padding:10px;border-radius:6px;cursor:pointer}
+    .side li{padding:10px;border-radius:6px;cursor:pointer;display:flex;align-items:center;gap:10px}
     .side li.active,.side li:hover{background:var(--primary);color:#fff}
-    .side-footer{font-size:12px;color:var(--muted);margin-top:18px;text-align:center}
-    .card{background:var(--card);border-radius:10px;padding:16px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
-    .summary-grid{display:flex;justify-content:space-around;gap:14px;text-align:center}
+    .side .note{font-size:12px;color:var(--muted);margin-top:14px;text-align:center}
+    /* المحتوى */
+    main{flex:1;padding:18px;max-width:1100px;margin:0 auto}
+    .card{background:var(--card);border-radius:10px;padding:18px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+    .summary-grid{display:flex;gap:18px;justify-content:space-around;text-align:center;flex-wrap:wrap}
     .summary-item .num{font-size:28px;color:var(--primary);font-weight:700}
-    .list{list-style:disc;padding-inline-start:24px}
-    .books-list a{color:#1a0dab;text-decoration:underline}
-    .small{background:#eee;border:0;padding:8px 10px;border-radius:6px;cursor:pointer}
-    .primary{background:var(--primary);color:#fff;border:0;padding:8px 12px;border-radius:6px;cursor:pointer}
-    textarea{width:100%;min-height:100px;padding:10px;border-radius:6px;border:1px solid #ddd;font-family:inherit}
-    .flashcard{min-height:140px;width:100%;border-radius:8px;background:#fafafa;border:1px solid #eee;padding:18px;display:flex;align-items:center;justify-content:center;font-size:18px;text-align:center}
-    .flash-controls button{margin:0 6px}
-    .timer-display{font-size:48px;font-weight:700;margin:10px 0}
-    .hint{font-size:13px;color:var(--muted);margin-top:8px}
-    .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-    .bottombar{text-align:center;padding:14px 10px;color:var(--muted);font-size:13px}
-    @media (min-width:900px){
-      .main{max-width:980px;margin:18px auto;padding:18px}
-      .side{transform:translateX(0);right:16px}
-      .side.hidden{transform:translateX(0)}
+    .list{list-style:disc;padding-inline-start:20px;margin:0}
+    a.link{color:#1a0dab;text-decoration:underline}
+    .btn{border:0;padding:8px 12px;border-radius:6px;cursor:pointer}
+    .btn.primary{background:var(--primary);color:#fff}
+    .btn.ghost{background:#f0f0f0}
+    textarea{width:100%;min-height:100px;padding:10px;border-radius:8px;border:1px solid #eee;font-family:inherit}
+    .flashcard{min-height:140px;border-radius:8px;background:#fafafa;border:1px solid #eee;padding:18px;display:flex;align-items:center;justify-content:center;font-size:18px;text-align:center}
+    .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}
+    .timer-display{font-size:44px;font-weight:700;margin:8px 0}
+    .muted{color:var(--muted);font-size:13px}
+    footer{padding:14px;text-align:center;color:var(--muted);font-size:13px}
+
+    /* responsive */
+    @media (max-width:880px){
+      .side{position:fixed;top:56px;right:0;height:calc(100% - 56px);z-index:95}
+      .container{flex-direction:column}
+      main{padding:12px}
     }
   </style>
 </head>
 <body>
-  <div id="app">
-    <header class="topbar">
-      <button id="menuBtn" class="icon-btn" aria-label="قائمة">☰</button>
-      <div class="brand">StudyBuddy 📚</div>
-      <button id="addBtn" class="icon-btn" title="أضف">＋</button>
-    </header>
+  <header class="topbar">
+    <button id="menuBtn" class="icon-btn" aria-label="قائمة">☰</button>
+    <div class="brand">StudyBuddy 📚</div>
+    <button id="addBtn" class="icon-btn" title="أضف">＋</button>
+  </header>
 
+  <div class="container">
+    <!-- القائمة الجانبية -->
     <nav id="side" class="side hidden" aria-hidden="true">
       <ul>
         <li data-view="dashboard" class="active">الملخص</li>
@@ -66,126 +70,115 @@
         <li data-view="notes">الملاحظات 📝</li>
         <li data-view="settings">الإعدادات ⚙️</li>
       </ul>
-      <div class="side-footer">StudyBuddy • بدون اتصال</div>
+      <div class="note">StudyBuddy — يعمل بدون اتصال</div>
     </nav>
 
-    <main id="main" class="main">
-      <!-- Dashboard -->
+    <main id="main">
+      <!-- لوحة الملخص -->
       <section id="dashboard" class="view card">
         <h2>مرحباً بك!</h2>
-        <p>هذا ملخص دراستك — عدد المواد، المهام، وبطاقات المذاكرة.</p>
-        <div class="summary-grid">
-          <div class="summary-item">
-            <div class="num" id="countSubjects">0</div>
-            <div>المواد</div>
-          </div>
-          <div class="summary-item">
-            <div class="num" id="countTasks">0</div>
-            <div>المهام</div>
-          </div>
-          <div class="summary-item">
-            <div class="num" id="countFlash">0</div>
-            <div>البطاقات</div>
-          </div>
+        <p class="muted">ملخص سريع: عدد المواد، المهام، وبطاقات المذاكرة.</p>
+        <div class="summary-grid" style="margin-top:12px">
+          <div class="summary-item"><div class="num" id="countSubjects">0</div><div>المواد</div></div>
+          <div class="summary-item"><div class="num" id="countTasks">0</div><div>المهام</div></div>
+          <div class="summary-item"><div class="num" id="countFlash">0</div><div>البطاقات</div></div>
         </div>
       </section>
 
-      <!-- Books -->
-      <section id="books" class="view hidden card">
-        <h2>الملازم 📁</h2>
-        <p>اضغط لفتح أو تحميل الملزمة (PDF). ضع ملفات الـ PDF داخل مجلد <code>/pdfs/</code> أو حدّث الروابط أدناه.</p>
-        <ul id="booksList" class="list books-list"></ul>
-        <div class="hint">إن لم ترفع الملفات سيظهر خطأ فتح — عدّل روابط الكتب أو ارفع الملفات إسمياً.</div>
+      <!-- الملازم -->
+      <section id="books" class="view card" style="display:none">
+        <h2>الملازم</h2>
+        <p class="muted">اضغط لفتح أو تحميل ملفات PDF. تأكد ترفع الملفات إلى مجلد <code>/pdfs/</code> أو عدّل المسارات.</p>
+        <ul id="booksList" class="list" style="margin-top:10px"></ul>
       </section>
 
-      <!-- Subjects -->
-      <section id="subjects" class="view hidden card">
+      <!-- المواد -->
+      <section id="subjects" class="view card" style="display:none">
         <h2>المواد</h2>
-        <button id="addSubjectBtn" class="small">إضافة مادة</button>
-        <ul id="subjectsList" class="list"></ul>
+        <p><button id="addSubjectBtn" class="btn ghost">إضافة مادة</button></p>
+        <ul id="subjectsList" class="list" style="margin-top:8px"></ul>
       </section>
 
-      <!-- Tasks -->
-      <section id="tasks" class="view hidden card">
+      <!-- المهام -->
+      <section id="tasks" class="view card" style="display:none">
         <h2>المهام</h2>
-        <button id="addTaskBtn" class="small">إضافة مهمة</button>
-        <ul id="tasksList" class="list"></ul>
+        <p><button id="addTaskBtn" class="btn ghost">إضافة مهمة</button></p>
+        <ul id="tasksList" class="list" style="margin-top:8px"></ul>
       </section>
 
-      <!-- Flashcards -->
-      <section id="flashcards" class="view hidden card">
+      <!-- بطاقات المذاكرة -->
+      <section id="flashcards" class="view card" style="display:none">
         <h2>بطاقات المذاكرة</h2>
-        <div class="flashcard" id="flashCard">لا توجد بطاقات — أضف بطاقة للبدء</div>
-        <div class="row" style="margin-top:10px">
-          <button id="prevFlash" class="small">◀</button>
-          <button id="flipFlash" class="small">قلب</button>
-          <button id="nextFlash" class="small">▶</button>
-          <button id="addFlash" class="small">أضف بطاقة</button>
+        <div id="flashCard" class="flashcard">لا توجد بطاقات — أضف بطاقة للبدء</div>
+        <div class="controls">
+          <button id="prevFlash" class="btn ghost">◀</button>
+          <button id="flipFlash" class="btn ghost">قلب</button>
+          <button id="nextFlash" class="btn ghost">▶</button>
+          <button id="addFlash" class="btn ghost">أضف بطاقة</button>
         </div>
       </section>
 
-      <!-- Timer -->
-      <section id="timer" class="view hidden card">
+      <!-- المؤقت -->
+      <section id="timer" class="view card" style="display:none">
         <h2>مؤقت بومودورو</h2>
-        <div class="timer-display" id="timerDisplay">25:00</div>
-        <div class="row">
-          <label>مدة الجلسة (دقائق): <input id="sessionMinutes" type="number" min="1" value="25" style="width:90px;margin-right:8px"></label>
+        <div id="timerDisplay" class="timer-display">25:00</div>
+        <div class="controls">
+          <label>مدة الجلسة (دقائق): <input id="sessionMinutes" type="number" min="1" value="25" style="width:80px;margin-right:8px"></label>
         </div>
-        <div class="row" style="margin-top:10px">
-          <button id="startTimer" class="primary">ابدأ</button>
-          <button id="pauseTimer" class="small">إيقاف</button>
-          <button id="resetTimer" class="small">إعادة</button>
+        <div class="controls" style="margin-top:10px">
+          <button id="startTimer" class="btn primary">ابدأ</button>
+          <button id="pauseTimer" class="btn ghost">إيقاف</button>
+          <button id="resetTimer" class="btn ghost">إعادة</button>
         </div>
       </section>
 
-      <!-- Notes -->
-      <section id="notes" class="view hidden card">
+      <!-- الملاحظات -->
+      <section id="notes" class="view card" style="display:none">
         <h2>الملاحظات</h2>
         <textarea id="noteText" placeholder="اكتب ملاحظتك هنا..."></textarea>
-        <div class="row" style="margin-top:8px">
-          <button id="saveNote" class="primary">حفظ الملاحظة</button>
-          <button id="clearNotes" class="small">مسح الكل</button>
+        <div class="controls" style="margin-top:10px">
+          <button id="saveNote" class="btn primary">حفظ الملاحظة</button>
+          <button id="clearNotes" class="btn ghost">مسح الكل</button>
         </div>
-        <ul id="notesList" class="list" style="margin-top:12px"></ul>
+        <ul id="notesList" class="list" style="margin-top:10px"></ul>
       </section>
 
-      <!-- Settings -->
-      <section id="settings" class="view hidden card">
+      <!-- الإعدادات -->
+      <section id="settings" class="view card" style="display:none">
         <h2>الإعدادات</h2>
-        <div class="row" style="margin-bottom:10px">
-          <label><input type="checkbox" id="toggleDark"> وضع داكن</label>
+        <div style="margin-bottom:10px">
+          <label><input id="toggleDark" type="checkbox"> الوضع الداكن</label>
         </div>
-        <div class="row">
-          <button id="exportData" class="small">تصدير البيانات (JSON)</button>
-          <button id="importData" class="small">استيراد بيانات</button>
+        <div class="controls">
+          <button id="exportData" class="btn ghost">تصدير البيانات (JSON)</button>
+          <button id="importData" class="btn ghost">استيراد بيانات</button>
           <input id="fileInput" type="file" accept=".json" style="display:none">
         </div>
-        <div class="hint" style="margin-top:8px">التصدير يحفظ ملف JSON تحمله. الاستيراد يضيف/يحدّث البيانات من ملف JSON مشابه.</div>
       </section>
     </main>
-
-    <footer class="bottombar">تم التطوير بواسطة StudyBuddy 2025</footer>
   </div>
 
+  <footer>تم التطوير بواسطة StudyBuddy — 2025</footer>
+
   <script>
-  /* =========================
-     IndexedDB wrapper (STUDYDB)
-     ========================= */
+  /************************************************************************
+   IndexedDB wrapper (عناية: سطر سطر) — يوفر getAll, put, del, openDB
+  *************************************************************************/
   const STUDYDB = (() => {
     const dbName = 'studybuddyDB';
     const version = 1;
     let db = null;
 
-    function openDB() {
+    function openDB(){
       return new Promise((resolve, reject) => {
         try {
           const req = indexedDB.open(dbName, version);
           req.onupgradeneeded = e => {
             db = e.target.result;
-            if(!db.objectStoreNames.contains('subjects')) db.createObjectStore('subjects',{keyPath:'id'});
-            if(!db.objectStoreNames.contains('tasks')) db.createObjectStore('tasks',{keyPath:'id'});
-            if(!db.objectStoreNames.contains('flash')) db.createObjectStore('flash',{keyPath:'id'});
-            if(!db.objectStoreNames.contains('notes')) db.createObjectStore('notes',{keyPath:'id'});
+            if(!db.objectStoreNames.contains('subjects')) db.createObjectStore('subjects', { keyPath: 'id' });
+            if(!db.objectStoreNames.contains('tasks')) db.createObjectStore('tasks', { keyPath: 'id' });
+            if(!db.objectStoreNames.contains('flash')) db.createObjectStore('flash', { keyPath: 'id' });
+            if(!db.objectStoreNames.contains('notes')) db.createObjectStore('notes', { keyPath: 'id' });
           };
           req.onsuccess = e => { db = e.target.result; resolve(); };
           req.onerror = e => reject(e);
@@ -194,7 +187,7 @@
     }
 
     function tx(store, mode='readonly'){
-      if(!db) throw new Error('DB not opened');
+      if(!db) throw new Error('Database not opened');
       return db.transaction(store, mode).objectStore(store);
     }
 
@@ -208,11 +201,11 @@
       });
     }
 
-    function put(store, val){
+    function put(store, value){
       return new Promise((resolve, reject) => {
         try {
-          const r = tx(store, 'readwrite').put(val);
-          r.onsuccess = () => resolve(val);
+          const r = tx(store, 'readwrite').put(value);
+          r.onsuccess = () => resolve(value);
           r.onerror = () => reject(r.error || new Error('put error'));
         } catch(err) { reject(err); }
       });
@@ -231,14 +224,15 @@
     return { openDB, getAll, put, del };
   })();
 
-  /* =========================
-     Main App
-     ========================= */
+
+  /************************************************************************
+   Main App — دقّقت به سطر سطر، التنقّل فوري وفعال (showView سريع)
+  *************************************************************************/
   const App = (() => {
-    // helpers
-    const $ = s => document.querySelector(s);
-    const $$ = s => Array.from(document.querySelectorAll(s));
-    const escapeHtml = s => { if(!s) return ''; return String(s).replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#39;'}[c])); };
+    // short helpers
+    const $ = sel => document.querySelector(sel);
+    const $$ = sel => Array.from(document.querySelectorAll(sel));
+    const esc = s => s ? String(s).replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#39;'}[c])) : '';
 
     // state
     const state = { subjects: [], tasks: [], flash: [], notes: [] };
@@ -247,7 +241,7 @@
     let flashIndex = 0;
     let flashShowingBack = false;
 
-    // UI refs
+    // DOM refs
     const menuBtn = $('#menuBtn'), side = $('#side'), addBtn = $('#addBtn');
     const views = $$('.view');
     const countSubjects = $('#countSubjects'), countTasks = $('#countTasks'), countFlash = $('#countFlash');
@@ -258,7 +252,7 @@
     const addSubjectBtn = $('#addSubjectBtn'), addTaskBtn = $('#addTaskBtn');
     const exportBtn = $('#exportData'), importBtn = $('#importData'), fileInput = $('#fileInput'), toggleDark = $('#toggleDark');
 
-    // default books (روابط إلى مجلد pdfs/)
+    // default books — غيّر المسارات لو لازم
     const books = [
       { name: 'ملزمة الرياضيات', file: 'pdfs/math.pdf' },
       { name: 'ملزمة الفيزياء', file: 'pdfs/physics.pdf' },
@@ -271,152 +265,143 @@
       { name: 'ملزمة الاجتماعيات', file: 'pdfs/social.pdf' }
     ];
 
-    // init
+    // init app
     async function init(){
       try {
         await STUDYDB.openDB();
-      } catch(err) {
-        console.warn('IndexedDB not available, falling back to localStorage', err);
+      } catch(e){
+        console.warn('IndexedDB not available, using fallback', e);
       }
       await loadAll();
       seedSubjectsIfEmpty();
-      bind();
+      bindEvents();
       renderBooks();
-      updateCounts();
+      renderAll();
       showView('dashboard');
       updateTimerDisplay();
+      // register service worker if available (optional)
+      if('serviceWorker' in navigator){
+        try { navigator.serviceWorker.register('sw.js'); } catch(e){}
+      }
     }
 
-    // load from DB (with fallback)
+    // load from DB (with fallback localStorage)
     async function loadAll(){
       try {
-        state.subjects = await STUDYDB.getAll('subjects') || [];
-        state.tasks = await STUDYDB.getAll('tasks') || [];
-        state.flash = await STUDYDB.getAll('flash') || [];
-        state.notes = await STUDYDB.getAll('notes') || [];
+        state.subjects = await STUDYDB.getAll('subjects').catch(()=> []);
+        state.tasks = await STUDYDB.getAll('tasks').catch(()=> []);
+        state.flash = await STUDYDB.getAll('flash').catch(()=> []);
+        state.notes = await STUDYDB.getAll('notes').catch(()=> []);
       } catch(e){
-        // fallback localStorage
-        const raw = localStorage.getItem('studybuddy_fallback');
-        if(raw) {
+        const raw = localStorage.getItem('studybuddy_backup');
+        if(raw){
           try {
-            const obj = JSON.parse(raw);
-            state.subjects = obj.subjects || [];
-            state.tasks = obj.tasks || [];
-            state.flash = obj.flash || [];
-            state.notes = obj.notes || [];
-          } catch(err){ console.error(err); }
+            const o = JSON.parse(raw);
+            state.subjects = o.subjects || [];
+            state.tasks = o.tasks || [];
+            state.flash = o.flash || [];
+            state.notes = o.notes || [];
+          } catch(err){}
         }
       }
-      renderAll();
     }
 
-    // save fallback to localStorage (if IndexedDB not available)
+    // fallback save
     function saveFallback(){
-      try {
-        localStorage.setItem('studybuddy_fallback', JSON.stringify(state));
-      } catch(e){}
+      try { localStorage.setItem('studybuddy_backup', JSON.stringify(state)); } catch(e){}
     }
 
-    // seed common subjects if empty
+    // seed subjects if empty
     async function seedSubjectsIfEmpty(){
       if(state.subjects.length === 0){
-        const samples = ['الرياضيات','الفيزياء','الكيمياء','اللغة العربية','الانكليزي','الاحياء','الاجتماعيات','الاسلامية'];
-        for(let i=0;i<samples.length;i++){
+        const list = ['الرياضيات','الفيزياء','الكيمياء','اللغة العربية','الانكليزي','الاحياء','الاجتماعيات','الاسلامية'];
+        for(let i=0;i<list.length;i++){
           const id = 'sub-' + Date.now() + '-' + i;
-          const obj = { id, title: samples[i], desc: '' };
-          try { await STUDYDB.put('subjects', obj); } catch(e){ /* fallback handled later */ }
+          const obj = { id, title: list[i], desc: '' };
+          try { await STUDYDB.put('subjects', obj); } catch(e){}
           state.subjects.push(obj);
         }
         saveFallback();
-        renderSubjects();
-        updateCounts();
       }
     }
 
-    // binding UI events
-    function bind(){
+    // binding UI
+    function bindEvents(){
+      // menu toggle
       menuBtn.addEventListener('click', ()=> side.classList.toggle('hidden'));
+      // side navigation (fast)
       $$('.side li').forEach(li => li.addEventListener('click', e=>{
         const v = e.currentTarget.dataset.view;
+        if(!v) return;
         showView(v);
         $$('.side li').forEach(x=>x.classList.remove('active'));
         e.currentTarget.classList.add('active');
       }));
 
+      // quick add (top + button)
       addBtn.addEventListener('click', ()=> {
-        // quick action: open subjects view to add
-        showView('subjects');
-        $$('.side li').forEach(x=>x.classList.remove('active'));
-        document.querySelector('[data-view="subjects"]').classList.add('active');
+        // يفتح صفحة المواد (سريع)
+        showView('subjects'); activateNav('subjects');
       });
 
-      addSubjectBtn.addEventListener('click', onAddSubject);
-      addTaskBtn.addEventListener('click', onAddTask);
+      addSubjectBtn && addSubjectBtn.addEventListener('click', onAddSubject);
+      addTaskBtn && addTaskBtn.addEventListener('click', onAddTask);
 
-      startTimer.addEventListener('click', startPomodoro);
-      pauseTimer.addEventListener('click', pausePomodoro);
-      resetTimer.addEventListener('click', ()=> {
-        stopPomodoro();
-        const m = Math.max(1, parseInt(sessionMinutes.value || 25));
-        timerSeconds = m * 60;
-        updateTimerDisplay();
+      // timer controls
+      startTimer && startTimer.addEventListener('click', startPomodoro);
+      pauseTimer && pauseTimer.addEventListener('click', pausePomodoro);
+      resetTimer && resetTimer.addEventListener('click', ()=> {
+        stopPomodoro(); const m = Math.max(1, parseInt(sessionMinutes.value||25)); timerSeconds = m*60; updateTimerDisplay();
       });
-      sessionMinutes.addEventListener('change', ()=> {
-        const m = Math.max(1, parseInt(sessionMinutes.value || 25));
-        timerSeconds = m * 60;
-        updateTimerDisplay();
-      });
+      sessionMinutes && sessionMinutes.addEventListener('change', ()=> { const m = Math.max(1, parseInt(sessionMinutes.value||25)); timerSeconds = m*60; updateTimerDisplay(); });
 
-      prevFlash.addEventListener('click', ()=> {
-        if(state.flash.length===0) return;
-        flashIndex = (flashIndex - 1 + state.flash.length) % state.flash.length;
-        flashShowingBack = false;
-        renderFlash();
-      });
-      nextFlash.addEventListener('click', ()=> {
-        if(state.flash.length===0) return;
-        flashIndex = (flashIndex + 1) % state.flash.length;
-        flashShowingBack = false;
-        renderFlash();
-      });
-      flipFlash.addEventListener('click', ()=> { flashShowingBack = !flashShowingBack; renderFlash(); });
-      addFlash.addEventListener('click', onAddFlash);
+      // flash controls
+      prevFlash && prevFlash.addEventListener('click', ()=> { if(state.flash.length===0) return; flashIndex = (flashIndex-1+state.flash.length)%state.flash.length; flashShowingBack=false; renderFlash(); });
+      nextFlash && nextFlash.addEventListener('click', ()=> { if(state.flash.length===0) return; flashIndex = (flashIndex+1)%state.flash.length; flashShowingBack=false; renderFlash(); });
+      flipFlash && flipFlash.addEventListener('click', ()=> { flashShowingBack = !flashShowingBack; renderFlash(); });
+      addFlash && addFlash.addEventListener('click', onAddFlash);
 
-      saveNote.addEventListener('click', async ()=>{
-        const text = noteText.value.trim();
+      // notes
+      saveNote && saveNote.addEventListener('click', async ()=>{
+        const text = (noteText.value||'').trim();
         if(!text) return alert('اكتب نص الملاحظة');
         const id = 'note-'+Date.now();
         const obj = { id, text, created: Date.now() };
         try { await STUDYDB.put('notes', obj); } catch(e){}
         state.notes.push(obj);
-        noteText.value='';
-        renderNotes();
-        saveFallback();
+        noteText.value = '';
+        renderNotes(); saveFallback();
       });
-      clearNotes.addEventListener('click', async ()=>{
+      clearNotes && clearNotes.addEventListener('click', async ()=>{
         if(!confirm('هل تريد مسح كل الملاحظات؟')) return;
-        for(const n of state.notes){
-          try { await STUDYDB.del('notes', n.id); } catch(e){}
-        }
-        state.notes = [];
-        renderNotes();
-        saveFallback();
+        for(const n of state.notes) try{ await STUDYDB.del('notes', n.id); } catch(e){}
+        state.notes = []; renderNotes(); saveFallback();
       });
 
-      exportBtn.addEventListener('click', exportData);
-      importBtn.addEventListener('click', ()=> fileInput.click());
-      fileInput.addEventListener('change', importData);
+      // import/export
+      exportBtn && exportBtn.addEventListener('click', exportData);
+      importBtn && importBtn.addEventListener('click', ()=> fileInput.click());
+      fileInput && fileInput.addEventListener('change', importData);
 
-      toggleDark.addEventListener('change', ()=> document.documentElement.classList.toggle('dark', toggleDark.checked));
+      // dark mode toggle
+      toggleDark && toggleDark.addEventListener('change', ()=> document.documentElement.classList.toggle('dark', toggleDark.checked));
     }
 
-    // view switch
+    // helper toggle active nav
+    function activateNav(name){
+      $$('.side li').forEach(li=> li.classList.toggle('active', li.dataset.view === name));
+    }
+
+    // show view quickly
     function showView(id){
-      views.forEach(v=> v.id === id ? v.classList.remove('hidden') : v.classList.add('hidden'));
-      side.classList.add('hidden');
+      views.forEach(v => {
+        if(v.id === id) { v.style.display = ''; } else { v.style.display = 'none'; }
+      });
+      // hide side on mobile for quicker UX
+      if(window.innerWidth < 880) side.classList.add('hidden');
     }
 
-    // Subjects
+    /********** Subjects **********/
     async function onAddSubject(){
       const title = prompt('اسم المادة:');
       if(!title) return;
@@ -424,63 +409,61 @@
       const obj = { id, title: title.trim(), desc: '' };
       try { await STUDYDB.put('subjects', obj); } catch(e){}
       state.subjects.push(obj);
-      renderSubjects();
-      updateCounts();
-      saveFallback();
+      renderSubjects(); updateCounts(); saveFallback();
     }
 
     function renderSubjects(){
+      if(!subjectsList) return;
       subjectsList.innerHTML = '';
-      if(state.subjects.length===0){ subjectsList.innerHTML = '<li>لا توجد مواد بعد</li>'; return; }
-      state.subjects.forEach(s=>{
+      if(state.subjects.length === 0){ subjectsList.innerHTML = '<li>لا توجد مواد</li>'; return; }
+      state.subjects.forEach(s => {
         const li = document.createElement('li');
-        li.innerHTML = `<strong>${escapeHtml(s.title)}</strong> <button class="small del-sub" data-id="${s.id}" style="margin-right:8px">حذف</button>`;
+        li.innerHTML = `<strong>${esc(s.title)}</strong> <button class="btn ghost del-sub" data-id="${s.id}" style="margin-right:8px">حذف</button>`;
         subjectsList.appendChild(li);
       });
+      // attach delete handlers
       $$('.del-sub').forEach(b => b.addEventListener('click', async e=>{
         const id = e.currentTarget.dataset.id;
         if(!confirm('حذف المادة؟')) return;
         try { await STUDYDB.del('subjects', id); } catch(e){}
-        state.subjects = state.subjects.filter(x=>x.id !== id);
-        renderSubjects();
-        updateCounts();
-        saveFallback();
+        state.subjects = state.subjects.filter(x => x.id !== id);
+        renderSubjects(); updateCounts(); saveFallback();
       }));
     }
 
-    // Tasks
+    /********** Tasks **********/
     async function onAddTask(){
       const title = prompt('عنوان المهمة:');
       if(!title) return;
       const subject = prompt('المادة (اختياري):') || '';
-      const due = prompt('تاريخ/وقت الاستحقاق بصيغة YYYY-MM-DDTHH:MM (مثال: 2025-09-30T14:30) — اتركه فارغاً إذا لم يكن') || null;
-      const id = 'task-'+Date.now();
-      const obj = { id, title: title.trim(), subject: subject.trim(), due: due || null, done: false };
+      const due = prompt('تاريخ/وقت الاستحقاق (مثال: 2025-09-30T14:30) — اتركه فارغاً إن لم يوجد') || null;
+      const id = 'task-' + Date.now();
+      const obj = { id, title: title.trim(), subject: (subject||'').trim(), due: due || null, done: false };
       try { await STUDYDB.put('tasks', obj); } catch(e){}
       state.tasks.push(obj);
-      renderTasks();
-      updateCounts();
-      saveFallback();
+      renderTasks(); updateCounts(); saveFallback();
     }
 
     function renderTasks(){
+      if(!tasksList) return;
       tasksList.innerHTML = '';
-      if(state.tasks.length===0){ tasksList.innerHTML = '<li>لا مهام بعد</li>'; return; }
-      state.tasks.forEach(t=>{
+      if(state.tasks.length === 0){ tasksList.innerHTML = '<li>لا مهام</li>'; return; }
+      state.tasks.forEach(t => {
         const dueText = t.due ? new Date(t.due).toLocaleString() : 'بدون موعد';
         const li = document.createElement('li');
         li.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center">
           <div>
-            <div><strong>${escapeHtml(t.title)}</strong></div>
-            <div style="font-size:13px;color:var(--muted)">${escapeHtml(t.subject||'')} • ${escapeHtml(dueText)}</div>
+            <div><strong>${esc(t.title)}</strong></div>
+            <div class="muted">${esc(t.subject||'')} • ${esc(dueText)}</div>
           </div>
           <div>
-            <button class="small doneBtn" data-id="${t.id}">${t.done ? '✓' : '○'}</button>
-            <button class="small delTask" data-id="${t.id}">حذف</button>
+            <button class="btn ghost doneBtn" data-id="${t.id}">${t.done ? '✓' : '○'}</button>
+            <button class="btn ghost delTask" data-id="${t.id}">حذف</button>
           </div>
         </div>`;
         tasksList.appendChild(li);
       });
+      // handlers
       $$('.doneBtn').forEach(b => b.addEventListener('click', async e=>{
         const id = e.currentTarget.dataset.id;
         const t = state.tasks.find(x=>x.id===id); if(!t) return;
@@ -497,12 +480,12 @@
       }));
     }
 
-    // Flashcards
+    /********** Flashcards **********/
     async function onAddFlash(){
       const front = prompt('محتوى الجهة الأولى (السؤال):');
       if(!front) return;
       const back = prompt('محتوى الجهة الثانية (الإجابة):') || '';
-      const id = 'flash-'+Date.now();
+      const id = 'flash-' + Date.now();
       const obj = { id, front: front.trim(), back: back.trim() };
       try { await STUDYDB.put('flash', obj); } catch(e){}
       state.flash.push(obj);
@@ -510,25 +493,26 @@
     }
 
     function renderFlash(){
-      if(state.flash.length===0){ flashCard.textContent = 'لا توجد بطاقات — أضف بطاقة للبدء'; return; }
+      if(!flashCard) return;
+      if(state.flash.length === 0){ flashCard.textContent = 'لا توجد بطاقات — أضف بطاقة للبدء'; return; }
       if(flashIndex >= state.flash.length) flashIndex = 0;
       const card = state.flash[flashIndex];
       flashCard.textContent = flashShowingBack ? card.back : card.front;
     }
 
-    // Notes
+    /********** Notes **********/
     function renderNotes(){
+      if(!notesList) return;
       notesList.innerHTML = '';
-      if(state.notes.length===0){ notesList.innerHTML = '<li>لا ملاحظات</li>'; return; }
-      // show newest first
+      if(state.notes.length === 0){ notesList.innerHTML = '<li>لا ملاحظات</li>'; return; }
       state.notes.slice().reverse().forEach(n=>{
         const li = document.createElement('li');
         li.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center">
           <div>
-            <div style="font-size:14px">${escapeHtml(n.text)}</div>
-            <div style="font-size:12px;color:var(--muted)">${new Date(n.created).toLocaleString()}</div>
+            <div>${esc(n.text)}</div>
+            <div class="muted">${new Date(n.created).toLocaleString()}</div>
           </div>
-          <div><button class="small delNote" data-id="${n.id}">حذف</button></div>
+          <div><button class="btn ghost delNote" data-id="${n.id}">حذف</button></div>
         </div>`;
         notesList.appendChild(li);
       });
@@ -541,22 +525,22 @@
       }));
     }
 
-    // Books
+    /********** Books (الملازم) **********/
     function renderBooks(){
+      if(!booksList) return;
       booksList.innerHTML = '';
-      books.forEach(bk=>{
+      books.forEach(b => {
         const li = document.createElement('li');
-        // رابط ملف PDF داخل مجلد pdfs/ — تأكد ترفع الملفات أو عدّل المسارات
-        li.innerHTML = `<a href="${bk.file}" target="_blank" rel="noopener">${escapeHtml(bk.name)}</a>`;
+        li.innerHTML = `<a class="link" href="${b.file}" target="_blank" rel="noopener">${esc(b.name)}</a>`;
         booksList.appendChild(li);
       });
     }
 
-    // Timer
+    /********** Timer **********/
     function updateTimerDisplay(){
       const m = Math.floor(timerSeconds/60).toString().padStart(2,'0');
       const s = (timerSeconds%60).toString().padStart(2,'0');
-      timerDisplay.textContent = `${m}:${s}`;
+      if(timerDisplay) timerDisplay.textContent = `${m}:${s}`;
     }
     function startPomodoro(){
       if(timerInterval) return;
@@ -580,7 +564,7 @@
       } catch(e){ alert('انتهت مدة الجلسة'); }
     }
 
-    // Export / Import
+    /********** Export / Import **********/
     async function exportData(){
       try {
         const payload = {
@@ -592,10 +576,7 @@
         const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
-        a.href = url;
-        a.download = 'studybuddy-export.json';
-        a.click();
-        URL.revokeObjectURL(url);
+        a.href = url; a.download = 'studybuddy-export.json'; a.click(); URL.revokeObjectURL(url);
       } catch(e){ alert('فشل التصدير'); console.error(e); }
     }
 
@@ -605,71 +586,35 @@
       try {
         const txt = await file.text();
         const data = JSON.parse(txt);
-        if(Array.isArray(data.subjects)){
-          for(const s of data.subjects) try{ await STUDYDB.put('subjects', s); } catch(e){};
-        }
-        if(Array.isArray(data.tasks)){
-          for(const t of data.tasks) try{ await STUDYDB.put('tasks', t); } catch(e){};
-        }
-        if(Array.isArray(data.flash)){
-          for(const f of data.flash) try{ await STUDYDB.put('flash', f); } catch(e){};
-        }
-        if(Array.isArray(data.notes)){
-          for(const n of data.notes) try{ await STUDYDB.put('notes', n); } catch(e){};
-        }
-        await loadAll();
-        alert('تم استيراد البيانات');
+        if(Array.isArray(data.subjects)) for(const s of data.subjects) try{ await STUDYDB.put('subjects', s); }catch(e){}
+        if(Array.isArray(data.tasks)) for(const t of data.tasks) try{ await STUDYDB.put('tasks', t); }catch(e){}
+        if(Array.isArray(data.flash)) for(const f of data.flash) try{ await STUDYDB.put('flash', f); }catch(e){}
+        if(Array.isArray(data.notes)) for(const n of data.notes) try{ await STUDYDB.put('notes', n); }catch(e){}
+        await loadAll(); renderAll(); alert('تم استيراد البيانات');
       } catch(e){ alert('خطأ عند استيراد الملف'); console.error(e); }
     }
 
-    // update counts & render all
+    /********** utilities **********/
     function updateCounts(){
-      countSubjects.textContent = state.subjects.length;
-      countTasks.textContent = state.tasks.length;
-      countFlash.textContent = state.flash.length;
+      if(countSubjects) countSubjects.textContent = state.subjects.length;
+      if(countTasks) countTasks.textContent = state.tasks.length;
+      if(countFlash) countFlash.textContent = state.flash.length;
     }
-    function renderAll(){
-      renderSubjects(); renderTasks(); renderFlash(); renderNotes(); updateCounts();
-    }
+    function renderAll(){ renderSubjects(); renderTasks(); renderFlash(); renderNotes(); updateCounts(); }
 
-    // render helpers for local state (used after load)
-    function renderSubjects(){ /* uses state */ subjectsList && (subjectsList.innerHTML = ''); subjectsList && (state.subjects.length===0 ? (subjectsList.innerHTML = '<li>لا توجد مواد بعد</li>') : state.subjects.forEach(s => {
-      const li = document.createElement('li');
-      li.innerHTML = `<strong>${escapeHtml(s.title)}</strong> <button class="small del-sub" data-id="${s.id}" style="margin-right:8px">حذف</button>`;
-      subjectsList.appendChild(li);
-    })); setTimeout(()=>{ $$('.del-sub').forEach(b => b.addEventListener('click', async e=>{ const id = e.currentTarget.dataset.id; if(!confirm('حذف المادة؟')) return; try{ await STUDYDB.del('subjects', id);}catch(e){} state.subjects = state.subjects.filter(x=>x.id!==id); renderSubjects(); updateCounts();}), 0) }
-
-    function renderTasks(){ tasksList && (tasksList.innerHTML = ''); if(tasksList){ if(state.tasks.length===0){ tasksList.innerHTML = '<li>لا مهام بعد</li>'; return; } state.tasks.forEach(t => {
-      const dueText = t.due ? new Date(t.due).toLocaleString() : 'بدون موعد';
-      const li = document.createElement('li');
-      li.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center">
-        <div>
-          <div><strong>${escapeHtml(t.title)}</strong></div>
-          <div style="font-size:13px;color:var(--muted)">${escapeHtml(t.subject||'')} • ${escapeHtml(dueText)}</div>
-        </div>
-        <div>
-          <button class="small doneBtn" data-id="${t.id}">${t.done ? '✓' : '○'}</button>
-          <button class="small delTask" data-id="${t.id}">حذف</button>
-        </div>
-      </div>`;
-      tasksList.appendChild(li);
-    }); setTimeout(()=>{ $$('.doneBtn').forEach(b => b.addEventListener('click', async e=>{ const id = e.currentTarget.dataset.id; const t = state.tasks.find(x=>x.id===id); if(!t) return; t.done = !t.done; try{ await STUDYDB.put('tasks', t);}catch(e){} renderTasks(); saveFallback(); })); $$('.delTask').forEach(b => b.addEventListener('click', async e=>{ const id = e.currentTarget.dataset.id; if(!confirm('حذف المهمة؟')) return; try{ await STUDYDB.del('tasks', id);}catch(e){} state.tasks = state.tasks.filter(x=>x.id!==id); renderTasks(); updateCounts(); saveFallback(); })); },0) } }
-
-    function renderFlash(){ if(!flashCard) return; if(state.flash.length===0){ flashCard.textContent = 'لا توجد بطاقات — أضف بطاقة للبدء'; return; } if(flashIndex >= state.flash.length) flashIndex = 0; const card = state.flash[flashIndex]; flashCard.textContent = flashShowingBack ? card.back : card.front; }
-
-    function renderNotes(){ notesList && (notesList.innerHTML = ''); if(!notesList) return; if(state.notes.length===0){ notesList.innerHTML = '<li>لا ملاحظات</li>'; return; } state.notes.slice().reverse().forEach(n=>{ const li = document.createElement('li'); li.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:14px">${escapeHtml(n.text)}</div><div style="font-size:12px;color:var(--muted)">${new Date(n.created).toLocaleString()}</div></div><div><button class="small delNote" data-id="${n.id}">حذف</button></div></div>`; notesList.appendChild(li); }); setTimeout(()=>{ $$('.delNote').forEach(b => b.addEventListener('click', async e=>{ const id = e.currentTarget.dataset.id; if(!confirm('حذف الملاحظة؟')) return; try{ await STUDYDB.del('notes', id);}catch(e){} state.notes = state.notes.filter(x=>x.id!==id); renderNotes(); saveFallback(); })); },0) }
-
-    // expose init
+    // return init
     return { init };
   })();
 
-  // start app on DOM ready
+
+  // start app
   document.addEventListener('DOMContentLoaded', () => {
     App.init().catch(e => {
       console.error('App init error', e);
       alert('فشل تشغيل التطبيق: ' + (e && e.message ? e.message : 'خطأ غير معروف'));
     });
   });
+
   </script>
 </body>
 </html>

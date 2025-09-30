@@ -3,266 +3,209 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>📘 مكتبة ملازم الأول متوسط</title>
+  <title>StudyBuddy</title>
   <style>
     body {
-      font-family: "Cairo", Tahoma, sans-serif;
+      font-family: "Tahoma", sans-serif;
+      background: #f9f9f9;
       margin: 0;
-      background: linear-gradient(135deg, #f0f9ff, #cbebff);
+      padding: 0;
       color: #222;
-      overflow-x: hidden;
     }
     header {
-      background: linear-gradient(90deg, #0b6e4f, #16a085);
-      color: #fff;
-      padding: 20px;
+      background: #0b6e4f;
+      color: white;
+      padding: 15px;
       text-align: center;
       font-size: 22px;
       font-weight: bold;
-      letter-spacing: 1px;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
-      animation: fadeDown 1s ease;
     }
     nav {
       display: flex;
       justify-content: space-around;
-      background: #fff;
-      padding: 12px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+      background: #ddd;
+      padding: 10px;
     }
     nav button {
       background: #0b6e4f;
       color: white;
       border: none;
-      padding: 10px 18px;
-      border-radius: 25px;
+      padding: 10px 15px;
+      border-radius: 5px;
       cursor: pointer;
       transition: 0.3s;
-      font-weight: bold;
     }
     nav button:hover {
-      background: #16a085;
-      transform: scale(1.05);
+      background: #095a40;
     }
-    .view {
+    section {
       display: none;
       padding: 20px;
-      animation: fadeIn 0.7s ease;
+      animation: fade 0.4s;
     }
-    .view.active {
+    section.active {
       display: block;
     }
-    h2 {
-      color: #0b6e4f;
-      border-right: 5px solid #16a085;
-      padding-right: 10px;
-      animation: slideIn 0.8s ease;
+    @keyframes fade {
+      from {opacity: 0;}
+      to {opacity: 1;}
     }
-    .card {
-      background: white;
-      border-radius: 12px;
-      padding: 15px;
-      margin: 15px 0;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      transform: translateY(20px);
-      opacity: 0;
-      animation: riseUp 0.7s ease forwards;
+    ul {
+      list-style: none;
+      padding: 0;
     }
-    .card h3 {
-      margin: 0;
-      color: #333;
+    ul li {
+      margin: 10px 0;
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 10px;
+      border-radius: 6px;
+      transition: 0.3s;
     }
-    .card a {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 10px 16px;
-      background: linear-gradient(90deg, #0b6e4f, #16a085);
-      color: white;
+    ul li:hover {
+      background: #f1f1f1;
+    }
+    ul li a {
       text-decoration: none;
-      border-radius: 8px;
-      transition: 0.3s;
-    }
-    .card a:hover {
-      background: #0b6e4f;
-      transform: scale(1.05);
-    }
-    /* المؤقت */
-    #timerDisplay {
-      font-size: 45px;
-      margin: 20px 0;
-      font-weight: bold;
       color: #0b6e4f;
-    }
-    .timer-controls button {
-      margin: 8px;
-      padding: 10px 14px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      background: #16a085;
-      color: white;
       font-weight: bold;
-      transition: 0.3s;
     }
-    .timer-controls button:hover {
+    .timer {
+      text-align: center;
+      font-size: 30px;
+      margin: 20px 0;
+    }
+    .timer button {
+      margin: 5px;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
       background: #0b6e4f;
-      transform: scale(1.1);
+      color: white;
+      cursor: pointer;
     }
     textarea {
       width: 100%;
-      min-height: 120px;
+      height: 100px;
       padding: 10px;
-      margin-top: 12px;
-      border-radius: 8px;
+      margin-top: 10px;
+      border-radius: 6px;
       border: 1px solid #ccc;
-      resize: none;
-      font-size: 15px;
     }
-    /* Animations */
-    @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
-    @keyframes fadeDown { from{transform:translateY(-30px);opacity:0;} to{transform:translateY(0);opacity:1;} }
-    @keyframes slideIn { from{transform:translateX(-50px);opacity:0;} to{transform:translateX(0);opacity:1;} }
-    @keyframes riseUp { to{transform:translateY(0);opacity:1;} }
+    .note {
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 8px;
+      margin: 8px 0;
+      border-radius: 5px;
+    }
   </style>
 </head>
 <body>
-
-  <header>📘 مكتبة ملازم الأول متوسط</header>
+  <header>📘 StudyBuddy - الاول متوسط</header>
 
   <nav>
-    <button onclick="showView('home')">🏠 الرئيسية</button>
-    <button onclick="showView('subjects')">📚 المواد</button>
-    <button onclick="showView('timer')">⏱️ المؤقت</button>
-    <button onclick="showView('notes')">📝 الملاحظات</button>
+    <button onclick="showSection('lessons')">الملازم</button>
+    <button onclick="showSection('timerSection')">المؤقت</button>
+    <button onclick="showSection('notes')">الملاحظات</button>
   </nav>
 
-  <!-- الرئيسية -->
-  <section id="home" class="view active">
-    <h2>أهلاً بك 👋</h2>
-    <p>اختر من القائمة أعلاه للتنقل بسرعة بين الأقسام.</p>
+  <!-- قسم الملازم -->
+  <section id="lessons" class="active">
+    <h2>📚 الملازم</h2>
+    <ul>
+      <li><a href="https://drive.google.com/file/d/1ennaAbaxjJjvlebpy4z76uJI7-mdDJFH/view?usp=drivesdk" target="_blank">ملزمة الرياضيات</a></li>
+      <li><a href="https://drive.google.com/file/d/1JsLBMUzmmMOmPqxH2r6q80q-QyZnT9o8/view?usp=drivesdk" target="_blank">ملزمة الانكليزي</a></li>
+      <li><a href="https://drive.google.com/file/d/1olnxoHHGn_3bq_LR9VhV72x2iu3XvdCr/view?usp=drivesdk" target="_blank">ملزمة الاسلامية</a></li>
+      <li><a href="https://drive.google.com/file/d/1NgOeTISLW29IOKoP8esZVNvERPaTmzrR/view?usp=drivesdk" target="_blank">ملزمة الاحياء</a></li>
+      <li><a href="https://drive.google.com/file/d/1hOpg6lkaRpI5AypSGMJNgcg3sVRBK7Hp/view?usp=drivesdk" target="_blank">ملزمة الاجتماعيات</a></li>
+      <li><a href="https://drive.google.com/file/d/1AVVh_tqj711mG8SadiLE03hN-sr4MPJK/view?usp=drivesdk" target="_blank">ملزمة العربي - الجزء الأول</a></li>
+      <li><a href="https://drive.google.com/file/d/1-6ue75fdskBBe8QzAg-281UCmfu8HWOL/view?usp=drivesdk" target="_blank">ملزمة العربي - الجزء الثاني</a></li>
+    </ul>
   </section>
 
-  <!-- المواد والملازم -->
-  <section id="subjects" class="view">
-    <h2>المواد والملازم</h2>
-
-    <div class="card">
-      <h3>📖 اللغة العربية (جزء 1)</h3>
-      <a href="https://drive.google.com/uc?export=download&id=1ennaAbaxjJjvlebpy4z76uJI7-mdDJFH">⬇️ تنزيل مباشر</a>
-    </div>
-
-    <div class="card">
-      <h3>📖 اللغة العربية (جزء 2)</h3>
-      <a href="https://drive.google.com/uc?export=download&id=1JsLBMUzmmMOmPqxH2r6q80q-QyZnT9o8">⬇️ تنزيل مباشر</a>
-    </div>
-
-    <div class="card">
-      <h3>📖 اللغة الإنجليزية</h3>
-      <a href="https://drive.google.com/uc?export=download&id=1olnxoHHGn_3bq_LR9VhV72x2iu3XvdCr">⬇️ تنزيل مباشر</a>
-    </div>
-
-    <div class="card">
-      <h3>📖 الرياضيات</h3>
-      <a href="https://drive.google.com/uc?export=download&id=1k1He2EAa4Zpx1QyX6UDqeEyXH1RdGe9L">⬇️ تنزيل مباشر</a>
-    </div>
-
-    <div class="card">
-      <h3>📖 العلوم</h3>
-      <a href="https://drive.google.com/uc?export=download&id=1NgOeTISLW29IOKoP8esZVNvERPaTmzrR">⬇️ تنزيل مباشر</a>
-    </div>
-
-    <div class="card">
-      <h3>📖 الاجتماعيات</h3>
-      <a href="https://drive.google.com/uc?export=download&id=13ikamFJUb2uIkzDWvXcscvI5Cd_oqoxm">⬇️ تنزيل مباشر</a>
-    </div>
-
-    <div class="card">
-      <h3>📖 التربية الإسلامية</h3>
-      <a href="https://drive.google.com/uc?export=download&id=1_ySMvpNNMRNLOtjv0u01MNbDTc1zO4LJ">⬇️ تنزيل مباشر</a>
-    </div>
-
-    <div class="card">
-      <h3>📖 الحاسوب</h3>
-      <a href="https://drive.google.com/uc?export=download&id=1hOpg6lkaRpI5AypSGMJNgcg3sVRBK7Hp">⬇️ تنزيل مباشر</a>
-    </div>
-
-    <div class="card">
-      <h3>📖 التربية الفنية</h3>
-      <a href="https://drive.google.com/uc?export=download&id=1AVVh_tqj711mG8SadiLE03hN-sr4MPJK">⬇️ تنزيل مباشر</a>
-    </div>
-
-    <div class="card">
-      <h3>📖 اللغة الكردية</h3>
-      <a href="https://drive.google.com/uc?export=download&id=1-6ue75fdskBBe8QzAg-281UCmfu8HWOL">⬇️ تنزيل مباشر</a>
-    </div>
-
-  </section>
-
-  <!-- المؤقت -->
-  <section id="timer" class="view">
-    <h2>⏱️ المؤقت</h2>
-    <div id="timerDisplay">25:00</div>
-    <div class="timer-controls">
+  <!-- قسم المؤقت -->
+  <section id="timerSection">
+    <h2>⏳ المؤقت</h2>
+    <div class="timer" id="timerDisplay">25:00</div>
+    <div style="text-align:center">
       <button onclick="startTimer()">▶️ بدء</button>
-      <button onclick="pauseTimer()">⏸️ إيقاف</button>
+      <button onclick="pauseTimer()">⏸️ إيقاف مؤقت</button>
       <button onclick="resetTimer()">🔄 إعادة</button>
-      <button onclick="increaseTime()">➕ دقيقة</button>
-      <button onclick="decreaseTime()">➖ دقيقة</button>
+    </div>
+    <div style="text-align:center;margin-top:10px;">
+      <button onclick="changeTime(60)">+1 دقيقة</button>
+      <button onclick="changeTime(-60)">-1 دقيقة</button>
     </div>
   </section>
 
-  <!-- الملاحظات -->
-  <section id="notes" class="view">
+  <!-- قسم الملاحظات -->
+  <section id="notes">
     <h2>📝 الملاحظات</h2>
-    <textarea id="noteInput" placeholder="اكتب ملاحظتك هنا..."></textarea>
-    <button onclick="saveNote()">💾 حفظ</button>
-    <ul id="notesList"></ul>
+    <textarea id="noteInput" placeholder="أكتب ملاحظتك هنا..."></textarea>
+    <button onclick="addNote()">إضافة ملاحظة</button>
+    <div id="notesList"></div>
   </section>
 
   <script>
-    function showView(id){
-      document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
+    // التنقل بين الأقسام
+    function showSection(id){
+      document.querySelectorAll("section").forEach(sec => sec.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
     }
 
     // المؤقت
     let timerSeconds = 25*60;
     let timerInterval = null;
 
-    function updateTimer(){
-      const m = Math.floor(timerSeconds/60).toString().padStart(2,'0');
-      const s = (timerSeconds%60).toString().padStart(2,'0');
-      document.getElementById('timerDisplay').textContent = `${m}:${s}`;
+    function updateDisplay(){
+      const m = String(Math.floor(timerSeconds/60)).padStart(2,'0');
+      const s = String(timerSeconds%60).padStart(2,'0');
+      document.getElementById("timerDisplay").textContent = `${m}:${s}`;
     }
+
     function startTimer(){
       if(timerInterval) return;
       timerInterval = setInterval(()=>{
-        if(timerSeconds>0){ timerSeconds--; updateTimer(); }
+        if(timerSeconds>0){
+          timerSeconds--;
+          updateDisplay();
+        } else {
+          clearInterval(timerInterval);
+          timerInterval=null;
+          alert("انتهى الوقت!");
+        }
       },1000);
     }
-    function pauseTimer(){
-      clearInterval(timerInterval); timerInterval=null;
-    }
-    function resetTimer(){
-      pauseTimer(); timerSeconds = 25*60; updateTimer();
-    }
-    function increaseTime(){ timerSeconds+=60; updateTimer(); }
-    function decreaseTime(){ if(timerSeconds>60) timerSeconds-=60; updateTimer(); }
 
-    updateTimer();
+    function pauseTimer(){
+      clearInterval(timerInterval);
+      timerInterval=null;
+    }
+
+    function resetTimer(){
+      pauseTimer();
+      timerSeconds = 25*60;
+      updateDisplay();
+    }
+
+    function changeTime(sec){
+      timerSeconds = Math.max(0, timerSeconds+sec);
+      updateDisplay();
+    }
 
     // الملاحظات
-    function saveNote(){
-      const text=document.getElementById('noteInput').value.trim();
+    function addNote(){
+      const text = document.getElementById("noteInput").value.trim();
       if(!text) return;
-      const li=document.createElement('li');
-      li.textContent=text;
-      document.getElementById('notesList').appendChild(li);
-      document.getElementById('noteInput').value='';
+      const div = document.createElement("div");
+      div.className = "note";
+      div.textContent = text;
+      document.getElementById("notesList").appendChild(div);
+      document.getElementById("noteInput").value="";
     }
+
+    updateDisplay();
   </script>
 </body>
 </html>

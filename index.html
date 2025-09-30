@@ -1,562 +1,212 @@
-<!doctype html>
-<html lang="ar" dir="rtl">
+<!DOCTYPE html>
+<html lang="ar">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>StudyBuddy — الملازم، المؤقت، الملاحظات</title>
-
+  <meta charset="UTF-8">
+  <title>StudyBuddy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    :root{
-      --primary:#0b6e4f; --muted:#6f7a80; --card:#fff; --bg:#f6f7f8; --fast:140ms;
+    body {
+      font-family: "Tahoma", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f5f5f5;
+      direction: rtl;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Tahoma,Arial,sans-serif;background:var(--bg);color:#222;direction:rtl;scroll-behavior:smooth}
-    a{color:var(--primary);text-decoration:none}
-    a:hover{text-decoration:underline}
-    /* Topbar */
-    .topbar{display:flex;align-items:center;justify-content:space-between;background:var(--primary);color:#fff;padding:12px 14px;position:sticky;top:0;z-index:120}
-    .brand{font-weight:700;font-size:18px}
-    .icon-btn{background:none;border:0;color:#fff;font-size:20px;cursor:pointer;padding:6px}
-    /* Layout */
-    .layout{display:flex;min-height:calc(100vh - 56px)}
-    .side{width:260px;background:var(--card);border-left:1px solid #e8e8e8;padding:12px;transition:transform var(--fast) ease;box-shadow:-6px 0 18px rgba(0,0,0,0.03)}
-    .side.hidden{transform:translateX(110%)}
-    .side ul{list-style:none;padding:0;margin:0}
-    .side li{padding:10px;border-radius:8px;cursor:pointer;margin-bottom:8px}
-    .side li.active,.side li:hover{background:var(--primary);color:#fff}
-    .side .small{font-size:12px;color:var(--muted);text-align:center;margin-top:10px}
-    main{flex:1;padding:18px;max-width:1100px;margin:0 auto}
-    .card{background:var(--card);border-radius:10px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
-    .headline{display:flex;justify-content:space-between;align-items:center;gap:12px}
-    .muted{color:var(--muted);font-size:13px}
-    /* Materials */
-    .material-list{list-style:none;padding:0;margin:12px 0;display:flex;flex-direction:column;gap:10px}
-    .material-item{display:flex;gap:8px;align-items:center;justify-content:space-between;padding:10px;border-radius:8px;background:#fafafa;border:1px solid #eee}
-    .material-left{display:flex;gap:8px;align-items:center;flex:1}
-    .material-left input{border:1px solid #ddd;padding:6px 8px;border-radius:6px;font-size:14px;width:220px}
-    .material-url{font-size:13px;color:var(--muted);max-width:360px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-    .material-actions{display:flex;gap:8px;align-items:center}
-    .status{font-size:13px;color:var(--muted);min-width:110px;text-align:left}
-    .small-btn{padding:6px 8px;border-radius:6px;border:0;cursor:pointer;background:#f0f0f0;color:#222}
-    /* Timer */
-    .timer-display{font-size:44px;font-weight:700;text-align:center;margin:16px 0}
-    .controls{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
-    .btn{border:0;padding:8px 12px;border-radius:8px;cursor:pointer;background:var(--primary);color:#fff}
-    .btn.ghost{background:#f0f0f0;color:#222}
-    input[type="number"]{width:96px;padding:8px;border-radius:6px;border:1px solid #ddd;text-align:center;}
-    /* Notes */
-    textarea{width:100%;min-height:120px;padding:10px;border-radius:8px;border:1px solid #ddd;font-family:inherit}
-    .notes-list-item{background:#fff;padding:10px;border-radius:8px;margin-bottom:8px;border:1px solid #eee}
-    footer{padding:12px;text-align:center;color:var(--muted);font-size:13px}
-    @media (max-width:900px){
-      .layout{flex-direction:column}
-      .side{position:fixed;top:56px;right:0;height:calc(100% - 56px);z-index:115}
-      .side.hidden{transform:translateX(110%)}
-      .material-left input{width:140px}
-      .material-url{max-width:160px}
+    header {
+      background: #0b6e4f;
+      color: #fff;
+      padding: 15px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    nav {
+      display: flex;
+      justify-content: space-around;
+      background: #0b6e4f;
+    }
+    nav button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      background: #0b6e4f;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    nav button:hover {
+      background: #09573d;
+    }
+    section {
+      display: none;
+      padding: 20px;
+    }
+    section.active {
+      display: block;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    ul li {
+      background: #fff;
+      margin: 8px 0;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    a {
+      text-decoration: none;
+      color: #0b6e4f;
+      font-weight: bold;
+    }
+    textarea {
+      width: 100%;
+      height: 150px;
+      padding: 10px;
+      font-size: 14px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .timer {
+      text-align: center;
+      font-size: 40px;
+      margin: 20px 0;
+    }
+    .controls button {
+      padding: 10px 15px;
+      margin: 5px;
+      font-size: 16px;
+      background: #0b6e4f;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .controls button:hover {
+      background: #09573d;
     }
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand">StudyBuddy 📚</div>
-    <div>
-      <button id="menuBtn" class="icon-btn" aria-label="قائمة">☰</button>
-    </div>
-  </header>
 
-  <div class="layout">
-    <aside id="side" class="side hidden" aria-hidden="true">
-      <ul>
-        <li data-view="home" class="active">🏠 الرئيسية</li>
-        <li data-view="materials">📚 الملازم</li>
-        <li data-view="timer">⏱ المؤقت</li>
-        <li data-view="notes">📝 الملاحظات</li>
-      </ul>
-      <div class="small">StudyBuddy — يعمل بدون اتصال</div>
-    </aside>
+<header>📘 تطبيق StudyBuddy</header>
 
-    <main>
-      <!-- Home -->
-      <section id="home" class="card view active">
-        <div class="headline">
-          <h2>مرحباً بك في StudyBuddy</h2>
-          <div class="muted">انتقل بسرعة من القائمة — اضف أو عدل الملازم ثم احفظ</div>
-        </div>
-        <p class="muted" style="margin-top:10px">- أرسل لي روابط الملازم الجديدة لو تريد أضيفها. <br>- كل ملزمة يمكنك فتحها أو تحميلها (Google Drive يحول تلقائياً لرابط تنزيل مباشر عندما ينطبق).</p>
-        <div style="margin-top:12px">
-          <button class="btn" onclick="showView('materials')">📚 الملازم</button>
-          <button class="btn" onclick="showView('timer')">⏱ المؤقت</button>
-          <button class="btn" onclick="showView('notes')">📝 الملاحظات</button>
-        </div>
-      </section>
+<nav>
+  <button onclick="showSection('home')">الرئيسية</button>
+  <button onclick="showSection('subjects')">المواد</button>
+  <button onclick="showSection('pdfs')">الملازم</button>
+  <button onclick="showSection('timer')">المؤقت</button>
+  <button onclick="showSection('notes')">الملاحظات</button>
+</nav>
 
-      <!-- Materials -->
-      <section id="materials" class="card view" style="display:none">
-        <div class="headline">
-          <h2>الملازم والمواد</h2>
-          <div class="muted">اضف/حرر روابط الملازم — اضغط "اختبار" للتأكد أو "فتح" لفتح/تحميل</div>
-        </div>
+<section id="home" class="active">
+  <h2>مرحباً بك في StudyBuddy</h2>
+  <p>اختر من القائمة أعلاه للانتقال بين الأقسام.</p>
+</section>
 
-        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
-          <input id="newLabel" placeholder="اسم الملزمة (مثال: ملزمة الرياضيات)" style="padding:8px;border-radius:6px;border:1px solid #ddd;width:280px">
-          <input id="newURL" placeholder="رابط الملزمة (Google Drive أو رابط PDF مباشر)" style="padding:8px;border-radius:6px;border:1px solid #ddd;flex:1">
-          <button id="addMaterialBtn" class="btn">➕ أضف ملزمة</button>
-        </div>
+<section id="subjects">
+  <h2>مواد الأول متوسط</h2>
+  <ul>
+    <li>الرياضيات</li>
+    <li>اللغة العربية</li>
+    <li>اللغة الإنجليزية</li>
+    <li>العلوم</li>
+    <li>التاريخ</li>
+    <li>الجغرافية</li>
+    <li>التربية الإسلامية</li>
+    <li>الوطنية</li>
+    <li>الحاسوب</li>
+  </ul>
+</section>
 
-        <ul id="materialsList" class="material-list"></ul>
+<section id="pdfs">
+  <h2>الملازم</h2>
+  <ul>
+    <li><a href="https://drive.google.com/uc?export=download&id=1olnxoHHGn_3bq_LR9VhV72x2iu3XvdCr" target="_blank">ملزمة الرياضيات</a></li>
+    <li><a href="https://drive.google.com/uc?export=download&id=1k1He2EAa4Zpx1QyX6UDqeEyXH1RdGe9L" target="_blank">ملزمة اللغة العربية</a></li>
+    <li><a href="https://drive.google.com/uc?export=download&id=1NgOeTISLW29IOKoP8esZVNvERPaTmzrR" target="_blank">ملزمة اللغة الإنجليزية</a></li>
+    <li><a href="https://drive.google.com/uc?export=download&id=13ikamFJUb2uIkzDWvXcscvI5Cd_oqoxm" target="_blank">ملزمة العلوم</a></li>
+    <li><a href="https://drive.google.com/uc?export=download&id=1_ySMvpNNMRNLOtjv0u01MNbDTc1zO4LJ" target="_blank">ملزمة التاريخ</a></li>
+    <li><a href="https://drive.google.com/uc?export=download&id=1hOpg6lkaRpI5AypSGMJNgcg3sVRBK7Hp" target="_blank">ملزمة الجغرافية</a></li>
+    <li><a href="https://drive.google.com/uc?export=download&id=1AVVh_tqj711mG8SadiLE03hN-sr4MPJK" target="_blank">ملزمة الوطنية</a></li>
+    <li><a href="https://drive.google.com/uc?export=download&id=1-6ue75fdskBBe8QzAg-281UCmfu8HWOL" target="_blank">ملزمة الحاسوب</a></li>
+  </ul>
+</section>
 
-        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
-          <button id="saveMaterialsMeta" class="btn">💾 حفظ الملازم</button>
-          <button id="reloadStatus" class="btn ghost">🔄 فحص</button>
-          <button id="clearMaterials" class="btn ghost">🗑 مسح كل الملازم</button>
-        </div>
-        <div class="muted" style="margin-top:10px">ملاحظة: روابط Google Drive ستُحوّل تلقائياً لرابط تنزيل مباشر (إن أمكن). إذا ظهر "تحقق من الرابط" فالمتصفح/الخادم قد يمنع الفحص أو الملف ليس متاحاً للعرض.</div>
-      </section>
-
-      <!-- Timer -->
-      <section id="timer" class="card view" style="display:none">
-        <div class="headline"><h2>مؤقت بومودورو</h2><div class="muted">شغّل واستعمل +/− لتعديل الوقت بسرعة</div></div>
-        <div class="timer-display" id="timerDisplay">25:00</div>
-
-        <div class="controls">
-          <button class="btn" id="startBtn">ابدأ</button>
-          <button class="btn ghost" id="pauseBtn">إيقاف</button>
-          <button class="btn ghost" id="resetBtn">إعادة</button>
-        </div>
-
-        <div class="controls" style="margin-top:10px">
-          <button class="btn ghost" id="incBtn">➕ دقيقة</button>
-          <button class="btn ghost" id="decBtn">➖ دقيقة</button>
-          <label style="display:flex;align-items:center;gap:8px;margin-left:8px">
-            <span class="muted">مدة (دقائق)</span>
-            <input id="minutesInput" type="number" min="1" value="25" />
-          </label>
-          <button class="btn" id="setBtn">تعيين</button>
-        </div>
-
-        <div class="muted" style="margin-top:10px">يمكنك الضغط على المسافة في لوحة المفاتيح لبدء/إيقاف بسرعة (ما لم تكن تكتب في حقل).</div>
-      </section>
-
-      <!-- Notes -->
-      <section id="notes" class="card view" style="display:none">
-        <div class="headline"><h2>الملاحظات</h2><div class="muted">تحفظ تلقائياً في متصفحك</div></div>
-        <textarea id="noteText" placeholder="اكتب ملاحظتك هنا..."></textarea>
-        <div style="margin-top:8px;display:flex;gap:8px">
-          <button id="addNoteBtn" class="btn">💾 حفظ الملاحظة</button>
-          <button id="clearAllNotes" class="btn ghost">مسح الكل</button>
-        </div>
-        <div id="notesList" style="margin-top:12px"></div>
-      </section>
-    </main>
+<section id="timer">
+  <h2>⏰ المؤقت</h2>
+  <div class="timer" id="display">00:00</div>
+  <div class="controls">
+    <button onclick="addTime(60)">+1 دقيقة</button>
+    <button onclick="addTime(-60)">-1 دقيقة</button>
+    <button onclick="startTimer()">ابدأ</button>
+    <button onclick="pauseTimer()">إيقاف</button>
+    <button onclick="resetTimer()">تصفير</button>
   </div>
+</section>
 
-  <footer>تم التطوير بواسطة StudyBuddy — 2025</footer>
+<section id="notes">
+  <h2>📝 الملاحظات</h2>
+  <textarea id="notesBox" placeholder="اكتب ملاحظاتك هنا..."></textarea>
+</section>
 
-  <!-- صوت التنبيه -->
-  <audio id="alarmAudio" preload="auto"><source src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" type="audio/ogg"></audio>
+<script>
+  // التنقل بين الأقسام
+  function showSection(id) {
+    document.querySelectorAll("section").forEach(sec => sec.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+  }
 
-  <script>
-    // ======= Helper: تحويل Google Drive إلى رابط تنزيل مباشر (إن أمكن) =======
-    function toDirectDriveLink(url){
-      if(!url) return url;
-      try {
-        // إذا الرابط من صيغة drive.google.com/file/d/ID/...
-        const m = url.match(/\/d\/([a-zA-Z0-9_\-]+)(\/|$)/);
-        if(m && m[1]){
-          return `https://drive.google.com/uc?export=download&id=${m[1]}`;
-        }
-        // إذا كان رابط موجود بصيغة open?id=ID
-        const m2 = url.match(/[?&]id=([a-zA-Z0-9_\-]+)/);
-        if(m2 && m2[1]) return `https://drive.google.com/uc?export=download&id=${m2[1]}`;
-        // لو كان رابط googleusercontent (مباشر) اتركه
-        return url;
-      } catch(e){ return url; }
-    }
+  // المؤقت
+  let timer;
+  let time = 0;
+  let running = false;
 
-    // ======= المتغيرات الأساسية و localStorage keys =======
-    const LS = {
-      materials: 'study_materials_v1',
-      notes: 'study_notes_v1',
-      timer: 'study_timer_v1'
-    };
+  function updateDisplay() {
+    const minutes = String(Math.floor(time / 60)).padStart(2, '0');
+    const seconds = String(time % 60).padStart(2, '0');
+    document.getElementById("display").textContent = `${minutes}:${seconds}`;
+  }
 
-    // الروابط الافتراضية (اللي أرسلتها) — يمكنك تعديلها أو حذفها من الواجهة
-    const DEFAULT_MATERIALS = [
-      { id:'m1', label:'ملزمة الأحياء', url:'https://drive.google.com/file/d/1ennaAbaxjJjvlebpy4z76uJI7-mdDJFH/view?usp=drivesdk' },
-      { id:'m2', label:'ملزمة 2', url:'https://drive.google.com/file/d/1JsLBMUzmmMOmPqxH2r6q80q-QyZnT9o8/view?usp=drivesdk' },
-      { id:'m3', label:'ملزمة 3', url:'https://drive.google.com/file/d/1olnxoHHGn_3bq_LR9VhV72x2iu3XvdCr/view?usp=drivesdk' },
-      { id:'m4', label:'ملزمة 4', url:'https://drive.google.com/file/d/1k1He2EAa4Zpx1QyX6UDqeEyXH1RdGe9L/view?usp=drivesdk' },
-      { id:'m5', label:'ملزمة 5', url:'https://drive.google.com/file/d/1NgOeTISLW29IOKoP8esZVNvERPaTmzrR/view?usp=drivesdk' },
-      { id:'m6', label:'ملزمة 6', url:'https://drive.google.com/file/d/13ikamFJUb2uIkzDWvXcscvI5Cd_oqoxm/view?usp=drivesdk' },
-      { id:'m7', label:'ملزمة 7', url:'https://drive.google.com/file/d/1_ySMvpNNMRNLOtjv0u01MNbDTc1zO4LJ/view?usp=drivesdk' },
-      { id:'m8', label:'ملزمة 8', url:'https://drive.google.com/file/d/1hOpg6lkaRpI5AypSGMJNgcg3sVRBK7Hp/view?usp=drivesdk' },
-      { id:'m9', label:'ملزمة 9', url:'https://drive.google.com/file/d/1AVVh_tqj711mG8SadiLE03hN-sr4MPJK/view?usp=drivesdk' },
-      { id:'m10', label:'ملزمة 10', url:'https://drive.google.com/file/d/1-6ue75fdskBBe8QzAg-281UCmfu8HWOL/view?usp=drivesdk' }
-    ];
+  function addTime(sec) {
+    time = Math.max(0, time + sec);
+    updateDisplay();
+  }
 
-    // ======= عناصر الواجهة =======
-    const menuBtn = document.getElementById('menuBtn');
-    const side = document.getElementById('side');
-    const navItems = side.querySelectorAll('li[data-view]');
-    const views = document.querySelectorAll('.view');
-
-    const materialsListEl = document.getElementById('materialsList');
-    const addMaterialBtn = document.getElementById('addMaterialBtn');
-    const newLabel = document.getElementById('newLabel');
-    const newURL = document.getElementById('newURL');
-    const saveMaterialsMetaBtn = document.getElementById('saveMaterialsMeta');
-    const reloadStatusBtn = document.getElementById('reloadStatus');
-    const clearMaterialsBtn = document.getElementById('clearMaterials');
-
-    // Timer elements
-    const timerDisplay = document.getElementById('timerDisplay');
-    const startBtn = document.getElementById('startBtn');
-    const pauseBtn = document.getElementById('pauseBtn');
-    const resetBtn = document.getElementById('resetBtn');
-    const incBtn = document.getElementById('incBtn');
-    const decBtn = document.getElementById('decBtn');
-    const minutesInput = document.getElementById('minutesInput');
-    const setBtn = document.getElementById('setBtn');
-    const alarmAudio = document.getElementById('alarmAudio');
-
-    // Notes elements
-    const noteText = document.getElementById('noteText');
-    const addNoteBtn = document.getElementById('addNoteBtn');
-    const clearAllNotesBtn = document.getElementById('clearAllNotes');
-    const notesListDiv = document.getElementById('notesList');
-
-    // State
-    let materials = [];
-    let notes = [];
-    let timerInterval = null;
-    let timerSeconds = 25 * 60;
-    let isRunning = false;
-
-    // ======= Navigation =======
-    function showView(id){
-      views.forEach(v => v.classList.toggle('active', v.id === id));
-      navItems.forEach(n => n.classList.toggle('active', n.dataset.view === id));
-      if(window.innerWidth < 880) side.classList.add('hidden');
-    }
-    menuBtn.addEventListener('click', ()=> side.classList.toggle('hidden'));
-    navItems.forEach(li => li.addEventListener('click', ()=> showView(li.dataset.view)));
-    window.showView = showView;
-
-    // ======= Materials management =======
-    function loadMaterials(){
-      try {
-        const raw = localStorage.getItem(LS.materials);
-        if(raw){ materials = JSON.parse(raw); return; }
-      } catch(e){}
-      // fallback to defaults copy
-      materials = DEFAULT_MATERIALS.map(m => ({...m}));
-    }
-
-    function saveMaterials(){
-      try { localStorage.setItem(LS.materials, JSON.stringify(materials)); alert('✅ تم حفظ الملازم'); } catch(e){ alert('فشل الحفظ'); }
-    }
-
-    function addMaterialFromInputs(){
-      const lab = (newLabel.value||'').trim();
-      const url = (newURL.value||'').trim();
-      if(!lab || !url){ alert('ادخل اسم الملزمة والرابط'); return; }
-      const id = 'm'+Date.now();
-      materials.push({ id, label: lab, url });
-      newLabel.value=''; newURL.value='';
-      renderMaterials();
-      saveMaterials();
-    }
-
-    function clearMaterials(){
-      if(!confirm('هل تريد مسح كل الملازم؟')) return;
-      materials = [];
-      renderMaterials();
-      saveMaterials();
-    }
-
-    function renderMaterials(){
-      materialsListEl.innerHTML = '';
-      if(materials.length === 0){
-        materialsListEl.innerHTML = '<div class="muted">لا توجد ملازم — أضف ملزمة جديدة أعلاه</div>';
-        return;
-      }
-      materials.forEach((m, idx) => {
-        const li = document.createElement('li');
-        li.className = 'material-item';
-        const safeLabel = escapeHtml(m.label || '');
-        const safeURL = escapeHtml(m.url || '');
-        li.innerHTML = `
-          <div class="material-left">
-            <input data-idx="${idx}" class="mat-label" value="${safeLabel}" />
-            <div class="material-url" title="${safeURL}">${safeURL}</div>
-          </div>
-          <div class="material-actions">
-            <span class="status" data-idx="${idx}">…</span>
-            <button class="small-btn test-btn" data-idx="${idx}">اختبار</button>
-            <button class="btn open-btn" data-idx="${idx}">فتح</button>
-            <button class="small-btn del-btn" data-idx="${idx}">حذف</button>
-          </div>
-        `;
-        materialsListEl.appendChild(li);
-      });
-
-      // bind events
-      materialsListEl.querySelectorAll('.mat-label').forEach(inp=>{
-        inp.addEventListener('input', e=>{
-          const i = +e.target.dataset.idx;
-          materials[i].label = e.target.value;
-        });
-      });
-      materialsListEl.querySelectorAll('.open-btn').forEach(b=>{
-        b.addEventListener('click', e=>{
-          const i = +e.dataset.idx;
-          const raw = materials[i].url;
-          const direct = toDirectDriveLink(raw);
-          // open direct link in new tab
-          window.open(direct, '_blank');
-        });
-      });
-      materialsListEl.querySelectorAll('.del-btn').forEach(b=>{
-        b.addEventListener('click', e=>{
-          const i = +e.dataset.idx;
-          if(!confirm('حذف هذه الملزمة؟')) return;
-          materials.splice(i,1);
-          renderMaterials();
-          saveMaterials();
-        });
-      });
-      materialsListEl.querySelectorAll('.test-btn').forEach(b=>{
-        b.addEventListener('click', async e=>{
-          const i = +e.dataset.idx;
-          const span = materialsListEl.querySelector(`.status[data-idx="${i}"]`);
-          span.textContent = 'جارٍ الفحص…';
-          const ok = await testUrl(materials[i].url);
-          span.textContent = ok ? '✅ متاح' : '⚠️ تحقق من الرابط';
-          span.style.color = ok ? 'green' : '#d16a3a';
-        });
-      });
-      // after render, run quick check for all (non-blocking)
-      updateAllStatuses();
-    }
-
-    function escapeHtml(s){ if(!s) return ''; return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-
-    // test URL: try HEAD; if fails due to CORS, return false but allow open
-    async function testUrl(url){
-      try {
-        // If it's drive link, convert to direct download then try fetch
-        const direct = toDirectDriveLink(url);
-        const r = await fetch(direct, { method:'HEAD' });
-        return r && r.ok;
-      } catch(e){
-        // Some servers block HEAD or CORS — fallback: try GET with no-cors (can't read response), treat as unknown => return false
-        return false;
-      }
-    }
-
-    async function updateAllStatuses(){
-      const spans = materialsListEl.querySelectorAll('.status');
-      spans.forEach(s => s.textContent = 'جارٍ الفحص…');
-      for(let i=0;i<materials.length;i++){
-        const ok = await testUrl(materials[i].url);
-        const span = materialsListEl.querySelector(`.status[data-idx="${i}"]`);
-        if(span){ span.textContent = ok ? '✅ متاح' : '⚠️ تحقق من الرابط'; span.style.color = ok ? 'green' : '#d16a3a'; }
-      }
-    }
-
-    // ======= Timer logic =======
-    function updateTimerDisplay(){
-      const m = Math.floor(timerSeconds/60).toString().padStart(2,'0');
-      const s = (timerSeconds%60).toString().padStart(2,'0');
-      timerDisplay.textContent = `${m}:${s}`;
-    }
-
-    function startTimer(){
-      if(isRunning) return;
-      isRunning = true;
-      if(timerSeconds <= 0) timerSeconds = Math.max(1, parseInt(minutesInput.value||25)) * 60;
-      timerInterval = setInterval(()=>{
-        if(timerSeconds > 0){
-          timerSeconds--;
-          updateTimerDisplay();
+  function startTimer() {
+    if (!running && time > 0) {
+      running = true;
+      timer = setInterval(() => {
+        if (time > 0) {
+          time--;
+          updateDisplay();
         } else {
-          stopTimer();
-          try { alarmAudio.currentTime = 0; alarmAudio.play().catch(()=>{}); } catch(e){}
-          if('Notification' in window && Notification.permission === 'granted'){
-            new Notification('StudyBuddy', { body:'انتهت مدة الجلسة' });
-          } else {
-            if('Notification' in window && Notification.permission === 'default') Notification.requestPermission().catch(()=>{});
-            alert('⏰ انتهت مدة الجلسة');
-          }
+          pauseTimer();
+          alert("انتهى الوقت!");
         }
-      },1000);
-      saveTimerState();
+      }, 1000);
     }
+  }
 
-    function stopTimer(){
-      clearInterval(timerInterval);
-      timerInterval = null;
-      isRunning = false;
-      saveTimerState();
-    }
+  function pauseTimer() {
+    running = false;
+    clearInterval(timer);
+  }
 
-    function pauseTimer(){ stopTimer(); }
+  function resetTimer() {
+    pauseTimer();
+    time = 0;
+    updateDisplay();
+  }
 
-    function resetTimer(){
-      stopTimer();
-      timerSeconds = Math.max(1, parseInt(minutesInput.value||25)) * 60;
-      updateTimerDisplay();
-      saveTimerState();
-    }
+  // الملاحظات (تخزين محلي)
+  const notesBox = document.getElementById("notesBox");
+  notesBox.value = localStorage.getItem("notes") || "";
+  notesBox.addEventListener("input", () => {
+    localStorage.setItem("notes", notesBox.value);
+  });
 
-    function incMinute(){ timerSeconds += 60; updateTimerDisplay(); saveTimerState(); }
-    function decMinute(){ if(timerSeconds > 60) timerSeconds -= 60; updateTimerDisplay(); saveTimerState(); }
-
-    function setSession(){ timerSeconds = Math.max(1, parseInt(minutesInput.value||25)) * 60; updateTimerDisplay(); saveTimerState(); }
-
-    function saveTimerState(){
-      try { localStorage.setItem(LS.timer, JSON.stringify({ timerSeconds, isRunning, minutesInput: parseInt(minutesInput.value||25) })); } catch(e){}
-    }
-    function loadTimerState(){
-      try {
-        const raw = localStorage.getItem(LS.timer);
-        if(!raw) return;
-        const o = JSON.parse(raw);
-        if(o.timerSeconds||o.timerSeconds===0) timerSeconds = o.timerSeconds;
-        if(o.minutesInput) minutesInput.value = o.minutesInput;
-        updateTimerDisplay();
-        if(o.isRunning) startTimer();
-      } catch(e){}
-    }
-
-    // ======= Notes =======
-    function loadNotes(){
-      try {
-        const raw = localStorage.getItem(LS.notes);
-        notes = raw ? JSON.parse(raw) : [];
-      } catch(e){ notes = []; }
-      renderNotes();
-    }
-
-    function saveNotes(){ try { localStorage.setItem(LS.notes, JSON.stringify(notes)); } catch(e){} }
-
-    function renderNotes(){
-      notesListDiv.innerHTML = '';
-      if(!notes || notes.length===0){ notesListDiv.innerHTML = '<div class="muted">لا توجد ملاحظات</div>'; return; }
-      notes.slice().reverse().forEach(n=>{
-        const el = document.createElement('div');
-        el.className = 'notes-list-item';
-        el.innerHTML = `<div style="font-size:14px">${escapeHtml(n.text)}</div>
-          <div style="margin-top:6px;font-size:12px;color:var(--muted)">${new Date(n.created).toLocaleString()}</div>
-          <div style="margin-top:6px"><button class="small-btn del-note" data-id="${n.id}">حذف</button></div>`;
-        notesListDiv.appendChild(el);
-      });
-      notesListDiv.querySelectorAll('.del-note').forEach(b=>{
-        b.addEventListener('click', ()=>{
-          const id = b.dataset.id;
-          notes = notes.filter(x=>x.id !== id);
-          saveNotes(); renderNotes();
-        });
-      });
-    }
-
-    // ======= Utilities =======
-    function uid(prefix='id'){ return prefix + '-' + Date.now() + '-' + Math.floor(Math.random()*1000); }
-
-    // Convert Drive link to direct download (used when opening)
-    function toDirectDriveLink(url){
-      try {
-        if(!url) return url;
-        const p = url.trim();
-        // match /d/ID/
-        const m = p.match(/\/d\/([a-zA-Z0-9_\-]+)(\/|$|\?)/);
-        if(m && m[1]) return `https://drive.google.com/uc?export=download&id=${m[1]}`;
-        // match ?id=ID
-        const m2 = p.match(/[?&]id=([a-zA-Z0-9_\-]+)/);
-        if(m2 && m2[1]) return `https://drive.google.com/uc?export=download&id=${m2[1]}`;
-        return p;
-      } catch(e){ return url; }
-    }
-
-    // test url with HEAD (may fail due to CORS)
-    async function testUrl(url){
-      try {
-        const direct = toDirectDriveLink(url);
-        const res = await fetch(direct, { method:'HEAD' });
-        return res && res.ok;
-      } catch(e){
-        return false;
-      }
-    }
-
-    // quick non-blocking check for statuses
-    async function updateAllStatuses(){ await updateAllStatusesImpl(); }
-    async function updateAllStatusesImpl(){
-      const statusEls = materialsListEl.querySelectorAll('.status');
-      statusEls.forEach(s => s.textContent = 'جارٍ الفحص…');
-      for(let i=0;i<materials.length;i++){
-        try {
-          const ok = await testUrl(materials[i].url);
-          const span = materialsListEl.querySelector(`.status[data-idx="${i}"]`);
-          if(span){ span.textContent = ok ? '✅ متاح' : '⚠️ تحقق من الرابط'; span.style.color = ok ? 'green' : '#d16a3a'; }
-        } catch(e){
-          const span = materialsListEl.querySelector(`.status[data-idx="${i}"]`);
-          if(span){ span.textContent = '⚠️ غير مؤكد'; span.style.color = '#d16a3a'; }
-        }
-      }
-    }
-
-    // ======= Events binding =======
-    function bindUI(){
-      addMaterialBtn.addEventListener('click', addMaterialFromInputs);
-      saveMaterialsMetaBtn.addEventListener('click', saveMaterials);
-      reloadStatusBtn.addEventListener('click', ()=> updateAllStatuses());
-      clearMaterialsBtn.addEventListener('click', clearMaterials);
-
-      // Timer binds
-      startBtn.addEventListener('click', startTimer);
-      pauseBtn.addEventListener('click', pauseTimer);
-      resetBtn.addEventListener('click', resetTimer);
-      incBtn.addEventListener('click', incMinute);
-      decBtn.addEventListener('click', decMinute);
-      setBtn.addEventListener('click', setSession);
-
-      // Notes binds
-      addNoteBtn.addEventListener('click', ()=>{
-        const txt = (noteText.value||'').trim();
-        if(!txt){ alert('اكتب نص الملاحظة'); return; }
-        notes.push({ id: uid('note'), text: txt, created: Date.now() });
-        saveNotes(); noteText.value=''; renderNotes(); alert('✅ تم حفظ الملاحظة');
-      });
-      clearAllNotesBtn.addEventListener('click', ()=>{
-        if(!confirm('هل تريد مسح كل الملاحظات؟')) return;
-        notes = []; saveNotes(); renderNotes();
-      });
-
-      // keyboard: space toggles start/pause if not typing
-      document.addEventListener('keydown', (e)=>{
-        if(e.code === 'Space' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA'){
-          if(isRunning) pauseTimer(); else startTimer();
-          e.preventDefault();
-        }
-      });
-    }
-
-    // ======= Init =======
-    function init(){
-      loadMaterials();
-      renderMaterials();
-      loadNotes();
-      loadTimerState();
-      updateTimerDisplay();
-      bindUI();
-      // initial check for statuses (non-blocking)
-      updateAllStatuses().catch(()=>{});
-      if(window.innerWidth < 880) side.classList.add('hidden');
-    }
-
-    document.addEventListener('DOMContentLoaded', init);
-  </script>
+  updateDisplay();
+</script>
 </body>
 </html>

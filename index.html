@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <meta name="theme-color" content="#0b6e4f"/>
+  <title>StudyBuddy — تطبيق الدراسة</title>
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230b6e4f'/%3E%3Ctext x='50' y='58' font-size='48' text-anchor='middle' fill='white' font-family='Arial'%3E📚%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <button id="menuBtn" class="icon-btn" aria-label="قائمة">☰</button>
+      <h1>StudyBuddy</h1>
+      <button id="addBtn" class="icon-btn" title="إضافة">＋</button>
+    </header>
+
+    <nav id="side" class="side hidden">
+      <ul>
+        <li data-view="dashboard" class="active">الملخص</li>
+        <li data-view="subjects">المواد</li>
+        <li data-view="tasks">المهام</li>
+        <li data-view="flashcards">بطاقات المذاكرة</li>
+        <li data-view="timer">مؤقت (بومودورو)</li>
+        <li data-view="notes">ملاحظات</li>
+        <li data-view="settings">الإعدادات</li>
+      </ul>
+      <div class="side-footer">StudyBuddy • بدون اتصال</div>
+    </nav>
+
+    <main id="main">
+      <!-- Views -->
+      <section id="dashboard" class="view">
+        <div class="card">
+          <h2>مرحباً بك!</h2>
+          <p>هذا ملخص دراستك: عدد المواد، المهام المستحقة، وبطاقات المراجعة.</p>
+          <div class="summary-grid">
+            <div class="summary-item">
+              <div class="num" id="countSubjects">0</div>
+              <div>المواد</div>
+            </div>
+            <div class="summary-item">
+              <div class="num" id="countTasks">0</div>
+              <div>المهام</div>
+            </div>
+            <div class="summary-item">
+              <div class="num" id="countFlash">0</div>
+              <div>البطاقات</div>
+            </div>
+          </div>
+        </div>
+        <div id="upcoming" class="card">
+          <h3>المهام القادمة</h3>
+          <ul id="upcomingList"></ul>
+        </div>
+      </section>
+
+      <section id="subjects" class="view hidden">
+        <header class="view-header">
+          <h2>المواد</h2>
+          <input id="searchSubjects" placeholder="ابحث في المواد..." />
+        </header>
+        <ul id="subjectsList" class="list"></ul>
+      </section>
+
+      <section id="tasks" class="view hidden">
+        <header class="view-header"><h2>المهام</h2></header>
+        <ul id="tasksList" class="list"></ul>
+      </section>
+
+      <section id="flashcards" class="view hidden">
+        <header class="view-header"><h2>بطاقات المذاكرة</h2></header>
+        <div id="flashArea" class="card">
+          <div id="flashCard" class="flashcard">أضف بطاقة للبدء</div>
+          <div class="flash-controls">
+            <button id="prevFlash">◀</button>
+            <button id="flipFlash">قلب</button>
+            <button id="nextFlash">▶</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="timer" class="view hidden">
+        <header class="view-header"><h2>مؤقت بومودورو</h2></header>
+        <div class="card timer-card">
+          <div id="timerDisplay">25:00</div>
+          <div class="timer-controls">
+            <button id="startTimer">ابدأ</button>
+            <button id="pauseTimer">إيقاف</button>
+            <button id="resetTimer">إعادة</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="notes" class="view hidden">
+        <header class="view-header"><h2>ملاحظات</h2></header>
+        <textarea id="noteText" placeholder="اكتب ملاحظتك هنا..."></textarea>
+        <button id="saveNote" class="primary">حفظ الملاحظة</button>
+        <ul id="notesList" class="list"></ul>
+      </section>
+
+      <section id="settings" class="view hidden">
+        <h2>الإعدادات</h2>
+        <label>وضع داكن <input type="checkbox" id="toggleDark" /></label>
+        <button id="exportData">تصدير البيانات (JSON)</button>
+        <button id="importData">استيراد بيانات</button>
+        <input type="file" id="fileInput" accept=".json" style="display:none"/>
+      </section>
+    </main>
+
+    <!-- Floating add modal -->
+    <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+      <div class="modal-card">
+        <h3 id="modalTitle">إضافة عنصر</h3>
+        <form id="modalForm">
+          <label>نوع
+            <select id="itemType">
+              <option value="subject">مادة</option>
+              <option value="task">مهمة</option>
+              <option value="flash">بطاقة</option>
+              <option value="note">ملاحظة</option>
+            </select>
+          </label>
+
+          <div id="fields">
+            <!-- dynamic fields inserted here -->
+          </div>
+
+          <div class="modal-actions">
+            <button type="submit" class="primary">حفظ</button>
+            <button type="button" id="cancelModal">إلغاء</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <footer class="bottombar">
+      <small>StudyBuddy — يعمل بدون اتصال</small>
+    </footer>
+  </div>
+
+  <script src="db.js"></script>
+  <script src="app.js" defer></script>
+</body>
+</html>

@@ -1,134 +1,93 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>StudyBuddy</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="manifest" href="manifest.json">
+  <style>
+    body {
+      font-family: "Tahoma", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f7f7f7;
+      color: #333;
+      direction: rtl;
+      text-align: right;
+    }
+    header {
+      background: #0b6e4f;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    main {
+      padding: 20px;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    .card h2 {
+      margin-top: 0;
+      color: #0b6e4f;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin: 8px 0;
+    }
+    a {
+      text-decoration: none;
+      color: #0b6e4f;
+      font-weight: bold;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      background: #eee;
+      text-align: center;
+      padding: 10px;
+      font-size: 14px;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-
-  <!-- الشريط العلوي -->
-  <div class="topbar">
+  <header>
     <h1>📚 StudyBuddy</h1>
-    <button id="menuBtn" class="icon-btn">☰</button>
-  </div>
+  </header>
 
-  <!-- القائمة الجانبية -->
-  <aside id="side" class="side hidden">
-    <ul>
-      <li data-view="dashboard" class="active">الملخص</li>
-      <li data-view="subjects">المواد</li>
-      <li data-view="tasks">المهام</li>
-      <li data-view="notes">الملاحظات</li>
-      <li data-view="flashcards">الفلاش كارد</li>
-      <li data-view="timer">المؤقت</li>
-      <li data-view="files">الملازم</li>
-    </ul>
-    <div class="side-footer">StudyBuddy © 2025</div>
-  </aside>
-
-  <!-- المحتوى -->
   <main>
-    <!-- الملخص -->
-    <section id="dashboard" class="view">
-      <div class="card">
-        <h2>الملخص</h2>
-        <div class="summary-grid">
-          <div class="summary-item">
-            <div class="num" id="countSubjects">0</div>
-            <div>مواد</div>
-          </div>
-          <div class="summary-item">
-            <div class="num" id="countTasks">0</div>
-            <div>مهام</div>
-          </div>
-          <div class="summary-item">
-            <div class="num" id="countFlash">0</div>
-            <div>بطاقات</div>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <h3>المهام القادمة</h3>
-        <ul id="upcomingList"></ul>
-      </div>
-    </section>
-
-    <!-- المواد -->
-    <section id="subjects" class="view hidden">
-      <div class="card">
-        <h2>المواد</h2>
-        <ul id="subjectsList"></ul>
-      </div>
-    </section>
-
-    <!-- المهام -->
-    <section id="tasks" class="view hidden">
-      <div class="card">
-        <h2>المهام</h2>
-        <ul id="tasksList"></ul>
-      </div>
-    </section>
-
-    <!-- الملاحظات -->
-    <section id="notes" class="view hidden">
-      <div class="card">
-        <h2>الملاحظات</h2>
-        <textarea id="noteText" placeholder="أدخل ملاحظة..."></textarea>
-        <button id="saveNote">حفظ</button>
-        <ul id="notesList"></ul>
-      </div>
-    </section>
-
-    <!-- الفلاش كارد -->
-    <section id="flashcards" class="view hidden">
-      <div class="card">
-        <h2>الفلاش كارد</h2>
-        <div id="flashCard" class="card" style="text-align:center; font-size:20px; padding:30px;">
-          لا توجد بطاقات
-        </div>
-        <div style="text-align:center; margin-top:10px;">
-          <button id="prevFlash">◀</button>
-          <button id="flipFlash">🔄</button>
-          <button id="nextFlash">▶</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- المؤقت -->
-    <section id="timer" class="view hidden">
-      <div class="card timer-card">
-        <h2>مؤقت بومودورو</h2>
-        <div id="timerDisplay">25:00</div>
-        <div class="timer-controls">
-          <button id="startTimer">بدء</button>
-          <button id="pauseTimer">إيقاف مؤقت</button>
-          <button id="resetTimer">إعادة</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- الملازم -->
-    <section id="files" class="view hidden">
-      <div class="card">
-        <h2>📂 الملازم</h2>
-        <p>هنا تقدر تضيف روابط أو تحميل ملفات PDF للملازم الدراسية.</p>
-        <ul>
-          <li><a href="lessons/math.pdf" target="_blank">ملازم الرياضيات</a></li>
-          <li><a href="lessons/physics.pdf" target="_blank">ملازم الفيزياء</a></li>
-        </ul>
-      </div>
-    </section>
+    <!-- قسم الملازم -->
+    <div class="card">
+      <h2>📑 الملازم</h2>
+      <p>هنا تقدر تضيف روابط أو تحميل ملفات PDF للملازم الدراسية:</p>
+      <ul>
+        <li><a href="ملزمة-العربي-الاول-متوسط-ج1.pdf" target="_blank">ملزمة العربي (جزء 1)</a></li>
+        <li><a href="ملزمة-العربي-الاول-متوسط-ج2.pdf" target="_blank">ملزمة العربي (جزء 2)</a></li>
+        <li><a href="ملزمة-الاسلامية-الاول-متوسط.pdf" target="_blank">ملزمة الإسلامية</a></li>
+        <li><a href="ملزمة-الاجتماعيات-الاول-متوسط.pdf" target="_blank">ملزمة الاجتماعيات</a></li>
+        <li><a href="ملزمة-الاحياء-الاول-متوسط.pdf" target="_blank">ملزمة الأحياء</a></li>
+        <li><a href="ملزمة-الكيمياء-الاول-متوسط.pdf" target="_blank">ملزمة الكيمياء</a></li>
+        <li><a href="ملزمة-الفيزياء-الاول-متوسط.pdf" target="_blank">ملزمة الفيزياء</a></li>
+        <li><a href="ملزمة-الانكليزي-الاول-متوسط-4-وحدات.pdf" target="_blank">ملزمة الانكليزي</a></li>
+        <li><a href="ملزمة-الرياضيات-الاول-متوسط-4-فصول.pdf" target="_blank">ملزمة الرياضيات</a></li>
+      </ul>
+    </div>
   </main>
 
-  <!-- الفوتر -->
-  <div class="bottombar">
-    تم التطوير بواسطة StudyBuddy 2025
-  </div>
-
-  <script src="db.js"></script>
-  <script src="app.js"></script>
+  <footer>
+    <p>تم التطوير بواسطة StudyBuddy 2025</p>
+  </footer>
 </body>
 </html>

@@ -8,12 +8,36 @@ const ASSETS = [
   '/manifest.json'
 ];
 
-self.addEventListener('install', e=>{
-  e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)));
+// install
+self.addEventListener('install', e => {
+  e.waitUntil(
+    caches.open(CACHE).then(c => c.addAll(ASSETS))
+  );
+  self.skipWaiting();
 });
 
-self.addEventListener('fetch', e=>{
+// activate (حذف الكاش القديم)
+self.addEventListener('activate', e => {
+  e.waitUntil(
+    caches.keys().then(keys =>
+      Promise.all(
+        keys.filter(k => k !== CACHE).map(k => caches.delete(k))
+      )
+    )
+  );
+  self.clients.claim();
+});
+
+// fetch
+self.addEventListener('fetch', e => {
   e.respondWith(
-    caches.match(e.request).then(r => r || fetch(e.request))
+    caches.match(e.request).then(r => {
+      return r || fetch(e.request).catch(() => {
+        // fallback (مثلاً عرض صفحة offline إذا حاب تضيفها)
+        if (e.request.mode === 'navigate') {
+          return caches.match('/index.html');
+        }
+      });
+    })
   );
 });

@@ -1,231 +1,89 @@
-/* ==============================
-   إعدادات عامة
-============================== */
-body {
+/* إعادة ضبط تنسيقات المتصفح */
+* {
   margin: 0;
-  font-family: "Tahoma", "Arial", sans-serif;
-  background: #f5f5f5;
-  color: #222;
-  direction: rtl;
-}
-
-h1, h2, h3 {
-  margin: 0 0 10px;
-  font-weight: bold;
-}
-
-/* ==============================
-   الشريط العلوي (Topbar)
-============================== */
-.topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #0b6e4f;
-  color: white;
-  padding: 10px 15px;
-}
-
-.topbar h1 {
-  font-size: 20px;
-}
-
-.icon-btn {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 20px;
-  cursor: pointer;
-}
-
-/* ==============================
-   القائمة الجانبية
-============================== */
-.side {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 220px;
-  height: 100%;
-  background: #fff;
-  border-left: 1px solid #ccc;
-  box-shadow: -2px 0 5px rgba(0,0,0,0.1);
-  padding: 15px;
-  overflow-y: auto;
-  transition: transform 0.3s;
-  z-index: 1000;
-}
-
-.side.hidden {
-  transform: translateX(100%);
-}
-
-.side ul {
-  list-style: none;
   padding: 0;
-  margin: 0;
+  box-sizing: border-box;
+  font-family: "Tahoma", sans-serif;
 }
 
-.side ul li {
-  padding: 10px;
-  cursor: pointer;
-  border-radius: 4px;
+body {
+  background-color: #f7f7f7;
+  color: #333;
+  line-height: 1.6;
 }
 
-.side ul li.active,
-.side ul li:hover {
+/* الهيدر */
+header {
   background: #0b6e4f;
   color: white;
-}
-
-.side-footer {
-  margin-top: 20px;
-  font-size: 12px;
-  text-align: center;
-  color: #555;
-}
-
-/* ==============================
-   المحتوى الرئيسي
-============================== */
-main {
   padding: 15px;
+  text-align: center;
 }
 
-.view.hidden {
-  display: none;
+header h1 {
+  font-size: 22px;
 }
 
-/* ==============================
-   البطاقات
-============================== */
+/* المحتوى */
+main {
+  padding: 20px;
+  max-width: 800px;
+  margin: auto;
+}
+
+/* الكارد */
 .card {
   background: white;
   border-radius: 8px;
-  padding: 15px;
-  margin-bottom: 15px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-/* ملخص */
-.summary-grid {
-  display: flex;
-  justify-content: space-around;
-  text-align: center;
-}
-
-.summary-item .num {
-  font-size: 24px;
-  font-weight: bold;
+.card h2 {
+  margin-bottom: 10px;
   color: #0b6e4f;
 }
 
-/* ==============================
-   المؤقت
-============================== */
-.timer-card {
-  text-align: center;
+/* الروابط */
+.card ul {
+  list-style: none;
 }
 
-#timerDisplay {
-  font-size: 40px;
-  margin-bottom: 15px;
+.card ul li {
+  margin-bottom: 8px;
 }
 
-.timer-controls button {
-  margin: 5px;
-  padding: 8px 12px;
+.card a {
+  color: #0b6e4f;
+  text-decoration: none;
+  font-weight: bold;
 }
 
-/* ==============================
-   الملاحظات
-============================== */
-textarea {
-  width: 100%;
-  min-height: 100px;
-  margin-bottom: 10px;
-  padding: 10px;
-  font-family: inherit;
+.card a:hover {
+  text-decoration: underline;
 }
 
-/* ==============================
-   الفلاش كارد
-============================== */
-.flash-card {
-  border: 2px solid #0b6e4f;
-  border-radius: 6px;
-  padding: 30px;
-  text-align: center;
-  font-size: 18px;
-  min-height: 100px;
-  margin-bottom: 10px;
-  cursor: pointer;
-}
-
-/* ==============================
-   المودال
-============================== */
-.modal {
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2000;
-}
-
-.modal.hidden {
-  display: none;
-}
-
-.modal-card {
-  background: white;
-  padding: 20px;
-  border-radius: 6px;
-  width: 90%;
-  max-width: 400px;
-}
-
-.modal-actions {
-  margin-top: 10px;
-  text-align: left;
-}
-
-.modal-actions button {
-  margin: 0 5px;
-}
-
-/* ==============================
-   زر الإضافة العائم
-============================== */
-.floating-btn {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
+/* الأزرار */
+button {
   background: #0b6e4f;
   color: white;
-  font-size: 24px;
   border: none;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  padding: 10px 15px;
+  border-radius: 5px;
   cursor: pointer;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
-  z-index: 1500;
+  font-size: 14px;
 }
 
-/* ==============================
-   الفوتر
-============================== */
-.bottombar {
+button:hover {
+  background: #09533b;
+}
+
+/* الفوتر */
+footer {
   text-align: center;
-  padding: 10px;
-  font-size: 12px;
+  padding: 15px;
   background: #eee;
-  color: #333;
-  margin-top: 30px;
+  font-size: 14px;
+  color: #666;
 }

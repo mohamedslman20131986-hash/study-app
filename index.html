@@ -3,63 +3,209 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>StudyBuddy</title>
-
-  <!-- ربط ملف التنسيقات -->
-  <link rel="stylesheet" href="styles.css">
-
-  <!-- ربط manifest -->
-  <link rel="manifest" href="manifest.json">
-
-  <!-- أيقونة (اختيارية) -->
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
-
-  <!-- لون شريط المتصفح -->
-  <meta name="theme-color" content="#0b6e4f">
+  <title>StudyBuddy - الأول متوسط</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Tahoma", sans-serif;
+      background: #f5f5f5;
+      color: #222;
+    }
+    header {
+      background: #0b6e4f;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    main {
+      padding: 15px;
+    }
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    h2 {
+      margin-top: 0;
+      color: #0b6e4f;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    ul li {
+      margin: 8px 0;
+    }
+    a {
+      color: #0b6e4f;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    /* Timer */
+    #timerDisplay {
+      font-size: 32px;
+      font-weight: bold;
+      text-align: center;
+      margin: 15px 0;
+    }
+    .timer-buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .timer-buttons button {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      background: #0b6e4f;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .timer-buttons button:hover {
+      background: #095c40;
+    }
+    textarea {
+      width: 100%;
+      min-height: 80px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 8px;
+      font-family: inherit;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>📚 StudyBuddy</h1>
-  </header>
-
+  <header>📚 StudyBuddy - مواد الأول متوسط</header>
   <main>
-    <!-- قسم الملازم -->
-    <section class="card">
-      <h2>📑 الملازم</h2>
-      <p>هنا تكدر تضيف روابط أو تحميل ملفات PDF للملازم الدراسية.</p>
+    <!-- المواد والملازم -->
+    <div class="card">
+      <h2>المواد و الملازم</h2>
       <ul>
-        <li><a href="https://example.com/math.pdf" target="_blank">📘 ملازم الرياضيات</a></li>
-        <li><a href="https://example.com/physics.pdf" target="_blank">🔬 ملازم الفيزياء</a></li>
-        <li><a href="https://example.com/chemistry.pdf" target="_blank">⚗️ ملازم الكيمياء</a></li>
-        <li><a href="https://example.com/arabic.pdf" target="_blank">📖 ملازم اللغة العربية</a></li>
+        <li><a href="اسلامية.pdf" target="_blank">📘 الإسلامية</a></li>
+        <li><a href="رياضيات.pdf" target="_blank">📐 الرياضيات</a></li>
+        <li><a href="احياء.pdf" target="_blank">🧬 الأحياء</a></li>
+        <li><a href="اجتماعيات.pdf" target="_blank">🌍 الاجتماعيات</a></li>
+        <li><a href="كيمياء.pdf" target="_blank">⚗️ الكيمياء</a></li>
+        <li><a href="انكليزي.pdf" target="_blank">📖 الإنجليزية</a></li>
       </ul>
-    </section>
+    </div>
 
-    <!-- قسم المواد -->
-    <section class="card">
-      <h2>📂 المواد</h2>
-      <ul id="subjects-list">
-        <!-- راح تتعبى بالـ app.js من قاعدة البيانات -->
-      </ul>
-      <button id="add-subject">➕ إضافة مادة</button>
-    </section>
+    <!-- المؤقت -->
+    <div class="card">
+      <h2>⏳ مؤقت الدراسة</h2>
+      <div id="timerDisplay">25:00</div>
+      <div class="timer-buttons">
+        <button id="startTimer">ابدأ</button>
+        <button id="pauseTimer">إيقاف</button>
+        <button id="resetTimer">إعادة</button>
+        <button id="plus5">+5 دقائق</button>
+        <button id="minus5">-5 دقائق</button>
+      </div>
+    </div>
+
+    <!-- الملاحظات -->
+    <div class="card">
+      <h2>📝 ملاحظاتي</h2>
+      <textarea id="noteInput" placeholder="أدخل ملاحظتك هنا..."></textarea><br><br>
+      <button id="saveNote">حفظ الملاحظة</button>
+      <ul id="notesList"></ul>
+    </div>
   </main>
 
-  <footer>
-    <p>تم التطوير بواسطة StudyBuddy 2025</p>
-  </footer>
-
-  <!-- ربط ملفات JavaScript -->
-  <script src="db.js"></script>
-  <script src="app.js"></script>
-
-  <!-- تسجيل Service Worker -->
   <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js')
-        .then(() => console.log("✅ Service Worker مسجل"))
-        .catch(err => console.error("❌ خطأ في SW:", err));
+    // ====== Timer ======
+    let timerSeconds = 25 * 60;
+    let timerInterval = null;
+    const timerDisplay = document.getElementById('timerDisplay');
+
+    function updateTimerDisplay() {
+      const m = Math.floor(timerSeconds / 60).toString().padStart(2, '0');
+      const s = (timerSeconds % 60).toString().padStart(2, '0');
+      timerDisplay.textContent = `${m}:${s}`;
     }
+
+    document.getElementById('startTimer').addEventListener('click', () => {
+      if (timerInterval) return;
+      timerInterval = setInterval(() => {
+        if (timerSeconds > 0) {
+          timerSeconds--;
+          updateTimerDisplay();
+        } else {
+          clearInterval(timerInterval);
+          timerInterval = null;
+          alert("انتهى الوقت 🎉");
+        }
+      }, 1000);
+    });
+
+    document.getElementById('pauseTimer').addEventListener('click', () => {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    });
+
+    document.getElementById('resetTimer').addEventListener('click', () => {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      timerSeconds = 25 * 60;
+      updateTimerDisplay();
+    });
+
+    document.getElementById('plus5').addEventListener('click', () => {
+      timerSeconds += 5 * 60;
+      updateTimerDisplay();
+    });
+
+    document.getElementById('minus5').addEventListener('click', () => {
+      timerSeconds = Math.max(0, timerSeconds - 5 * 60);
+      updateTimerDisplay();
+    });
+
+    updateTimerDisplay();
+
+    // ====== Notes ======
+    const noteInput = document.getElementById('noteInput');
+    const notesList = document.getElementById('notesList');
+
+    function loadNotes() {
+      const saved = JSON.parse(localStorage.getItem('notes') || "[]");
+      notesList.innerHTML = '';
+      saved.forEach((note, i) => {
+        const li = document.createElement('li');
+        li.textContent = note;
+        li.style.marginBottom = "5px";
+        const delBtn = document.createElement('button');
+        delBtn.textContent = "❌";
+        delBtn.style.marginRight = "10px";
+        delBtn.onclick = () => {
+          saved.splice(i, 1);
+          localStorage.setItem('notes', JSON.stringify(saved));
+          loadNotes();
+        };
+        li.prepend(delBtn);
+        notesList.appendChild(li);
+      });
+    }
+
+    document.getElementById('saveNote').addEventListener('click', () => {
+      const txt = noteInput.value.trim();
+      if (!txt) return;
+      const saved = JSON.parse(localStorage.getItem('notes') || "[]");
+      saved.push(txt);
+      localStorage.setItem('notes', JSON.stringify(saved));
+      noteInput.value = '';
+      loadNotes();
+    });
+
+    loadNotes();
   </script>
 </body>
 </html>

@@ -19,6 +19,7 @@
       text-align: center;
       font-size: 22px;
       font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
     nav {
       display: flex;
@@ -37,6 +38,7 @@
     }
     nav button:hover {
       background: #095a40;
+      transform: scale(1.05);
     }
     section {
       display: none;
@@ -64,6 +66,7 @@
     }
     ul li:hover {
       background: #f1f1f1;
+      transform: translateX(-5px);
     }
     ul li a {
       text-decoration: none;
@@ -83,6 +86,11 @@
       background: #0b6e4f;
       color: white;
       cursor: pointer;
+      transition: 0.3s;
+    }
+    .timer button:hover {
+      background: #095a40;
+      transform: scale(1.1);
     }
     textarea {
       width: 100%;
@@ -98,6 +106,21 @@
       padding: 8px;
       margin: 8px 0;
       border-radius: 5px;
+    }
+    footer {
+      background: #0b6e4f;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 20px;
+    }
+    footer a {
+      color: #fff;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -147,6 +170,15 @@
     <div id="notesList"></div>
   </section>
 
+  <!-- Footer -->
+  <footer>
+    <p>
+      <a href="privacy.html">سياسة الخصوصية</a> |
+      <a href="about.html">من نحن</a> |
+      <a href="contact.html">تواصل معنا</a>
+    </p>
+  </footer>
+
   <script>
     // التنقل بين الأقسام
     function showSection(id){
@@ -194,7 +226,17 @@
       updateDisplay();
     }
 
-    // الملاحظات
+    // الملاحظات مع LocalStorage
+    function loadNotes(){
+      const saved = JSON.parse(localStorage.getItem("notes") || "[]");
+      saved.forEach(note => {
+        const div = document.createElement("div");
+        div.className = "note";
+        div.textContent = note;
+        document.getElementById("notesList").appendChild(div);
+      });
+    }
+
     function addNote(){
       const text = document.getElementById("noteInput").value.trim();
       if(!text) return;
@@ -203,9 +245,15 @@
       div.textContent = text;
       document.getElementById("notesList").appendChild(div);
       document.getElementById("noteInput").value="";
+      
+      // حفظ الملاحظات
+      const notes = JSON.parse(localStorage.getItem("notes") || "[]");
+      notes.push(text);
+      localStorage.setItem("notes", JSON.stringify(notes));
     }
 
     updateDisplay();
+    loadNotes();
   </script>
 </body>
 </html>

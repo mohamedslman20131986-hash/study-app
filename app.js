@@ -4,25 +4,25 @@
   const $$ = sel => Array.from(document.querySelectorAll(sel));
   const state = {subjects:[], tasks:[], flash:[], notes:[]};
 
-  // UI elements
+  // عناصر الواجهة
   const menuBtn = $('#menuBtn'), side = $('#side'), addBtn = $('#addBtn');
   const views = $$('.view');
 
-  // counts
+  // العدادات
   const countSubjects = $('#countSubjects'), countTasks = $('#countTasks'), countFlash = $('#countFlash');
   const subjectsList = $('#subjectsList'), tasksList = $('#tasksList'), notesList = $('#notesList');
   const upcomingList = $('#upcomingList');
 
-  // timer
+  // المؤقت
   let timerInterval = null;
   let timerSeconds = 25*60;
   const timerDisplay = $('#timerDisplay'), startTimer = $('#startTimer'), pauseTimer = $('#pauseTimer'), resetTimer = $('#resetTimer');
 
-  // flash
+  // الفلاش كارد
   const flashCard = $('#flashCard'), prevFlash = $('#prevFlash'), nextFlash = $('#nextFlash'), flipFlash = $('#flipFlash');
   let flashIndex = 0, flashShowingBack = false;
 
-  // init
+  // تشغيل التطبيق
   async function init(){
     await STUDYDB.openDB();
     await loadAll();
@@ -30,12 +30,12 @@
     updateCounts();
     showView('dashboard');
 
-    // register service worker
+    // Service Worker
     if('serviceWorker' in navigator){
       navigator.serviceWorker.register('sw.js').catch(e=>console.warn('SW reg failed', e));
     }
 
-    // request notification permission optionally
+    // إشعارات
     if('Notification' in window && Notification.permission === 'default'){
       try { Notification.requestPermission(); } catch(e){}
     }
@@ -58,17 +58,7 @@
       e.currentTarget.classList.add('active');
     }));
 
-    // Timer
-    startTimer.addEventListener('click', startPomodoro);
-    pauseTimer.addEventListener('click', pausePomodoro);
-    resetTimer.addEventListener('click', ()=> { stopPomodoro(); timerSeconds = 25*60; updateTimerDisplay(); });
-
-    // Flashcards
-    prevFlash.addEventListener('click', ()=> { if(state.flash.length===0) return; flashIndex = (flashIndex-1+state.flash.length)%state.flash.length; flashShowingBack=false; renderFlash(); });
-    nextFlash.addEventListener('click', ()=> { if(state.flash.length===0) return; flashIndex = (flashIndex+1)%state.flash.length; flashShowingBack=false; renderFlash(); });
-    flipFlash.addEventListener('click', ()=> { flashShowingBack = !flashShowingBack; renderFlash(); });
-
-    // Notes
+    // الملاحظات
     $('#saveNote').addEventListener('click', async ()=>{
       const text = $('#noteText').value.trim();
       if(!text) return alert('أدخل نص الملاحظة');
@@ -80,16 +70,15 @@
       renderLists();
     });
 
-    // Search
-    $('#searchSubjects')?.addEventListener('input', e=>{
-      const q = e.target.value.trim().toLowerCase();
-      renderSubjects(q);
-    });
+    // مؤقت بومودورو
+    startTimer.addEventListener('click', startPomodoro);
+    pauseTimer.addEventListener('click', pausePomodoro);
+    resetTimer.addEventListener('click', ()=> { stopPomodoro(); timerSeconds = 25*60; updateTimerDisplay(); });
 
-    // Export/Import
-    $('#exportData')?.addEventListener('click', exportData);
-    $('#importData')?.addEventListener('click', ()=> $('#fileInput').click());
-    $('#fileInput')?.addEventListener('change', importData);
+    // الفلاش كارد
+    prevFlash.addEventListener('click', ()=> { if(state.flash.length===0) return; flashIndex = (flashIndex-1+state.flash.length)%state.flash.length; flashShowingBack=false; renderFlash(); });
+    nextFlash.addEventListener('click', ()=> { if(state.flash.length===0) return; flashIndex = (flashIndex+1)%state.flash.length; flashShowingBack=false; renderFlash(); });
+    flipFlash.addEventListener('click', ()=> { flashShowingBack = !flashShowingBack; renderFlash(); });
   }
 
   function showView(id){
@@ -126,7 +115,7 @@
       li.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center">
         <div>
           <div><strong>${escapeHtml(t.title)}</strong></div>
-          <div style="font-size:13px;color:var(--muted)">${escapeHtml(t.subject||'')} • ${escapeHtml(due)}</div>
+          <div style="font-size:13px;color:gray">${escapeHtml(t.subject||'')} • ${escapeHtml(due)}</div>
         </div>
         <div>
           <button class="doneBtn" data-id="${t.id}">${t.done? '✓':'○'}</button>
@@ -159,7 +148,7 @@
       const li = document.createElement('li');
       li.innerHTML = `<div>
         <div style="font-size:14px">${escapeHtml(n.text)}</div>
-        <div style="font-size:12px;color:var(--muted)">${new Date(n.created).toLocaleString()}</div>
+        <div style="font-size:12px;color:gray">${new Date(n.created).toLocaleString()}</div>
       </div>
       <div><button class="delNote" data-id="${n.id}">حذف</button></div>`;
       notesList.appendChild(li);
@@ -199,7 +188,7 @@
     if(countFlash) countFlash.textContent = state.flash.length;
   }
 
-  // timer logic
+  // المؤقت
   function updateTimerDisplay(){
     const m = Math.floor(timerSeconds/60).toString().padStart(2,'0');
     const s = (timerSeconds%60).toString().padStart(2,'0');
@@ -225,44 +214,10 @@
     } catch(e){ alert('انتهى وقت الجلسة.'); }
   }
 
-  // import/export
-  async function exportData(){
-    const payload = {
-      subjects: await STUDYDB.getAll('subjects'),
-      tasks: await STUDYDB.getAll('tasks'),
-      flash: await STUDYDB.getAll('flash'),
-      notes: await STUDYDB.getAll('notes'),
-    };
-    const blob = new Blob([JSON.stringify(payload)], {type:'application/json'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'studybuddy-backup.json';
-    a.click();
-    URL.revokeObjectURL(url);
+  function escapeHtml(str=""){
+    return str.replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
   }
 
-  async function importData(e){
-    const file = e.target.files[0];
-    if(!file) return;
-    const text = await file.text();
-    try {
-      const data = JSON.parse(text);
-      for(const key of ['subjects','tasks','flash','notes']){
-        if(data[key]) for(const item of data[key]) await STUDYDB.put(key, item);
-      }
-      await loadAll();
-      alert('تم استيراد البيانات بنجاح');
-    } catch(err){
-      alert('فشل الاستيراد: '+err.message);
-    }
-  }
-
-  function escapeHtml(str){
-    return (str||'').replace(/[&<>"']/g, m=>({
-      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-    }[m]));
-  }
-
+  // بدء التطبيق
   init();
 })();

@@ -6,33 +6,18 @@
   <meta name="theme-color" content="#0b6e4f"/>
   <title>StudyBuddy — تطبيق الدراسة</title>
 
-  <link rel="manifest" href="manifest.json">
- <link rel="stylesheet" href="styles.css">
+  <!-- ربط ملف التنسيقات -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- أيقونة المتصفح -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230b6e4f'/%3E%3Ctext x='50' y='58' font-size='48' text-anchor='middle' fill='white' font-family='Arial'%3E📚%3C/text%3E%3C/svg%3E">
 </head>
 <body>
   <div id="app">
     <!-- الشريط العلوي -->
     <header class="topbar">
-      <button id="menuBtn" class="icon-btn" aria-label="قائمة">☰</button>
       <h1>StudyBuddy</h1>
-      <button id="addBtn" class="icon-btn" title="إضافة">＋</button>
     </header>
-
-    <!-- القائمة الجانبية -->
-    <nav id="side" class="side hidden">
-      <ul>
-        <li data-view="dashboard" class="active">الملخص</li>
-        <li data-view="subjects">المواد</li>
-        <li data-view="tasks">المهام</li>
-        <li data-view="flashcards">بطاقات المذاكرة</li>
-        <li data-view="timer">مؤقت</li>
-        <li data-view="notes">ملاحظات</li>
-        <li data-view="books">الملازم</li>
-        <li data-view="settings">الإعدادات</li>
-      </ul>
-      <div class="side-footer">StudyBuddy • بدون اتصال</div>
-    </nav>
 
     <!-- المحتوى الرئيسي -->
     <main id="main">
@@ -40,58 +25,12 @@
       <section id="dashboard" class="view">
         <div class="card">
           <h2>مرحباً بك!</h2>
-          <p>هذا ملخص دراستك.</p>
+          <p>هذا ملخص دراستك: عدد المواد، المهام، بطاقات المراجعة.</p>
         </div>
-      </section>
-
-      <!-- صفحة المواد -->
-      <section id="subjects" class="view hidden">
-        <header class="view-header"><h2>المواد</h2></header>
-        <ul id="subjectsList" class="list"></ul>
-      </section>
-
-      <!-- صفحة المهام -->
-      <section id="tasks" class="view hidden">
-        <header class="view-header"><h2>المهام</h2></header>
-        <ul id="tasksList" class="list"></ul>
-      </section>
-
-      <!-- صفحة البطاقات -->
-      <section id="flashcards" class="view hidden">
-        <header class="view-header"><h2>بطاقات المذاكرة</h2></header>
-        <div id="flashArea" class="card">
-          <div id="flashCard" class="flashcard">أضف بطاقة للبدء</div>
-          <div class="flash-controls">
-            <button id="prevFlash">◀</button>
-            <button id="flipFlash">قلب</button>
-            <button id="nextFlash">▶</button>
-          </div>
-        </div>
-      </section>
-
-      <!-- صفحة المؤقت -->
-      <section id="timer" class="view hidden">
-        <header class="view-header"><h2>مؤقت بومودورو</h2></header>
-        <div class="card timer-card">
-          <div id="timerDisplay">25:00</div>
-          <div class="timer-controls">
-            <button id="startTimer">ابدأ</button>
-            <button id="pauseTimer">إيقاف</button>
-            <button id="resetTimer">إعادة</button>
-          </div>
-        </div>
-      </section>
-
-      <!-- صفحة الملاحظات -->
-      <section id="notes" class="view hidden">
-        <header class="view-header"><h2>ملاحظات</h2></header>
-        <textarea id="noteText" placeholder="اكتب ملاحظتك هنا..."></textarea>
-        <button id="saveNote" class="primary">حفظ</button>
-        <ul id="notesList" class="list"></ul>
       </section>
 
       <!-- صفحة الملازم -->
-      <section id="books" class="view hidden">
+      <section id="books" class="view">
         <header class="view-header"><h2>الملازم</h2></header>
         <ul class="list">
           <li><a href="pdfs/arabic1.pdf" target="_blank">العربي - الجزء الأول</a></li>
@@ -105,12 +44,6 @@
           <li><a href="pdfs/social.pdf" target="_blank">الاجتماعيات</a></li>
         </ul>
       </section>
-
-      <!-- صفحة الإعدادات -->
-      <section id="settings" class="view hidden">
-        <h2>الإعدادات</h2>
-        <label>الوضع الداكن <input type="checkbox" id="toggleDark"></label>
-      </section>
     </main>
 
     <!-- الفوتر -->
@@ -118,8 +51,5 @@
       <small>StudyBuddy — يعمل بدون اتصال</small>
     </footer>
   </div>
-
-  <script src="db.js"></script>
-  <script src="app.js" defer></script>
 </body>
 </html>

@@ -1,66 +1,21 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>StudyBuddy</title>
-  <style>
-    body {
-      font-family: "Tahoma", sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f7f7f7;
-      color: #333;
-      direction: rtl;
-      text-align: right;
-    }
-    header {
-      background: #0b6e4f;
-      color: white;
-      padding: 15px;
-      text-align: center;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 24px;
-    }
-    main {
-      padding: 20px;
-    }
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
-    }
-    .card h2 {
-      margin-top: 0;
-      color: #0b6e4f;
-    }
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-    li {
-      margin: 8px 0;
-    }
-    a {
-      text-decoration: none;
-      color: #0b6e4f;
-      font-weight: bold;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-    footer {
-      background: #eee;
-      text-align: center;
-      padding: 10px;
-      font-size: 14px;
-      margin-top: 20px;
-    }
-  </style>
+
+  <!-- ربط ملف التنسيقات -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- ربط manifest -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- أيقونة (اختيارية) -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+  <!-- لون شريط المتصفح -->
+  <meta name="theme-color" content="#0b6e4f">
 </head>
 <body>
   <header>
@@ -69,25 +24,42 @@
 
   <main>
     <!-- قسم الملازم -->
-    <div class="card">
+    <section class="card">
       <h2>📑 الملازم</h2>
-      <p>هنا تقدر تضيف روابط أو تحميل ملفات PDF للملازم الدراسية:</p>
+      <p>هنا تكدر تضيف روابط أو تحميل ملفات PDF للملازم الدراسية.</p>
       <ul>
-        <li><a href="ملزمة-العربي-الاول-متوسط-ج1.pdf" target="_blank">ملزمة العربي (جزء 1)</a></li>
-        <li><a href="ملزمة-العربي-الاول-متوسط-ج2.pdf" target="_blank">ملزمة العربي (جزء 2)</a></li>
-        <li><a href="ملزمة-الاسلامية-الاول-متوسط.pdf" target="_blank">ملزمة الإسلامية</a></li>
-        <li><a href="ملزمة-الاجتماعيات-الاول-متوسط.pdf" target="_blank">ملزمة الاجتماعيات</a></li>
-        <li><a href="ملزمة-الاحياء-الاول-متوسط.pdf" target="_blank">ملزمة الأحياء</a></li>
-        <li><a href="ملزمة-الكيمياء-الاول-متوسط.pdf" target="_blank">ملزمة الكيمياء</a></li>
-        <li><a href="ملزمة-الفيزياء-الاول-متوسط.pdf" target="_blank">ملزمة الفيزياء</a></li>
-        <li><a href="ملزمة-الانكليزي-الاول-متوسط-4-وحدات.pdf" target="_blank">ملزمة الانكليزي</a></li>
-        <li><a href="ملزمة-الرياضيات-الاول-متوسط-4-فصول.pdf" target="_blank">ملزمة الرياضيات</a></li>
+        <li><a href="https://example.com/math.pdf" target="_blank">📘 ملازم الرياضيات</a></li>
+        <li><a href="https://example.com/physics.pdf" target="_blank">🔬 ملازم الفيزياء</a></li>
+        <li><a href="https://example.com/chemistry.pdf" target="_blank">⚗️ ملازم الكيمياء</a></li>
+        <li><a href="https://example.com/arabic.pdf" target="_blank">📖 ملازم اللغة العربية</a></li>
       </ul>
-    </div>
+    </section>
+
+    <!-- قسم المواد -->
+    <section class="card">
+      <h2>📂 المواد</h2>
+      <ul id="subjects-list">
+        <!-- راح تتعبى بالـ app.js من قاعدة البيانات -->
+      </ul>
+      <button id="add-subject">➕ إضافة مادة</button>
+    </section>
   </main>
 
   <footer>
     <p>تم التطوير بواسطة StudyBuddy 2025</p>
   </footer>
+
+  <!-- ربط ملفات JavaScript -->
+  <script src="db.js"></script>
+  <script src="app.js"></script>
+
+  <!-- تسجيل Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js')
+        .then(() => console.log("✅ Service Worker مسجل"))
+        .catch(err => console.error("❌ خطأ في SW:", err));
+    }
+  </script>
 </body>
 </html>

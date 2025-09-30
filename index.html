@@ -1,1 +1,507 @@
-م
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>StudyBuddy — الملازم، المؤقت، الملاحظات</title>
+
+  <style>
+    :root{
+      --primary:#0b6e4f; --muted:#6f7a80; --card:#ffffff; --bg:#f6f7f8;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Tahoma,Arial,sans-serif;background:var(--bg);color:#222;direction:rtl;scroll-behavior:smooth}
+    a{color:var(--primary);text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    /* Topbar */
+    .topbar{display:flex;align-items:center;justify-content:space-between;background:var(--primary);color:#fff;padding:12px 14px;position:sticky;top:0;z-index:90}
+    .brand{font-weight:700;font-size:18px}
+    .icon-btn{background:none;border:0;color:#fff;font-size:20px;cursor:pointer;padding:6px}
+
+    /* Layout */
+    .layout{display:flex;min-height:calc(100vh - 56px)}
+    .side{width:260px;background:var(--card);border-left:1px solid #e6e6e6;padding:12px;transition:transform .18s ease;box-shadow:-6px 0 14px rgba(0,0,0,0.03)}
+    .side.hidden{transform:translateX(110%)}
+    .side ul{list-style:none;padding:0;margin:0}
+    .side li{padding:10px;border-radius:8px;cursor:pointer;margin-bottom:8px}
+    .side li.active,.side li:hover{background:var(--primary);color:#fff}
+    .side .small{font-size:12px;color:var(--muted);text-align:center;margin-top:10px}
+
+    main{flex:1;padding:18px;max-width:1100px;margin:0 auto}
+    .card{background:var(--card);border-radius:10px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+    .headline{display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .muted{color:var(--muted);font-size:13px}
+
+    /* Materials */
+    .material-list{list-style:decimal;padding-inline-start:22px;margin-top:12px}
+    .material-item{display:flex;gap:8px;align-items:center;justify-content:space-between;padding:10px;border-radius:8px;background:#fafafa;border:1px solid #eee}
+    .material-left{display:flex;gap:8px;align-items:center;flex:1}
+    .material-left input{border:1px solid #ddd;padding:6px 8px;border-radius:6px;font-size:14px}
+    .material-actions{display:flex;gap:8px;align-items:center}
+    .status{font-size:13px;color:var(--muted);min-width:110px;text-align:left}
+
+    /* Timer */
+    .timer-display{font-size:44px;font-weight:700;text-align:center;margin:16px 0}
+    .controls{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+    .btn{border:0;padding:8px 12px;border-radius:8px;cursor:pointer;background:var(--primary);color:#fff}
+    .btn.ghost{background:#f0f0f0;color:#222}
+    input[type="number"]{width:96px;padding:8px;border-radius:6px;border:1px solid #ddd;text-align:center;}
+
+    /* Notes */
+    textarea{width:100%;min-height:120px;padding:10px;border-radius:8px;border:1px solid #ddd;font-family:inherit}
+    .notes-list-item{background:#fff;padding:10px;border-radius:8px;margin-bottom:8px;border:1px solid #eee}
+
+    footer{padding:12px;text-align:center;color:var(--muted);font-size:13px}
+    @media (max-width:880px){
+      .layout{flex-direction:column}
+      .side{position:fixed;top:56px;right:0;height:calc(100% - 56px);z-index:95}
+      .side.hidden{transform:translateX(110%)}
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">StudyBuddy 📚</div>
+    <div>
+      <button id="menuBtn" class="icon-btn" aria-label="قائمة">☰</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside id="side" class="side hidden" aria-hidden="true">
+      <ul>
+        <li data-view="home" class="active">🏠 الرئيسية</li>
+        <li data-view="materials">📚 الملازم</li>
+        <li data-view="timer">⏱ المؤقت</li>
+        <li data-view="notes">📝 الملاحظات</li>
+      </ul>
+      <div class="small">StudyBuddy — يعمل بدون اتصال</div>
+    </aside>
+
+    <main>
+      <!-- Home -->
+      <section id="home" class="card view active">
+        <div class="headline">
+          <h2>مرحباً بك في StudyBuddy</h2>
+          <div class="muted">استخدم القائمة للوصول السريع</div>
+        </div>
+        <p class="muted" style="margin-top:10px">- حمّل ملفات الملازم على Google Drive أو احتفظ بالروابط هنا.<br>- اضغط "الملازم" لفتح قائمة الملازم. يمكنك تغيير أسماء الملازم وحفظها.</p>
+        <div style="margin-top:12px">
+          <button class="btn" onclick="showView('materials')">📚 الملازم</button>
+          <button class="btn" onclick="showView('timer')">⏱ المؤقت</button>
+          <button class="btn" onclick="showView('notes')">📝 الملاحظات</button>
+        </div>
+      </section>
+
+      <!-- Materials -->
+      <section id="materials" class="card view" style="display:none">
+        <div class="headline"><h2>الملازم والمواد</h2><div class="muted">اضغط "اختبار" للتأكد من إمكانية الوصول أو "فتح" لفتح التابع</div></div>
+        <p class="muted" style="margin-top:8px">يمكنك تعديل اسم أي ملزمة داخل الحقل بجانب الرابط ثم حفظ — سيبقى الاسم محفوظاً في المتصفح.</p>
+
+        <ul id="materialsList" class="material-list" style="margin-top:12px"></ul>
+
+        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+          <button id="saveMaterialsMeta" class="btn">💾 حفظ أسماء الملازم</button>
+          <button id="reloadStatus" class="btn ghost">🔄 فحص حالة الملازم</button>
+        </div>
+      </section>
+
+      <!-- Timer -->
+      <section id="timer" class="card view" style="display:none">
+        <div class="headline"><h2>مؤقت بومودورو</h2><div class="muted">اضبط المدة ثم ابدأ الجلسة</div></div>
+
+        <div class="timer-display" id="timerDisplay">25:00</div>
+
+        <div class="controls" style="margin-top:10px">
+          <button class="btn" id="startBtn">ابدأ</button>
+          <button class="btn ghost" id="pauseBtn">إيقاف</button>
+          <button class="btn ghost" id="resetBtn">إعادة</button>
+        </div>
+
+        <div class="controls" style="margin-top:12px">
+          <button class="btn ghost" id="incBtn">➕ دقيقة</button>
+          <button class="btn ghost" id="decBtn">➖ دقيقة</button>
+          <label style="display:flex;align-items:center;gap:8px;margin-left:8px">
+            <span class="muted">مدة (دقائق)</span>
+            <input id="minutesInput" type="number" min="1" value="25" />
+          </label>
+          <button class="btn" id="setBtn">تعيين</button>
+        </div>
+        <div class="muted" style="margin-top:10px">عند انتهاء الجلسة سيصدر صوت وإشعار (قد يطلب المتصفح إذن الإشعارات).</div>
+      </section>
+
+      <!-- Notes -->
+      <section id="notes" class="card view" style="display:none">
+        <div class="headline"><h2>الملاحظات</h2><div class="muted">تحفظ تلقائياً في متصفحك</div></div>
+        <textarea id="noteText" placeholder="اكتب ملاحظتك هنا..."></textarea>
+        <div style="margin-top:8px;display:flex;gap:8px">
+          <button id="addNoteBtn" class="btn">حفظ الملاحظة</button>
+          <button id="clearAllNotes" class="btn ghost">مسح الكل</button>
+        </div>
+        <div id="notesList" style="margin-top:12px"></div>
+      </section>
+    </main>
+  </div>
+
+  <footer>تم التطوير بواسطة StudyBuddy — 2025</footer>
+
+  <!-- Alarm sound -->
+  <audio id="alarmAudio" preload="auto"><source src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg" type="audio/ogg"></audio>
+
+  <script>
+    /***********************
+     * CONFIG — الروابط اللي أرسلتها
+     * يمكنك تعديل التسمية هنا أو داخل الواجهة ثم حفظ
+     ***********************/
+    const MATERIALS_DEFAULT = [
+      { id: 'm1', label: 'ملزمة الأحياء', url: 'https://drive.google.com/file/d/1ennaAbaxjJjvlebpy4z76uJI7-mdDJFH/view?usp=drivesdk' },
+      { id: 'm2', label: 'ملزمة 2', url: 'https://drive.google.com/file/d/1JsLBMUzmmMOmPqxH2r6q80q-QyZnT9o8/view?usp=drivesdk' },
+      { id: 'm3', label: 'ملزمة 3', url: 'https://drive.google.com/file/d/1olnxoHHGn_3bq_LR9VhV72x2iu3XvdCr/view?usp=drivesdk' },
+      { id: 'm4', label: 'ملزمة 4', url: 'https://drive.google.com/file/d/1k1He2EAa4Zpx1QyX6UDqeEyXH1RdGe9L/view?usp=drivesdk' },
+      { id: 'm5', label: 'ملزمة 5', url: 'https://drive.google.com/file/d/1NgOeTISLW29IOKoP8esZVNvERPaTmzrR/view?usp=drivesdk' },
+      { id: 'm6', label: 'ملزمة 6', url: 'https://drive.google.com/file/d/13ikamFJUb2uIkzDWvXcscvI5Cd_oqoxm/view?usp=drivesdk' },
+      { id: 'm7', label: 'ملزمة 7', url: 'https://drive.google.com/file/d/1_ySMvpNNMRNLOtjv0u01MNbDTc1zO4LJ/view?usp=drivesdk' },
+      { id: 'm8', label: 'ملزمة 8', url: 'https://drive.google.com/file/d/1hOpg6lkaRpI5AypSGMJNgcg3sVRBK7Hp/view?usp=drivesdk' },
+      { id: 'm9', label: 'ملزمة 9', url: 'https://drive.google.com/file/d/1AVVh_tqj711mG8SadiLE03hN-sr4MPJK/view?usp=drivesdk' },
+      { id: 'm10', label: 'ملزمة 10', url: 'https://drive.google.com/file/d/1-6ue75fdskBBe8QzAg-281UCmfu8HWOL/view?usp=drivesdk' }
+    ];
+
+    // Keys for localStorage
+    const LS_KEYS = {
+      materialsMeta: 'study_materials_meta_v1',
+      notes: 'study_notes_v1',
+      timerState: 'study_timer_state_v1'
+    };
+
+    /***********************
+     * عناصر واجهة
+     ***********************/
+    const menuBtn = document.getElementById('menuBtn');
+    const side = document.getElementById('side');
+    const navItems = side.querySelectorAll('li[data-view]');
+    const views = document.querySelectorAll('.view');
+
+    const materialsList = document.getElementById('materialsList');
+    const saveMaterialsMetaBtn = document.getElementById('saveMaterialsMeta');
+    const reloadStatusBtn = document.getElementById('reloadStatus');
+
+    // Timer elements
+    const timerDisplay = document.getElementById('timerDisplay');
+    const startBtn = document.getElementById('startBtn');
+    const pauseBtn = document.getElementById('pauseBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const incBtn = document.getElementById('incBtn');
+    const decBtn = document.getElementById('decBtn');
+    const minutesInput = document.getElementById('minutesInput');
+    const setBtn = document.getElementById('setBtn');
+    const alarmAudio = document.getElementById('alarmAudio');
+
+    // Notes elements
+    const noteText = document.getElementById('noteText');
+    const addNoteBtn = document.getElementById('addNoteBtn');
+    const clearAllNotesBtn = document.getElementById('clearAllNotes');
+    const notesListDiv = document.getElementById('notesList');
+
+    /***********************
+     * State
+     ***********************/
+    let materials = []; // loaded from defaults or localStorage
+    let timerInterval = null;
+    let timerSeconds = 25 * 60;
+    let isRunning = false;
+    let notes = [];
+
+    /***********************
+     * Helpers
+     ***********************/
+    function showView(id){
+      views.forEach(v => v.classList.toggle('active', v.id === id));
+      // update active nav item
+      navItems.forEach(n => n.classList.toggle('active', n.dataset.view === id));
+      if(window.innerWidth < 880) side.classList.add('hidden');
+    }
+    window.showView = showView;
+
+    menuBtn.addEventListener('click', ()=> side.classList.toggle('hidden'));
+    navItems.forEach(li => li.addEventListener('click', ()=> showView(li.dataset.view)));
+
+    function safeParseJSON(s, fallback){ try{ return JSON.parse(s); }catch(e){ return fallback; } }
+
+    /***********************
+     * Materials — render + test + open
+     ***********************/
+    function loadMaterials(){
+      const saved = safeParseJSON(localStorage.getItem(LS_KEYS.materialsMeta), null);
+      if(saved && Array.isArray(saved)){
+        materials = saved;
+      } else {
+        // copy defaults
+        materials = MATERIALS_DEFAULT.map(m => ({...m}));
+      }
+    }
+
+    function saveMaterialsMeta(){
+      localStorage.setItem(LS_KEYS.materialsMeta, JSON.stringify(materials));
+      alert('✅ تم حفظ أسماء الملازم');
+    }
+
+    // Attempt to check each URL using HEAD — may fail due to CORS on Google Drive
+    async function checkFile(url){
+      try {
+        const res = await fetch(url, { method:'HEAD' , mode:'no-cors' });
+        // mode 'no-cors' doesn't allow reading res.ok; treat as unknown but allow opening
+        // If the request succeeds without throwing, assume OK for UX
+        return true;
+      } catch(e){
+        // fallback: treat as unknown/possibly not accessible
+        return false;
+      }
+    }
+
+    async function updateStatuses(showSpinner=true){
+      const spans = materialsList.querySelectorAll('.status');
+      spans.forEach(s => s.textContent = 'جارٍ الفحص…');
+      // check sequentially to avoid too many parallel issues
+      for(let i=0;i<materials.length;i++){
+        const item = materials[i];
+        const span = spans[i];
+        try {
+          const ok = await checkFile(item.url);
+          span.textContent = ok ? '✅ متاح' : '⚠️ تحقق من الرابط';
+          span.style.color = ok ? 'green' : '#d16a3a';
+        } catch(e){
+          span.textContent = '⚠️ غير مؤكد';
+          span.style.color = '#d16a3a';
+        }
+      }
+    }
+
+    function renderMaterials(){
+      materialsList.innerHTML = '';
+      materials.forEach((m, idx) => {
+        const li = document.createElement('li');
+        li.className = 'material-item';
+        li.innerHTML = `
+          <div class="material-left">
+            <input data-idx="${idx}" class="mat-label" value="${escapeHtml(m.label)}" />
+            <div style="font-size:13px;color:var(--muted);margin-left:8px;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.url}</div>
+          </div>
+          <div class="material-actions">
+            <span class="status" data-idx="${idx}">…</span>
+            <button class="btn ghost test-btn" data-idx="${idx}">اختبار</button>
+            <button class="btn" data-idx="${idx}">فتح</button>
+          </div>
+        `;
+        materialsList.appendChild(li);
+      });
+
+      // bind actions
+      materialsList.querySelectorAll('.mat-label').forEach(inp=>{
+        inp.addEventListener('input', (e)=>{
+          const i = parseInt(e.target.dataset.idx);
+          materials[i].label = e.target.value;
+        });
+      });
+
+      materialsList.querySelectorAll('.material-actions .btn').forEach(btn=>{
+        btn.addEventListener('click', (e)=>{
+          const i = parseInt(e.dataset.idx);
+          const url = materials[i].url;
+          // open in new tab
+          window.open(url, '_blank');
+        });
+      });
+
+      materialsList.querySelectorAll('.test-btn').forEach(tb=>{
+        tb.addEventListener('click', async (e)=>{
+          const i = parseInt(e.dataset.idx);
+          const span = materialsList.querySelector(`.status[data-idx="${i}"]`);
+          span.textContent = 'جارٍ الفحص…';
+          const ok = await checkFile(materials[i].url);
+          span.textContent = ok ? '✅ متاح' : '⚠️ تحقق من الرابط';
+          span.style.color = ok ? 'green' : '#d16a3a';
+        });
+      });
+    }
+
+    /***********************
+     * Timer functions
+     ***********************/
+    function updateTimerDisplay(){
+      const m = Math.floor(timerSeconds/60).toString().padStart(2,'0');
+      const s = (timerSeconds%60).toString().padStart(2,'0');
+      timerDisplay.textContent = `${m}:${s}`;
+    }
+
+    function startTimer(){
+      if(isRunning) return;
+      isRunning = true;
+      // if time is zero, set from minutesInput
+      if(timerSeconds <= 0){
+        timerSeconds = Math.max(1, parseInt(minutesInput.value || 25)) * 60;
+      }
+      timerInterval = setInterval(()=>{
+        if(timerSeconds > 0){
+          timerSeconds--;
+          updateTimerDisplay();
+        } else {
+          stopTimer();
+          // play sound
+          try { alarmAudio.currentTime = 0; alarmAudio.play().catch(()=>{}); } catch(e){}
+          // notification
+          if('Notification' in window && Notification.permission === 'granted'){
+            new Notification('StudyBuddy', { body: 'انتهت مدة الجلسة' });
+          } else {
+            // ask permission if not denied
+            if('Notification' in window && Notification.permission === 'default'){
+              Notification.requestPermission().catch(()=>{});
+            }
+            alert('⏰ انتهت مدة الجلسة');
+          }
+        }
+      }, 1000);
+      saveTimerState();
+    }
+
+    function stopTimer(){
+      clearInterval(timerInterval);
+      timerInterval = null;
+      isRunning = false;
+      saveTimerState();
+    }
+
+    function pauseTimer(){ stopTimer(); }
+
+    function resetTimer(){
+      stopTimer();
+      timerSeconds = Math.max(1, parseInt(minutesInput.value || 25)) * 60;
+      updateTimerDisplay();
+      saveTimerState();
+    }
+    function incMinute(){ timerSeconds += 60; updateTimerDisplay(); saveTimerState(); }
+    function decMinute(){ if(timerSeconds>60) timerSeconds -= 60; updateTimerDisplay(); saveTimerState(); }
+
+    function setSession(){
+      const m = Math.max(1, parseInt(minutesInput.value || 25));
+      timerSeconds = m * 60;
+      updateTimerDisplay();
+      saveTimerState();
+    }
+
+    function saveTimerState(){
+      const obj = { timerSeconds, isRunning, minutesInput: parseInt(minutesInput.value||25) };
+      try { localStorage.setItem(LS_KEYS.timerState, JSON.stringify(obj)); } catch(e){}
+    }
+    function loadTimerState(){
+      try {
+        const raw = localStorage.getItem(LS_KEYS.timerState);
+        if(!raw) return;
+        const o = JSON.parse(raw);
+        if(o && typeof o.timerSeconds === 'number'){ timerSeconds = o.timerSeconds; }
+        if(o && o.minutesInput) minutesInput.value = o.minutesInput;
+        updateTimerDisplay();
+        if(o && o.isRunning) startTimer();
+      } catch(e){}
+    }
+
+    /***********************
+     * Notes
+     ***********************/
+    function loadNotes(){
+      try {
+        const raw = localStorage.getItem(LS_KEYS.notes);
+        if(!raw){ notes = []; renderNotes(); return; }
+        notes = JSON.parse(raw);
+      } catch(e){ notes = []; }
+      renderNotes();
+    }
+
+    function saveNotes(){
+      try { localStorage.setItem(LS_KEYS.notes, JSON.stringify(notes)); } catch(e){}
+    }
+
+    function renderNotes(){
+      notesListDiv.innerHTML = '';
+      if(!notes || notes.length===0){
+        notesListDiv.innerHTML = '<div class="muted">لا توجد ملاحظات</div>';
+        return;
+      }
+      // show latest first
+      notes.slice().reverse().forEach(n=>{
+        const d = document.createElement('div');
+        d.className = 'notes-list-item';
+        d.innerHTML = `<div style="font-size:14px">${escapeHtml(n.text)}</div>
+          <div style="margin-top:6px;font-size:12px;color:var(--muted)">${new Date(n.created).toLocaleString()}</div>
+          <div style="margin-top:6px"><button class="btn ghost del-note" data-id="${n.id}">حذف</button></div>`;
+        notesListDiv.appendChild(d);
+      });
+      notesListDiv.querySelectorAll('.del-note').forEach(b=>{
+        b.addEventListener('click', ()=> {
+          const id = b.dataset.id;
+          notes = notes.filter(x=>x.id !== id);
+          saveNotes();
+          renderNotes();
+        });
+      });
+    }
+
+    /***********************
+     * Init
+     ***********************/
+    function escapeHtml(s){ if(!s) return ''; return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+    function init(){
+      // load materials meta -> render
+      loadMaterials();
+      renderMaterials();
+      // try background status check
+      updateStatuses().catch(()=>{ /* ignore errors */ });
+
+      // load notes & timer state
+      loadNotes();
+      loadTimerState();
+      updateTimerDisplay();
+
+      // bind UI
+      saveMaterialsMetaBtn.addEventListener('click', saveMaterialsMeta);
+      reloadStatusBtn.addEventListener('click', ()=> updateStatuses());
+
+      // timer binds
+      startBtn.addEventListener('click', startTimer);
+      pauseBtn.addEventListener('click', pauseTimer);
+      resetBtn.addEventListener('click', resetTimer);
+      incBtn.addEventListener('click', incMinute);
+      decBtn.addEventListener('click', decMinute);
+      setBtn.addEventListener('click', setSession);
+
+      // notes binds
+      addNoteBtn.addEventListener('click', ()=>{
+        const t = (noteText.value||'').trim();
+        if(!t){ alert('اكتب نص الملاحظة'); return; }
+        notes.push({ id: 'n-'+Date.now(), text: t, created: Date.now() });
+        saveNotes(); noteText.value=''; renderNotes(); alert('✅ تم حفظ الملاحظة');
+      });
+      clearAllNotesBtn.addEventListener('click', ()=>{
+        if(!confirm('هل تريد مسح كل الملاحظات؟')) return;
+        notes = []; saveNotes(); renderNotes();
+      });
+
+      // keyboard shortcuts (optional)
+      document.addEventListener('keydown',(e)=>{
+        if(e.key === ' ' && (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA')){
+          // space toggles start/pause
+          if(isRunning) pauseTimer(); else startTimer();
+          e.preventDefault();
+        }
+      });
+
+      // hide sidebar on small screens initially
+      if(window.innerWidth < 880) side.classList.add('hidden');
+    }
+
+    // run init when DOM ready
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

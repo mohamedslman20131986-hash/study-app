@@ -6,8 +6,6 @@
 
   // UI elements
   const menuBtn = $('#menuBtn'), side = $('#side'), addBtn = $('#addBtn');
-  const modal = $('#modal'), modalTitle = $('#modalTitle'), modalForm = $('#modalForm');
-  const itemType = $('#itemType'), fields = $('#fields'), cancelModal = $('#cancelModal');
   const views = $$('.view');
 
   // counts
@@ -60,23 +58,17 @@
       e.currentTarget.classList.add('active');
     }));
 
-    addBtn.addEventListener('click', openAddModal);
-    cancelModal.addEventListener('click', ()=> modal.classList.add('hidden'));
-    modalForm.addEventListener('submit', onModalSubmit);
-    if(itemType) itemType.addEventListener('change', renderFields);
-
+    // Timer
     startTimer.addEventListener('click', startPomodoro);
     pauseTimer.addEventListener('click', pausePomodoro);
     resetTimer.addEventListener('click', ()=> { stopPomodoro(); timerSeconds = 25*60; updateTimerDisplay(); });
 
+    // Flashcards
     prevFlash.addEventListener('click', ()=> { if(state.flash.length===0) return; flashIndex = (flashIndex-1+state.flash.length)%state.flash.length; flashShowingBack=false; renderFlash(); });
     nextFlash.addEventListener('click', ()=> { if(state.flash.length===0) return; flashIndex = (flashIndex+1)%state.flash.length; flashShowingBack=false; renderFlash(); });
     flipFlash.addEventListener('click', ()=> { flashShowingBack = !flashShowingBack; renderFlash(); });
 
-    $('#exportData').addEventListener('click', exportData);
-    $('#importData').addEventListener('click', ()=> $('#fileInput').click());
-    $('#fileInput').addEventListener('change', importData);
-
+    // Notes
     $('#saveNote').addEventListener('click', async ()=>{
       const text = $('#noteText').value.trim();
       if(!text) return alert('أدخل نص الملاحظة');
@@ -88,77 +80,21 @@
       renderLists();
     });
 
-    // search
-    $('#searchSubjects').addEventListener('input', e=>{
+    // Search
+    $('#searchSubjects')?.addEventListener('input', e=>{
       const q = e.target.value.trim().toLowerCase();
       renderSubjects(q);
     });
+
+    // Export/Import
+    $('#exportData')?.addEventListener('click', exportData);
+    $('#importData')?.addEventListener('click', ()=> $('#fileInput').click());
+    $('#fileInput')?.addEventListener('change', importData);
   }
 
   function showView(id){
     views.forEach(v => v.id === id ? v.classList.remove('hidden') : v.classList.add('hidden'));
     side.classList.add('hidden');
-  }
-
-  function renderFields(){
-    const t = itemType.value;
-    fields.innerHTML = '';
-    if(t==='subject'){
-      fields.innerHTML = `<label>اسم المادة <input name="title" required></label>
-      <label>وصف <input name="desc"></label>`;
-    } else if(t==='task'){
-      fields.innerHTML = `<label>عنوان المهمة <input name="title" required></label>
-      <label>مادة (اختياري) <input name="subject"></label>
-      <label>موعد استحقاق <input name="due" type="datetime-local"></label>`;
-    } else if(t==='flash'){
-      fields.innerHTML = `<label>جانب السؤال <textarea name="front" required></textarea></label>
-      <label>جانب الجواب <textarea name="back" required></textarea></label>`;
-    } else if(t==='note'){
-      fields.innerHTML = `<label>الملاحظة <textarea name="text" required></textarea></label>`;
-    }
-  }
-
-  function openAddModal(){
-    modalTitle.textContent = 'إضافة عنصر';
-    renderFields();
-    modal.classList.remove('hidden');
-  }
-
-  async function onModalSubmit(e){
-    e.preventDefault();
-    const form = new FormData(modalForm);
-    // itemType inside the form may not be present in FormData; use select value fallback
-    const type = form.get('itemType') || (itemType ? itemType.value : null);
-    // Some browsers don't include select value in FormData if no name; ensure select has name
-    const selectedType = type || (modalForm.querySelector('#itemType') ? modalForm.querySelector('#itemType').value : null);
-
-    if(selectedType==='subject'){
-      const title = form.get('title') || '';
-      const desc = form.get('desc') || '';
-      const id='sub-'+Date.now();
-      const obj = {id, title, desc};
-      await STUDYDB.put('subjects', obj);
-      state.subjects.push(obj);
-    } else if(selectedType==='task'){
-      const id='task-'+Date.now();
-      const obj = {id, title: form.get('title')||'بدون عنوان', subject: form.get('subject')||null, due: form.get('due')||null, done:false};
-      await STUDYDB.put('tasks', obj);
-      state.tasks.push(obj);
-    } else if(selectedType==='flash'){
-      const id='flash-'+Date.now();
-      const obj = {id, front: form.get('front')||'', back: form.get('back')||''};
-      await STUDYDB.put('flash', obj);
-      state.flash.push(obj);
-    } else if(selectedType==='note'){
-      const id='note-'+Date.now();
-      const obj = {id, text: form.get('text')||'', created: Date.now()};
-      await STUDYDB.put('notes', obj);
-      state.notes.push(obj);
-    }
-    modal.classList.add('hidden');
-    renderLists();
-    updateCounts();
-    modalForm.reset();
   }
 
   function renderLists(){
@@ -172,7 +108,7 @@
 
   function renderSubjects(q=''){
     subjectsList.innerHTML = '';
-    const items = state.subjects.filter(s=>s.title.toLowerCase().includes((q||'').toLowerCase()));
+    const items = state.subjects.filter(s=>(s.title||'').toLowerCase().includes((q||'').toLowerCase()));
     if(!items.length) subjectsList.innerHTML = '<li>لا توجد مواد بعد</li>';
     items.forEach(s=>{
       const li = document.createElement('li');
@@ -258,9 +194,9 @@
   }
 
   function updateCounts(){
-    countSubjects.textContent = state.subjects.length;
-    countTasks.textContent = state.tasks.length;
-    countFlash.textContent = state.flash.length;
+    if(countSubjects) countSubjects.textContent = state.subjects.length;
+    if(countTasks) countTasks.textContent = state.tasks.length;
+    if(countFlash) countFlash.textContent = state.flash.length;
   }
 
   // timer logic
@@ -294,4 +230,39 @@
     const payload = {
       subjects: await STUDYDB.getAll('subjects'),
       tasks: await STUDYDB.getAll('tasks'),
-     
+      flash: await STUDYDB.getAll('flash'),
+      notes: await STUDYDB.getAll('notes'),
+    };
+    const blob = new Blob([JSON.stringify(payload)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'studybuddy-backup.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  async function importData(e){
+    const file = e.target.files[0];
+    if(!file) return;
+    const text = await file.text();
+    try {
+      const data = JSON.parse(text);
+      for(const key of ['subjects','tasks','flash','notes']){
+        if(data[key]) for(const item of data[key]) await STUDYDB.put(key, item);
+      }
+      await loadAll();
+      alert('تم استيراد البيانات بنجاح');
+    } catch(err){
+      alert('فشل الاستيراد: '+err.message);
+    }
+  }
+
+  function escapeHtml(str){
+    return (str||'').replace(/[&<>"']/g, m=>({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[m]));
+  }
+
+  init();
+})();

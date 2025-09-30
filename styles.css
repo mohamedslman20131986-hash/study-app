@@ -53,6 +53,7 @@ h1, h2, h3 {
   padding: 15px;
   overflow-y: auto;
   transition: transform 0.3s;
+  z-index: 1000;
 }
 
 .side.hidden {
@@ -91,12 +92,8 @@ main {
   padding: 15px;
 }
 
-.view {
+.view.hidden {
   display: none;
-}
-
-.view.active {
-  display: block;
 }
 
 /* ==============================
@@ -152,6 +149,20 @@ textarea {
 }
 
 /* ==============================
+   الفلاش كارد
+============================== */
+.flash-card {
+  border: 2px solid #0b6e4f;
+  border-radius: 6px;
+  padding: 30px;
+  text-align: center;
+  font-size: 18px;
+  min-height: 100px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+/* ==============================
    المودال
 ============================== */
 .modal {
@@ -164,6 +175,7 @@ textarea {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 2000;
 }
 
 .modal.hidden {
@@ -188,6 +200,25 @@ textarea {
 }
 
 /* ==============================
+   زر الإضافة العائم
+============================== */
+.floating-btn {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: #0b6e4f;
+  color: white;
+  font-size: 24px;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  z-index: 1500;
+}
+
+/* ==============================
    الفوتر
 ============================== */
 .bottombar {
@@ -196,4 +227,5 @@ textarea {
   font-size: 12px;
   background: #eee;
   color: #333;
+  margin-top: 30px;
 }

@@ -1,211 +1,675 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>StudyBuddy - الأول متوسط</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#0b6e4f" />
+  <title>StudyBuddy — تطبيق الدراسة</title>
+
   <style>
-    body {
-      margin: 0;
-      font-family: "Tahoma", sans-serif;
-      background: #f5f5f5;
-      color: #222;
+    /* ============================
+       Styles (ملف مضمّن)
+       انتبه: لا تغيّر أسماء العناصر إلا إذا عدّلت السكربت أيضاً
+       ============================ */
+    :root{
+      --primary:#0b6e4f;--muted:#777;--bg:#f5f5f5;--card:#fff;
     }
-    header {
-      background: #0b6e4f;
-      color: white;
-      padding: 15px;
-      text-align: center;
-      font-size: 20px;
-      font-weight: bold;
-    }
-    main {
-      padding: 15px;
-    }
-    .card {
-      background: white;
-      border-radius: 8px;
-      padding: 15px;
-      margin-bottom: 15px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    h2 {
-      margin-top: 0;
-      color: #0b6e4f;
-    }
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-    ul li {
-      margin: 8px 0;
-    }
-    a {
-      color: #0b6e4f;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-    /* Timer */
-    #timerDisplay {
-      font-size: 32px;
-      font-weight: bold;
-      text-align: center;
-      margin: 15px 0;
-    }
-    .timer-buttons {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-    .timer-buttons button {
-      padding: 8px 15px;
-      border: none;
-      border-radius: 5px;
-      background: #0b6e4f;
-      color: white;
-      cursor: pointer;
-      font-size: 14px;
-    }
-    .timer-buttons button:hover {
-      background: #095c40;
-    }
-    textarea {
-      width: 100%;
-      min-height: 80px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      padding: 8px;
-      font-family: inherit;
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Tahoma,Arial,sans-serif;background:var(--bg);color:#222;direction:rtl}
+    .topbar{display:flex;align-items:center;justify-content:space-between;background:var(--primary);color:#fff;padding:12px 16px;position:sticky;top:0;z-index:50}
+    .brand{font-size:22px;font-weight:700}
+    .icon-btn{background:none;border:0;color:#fff;font-size:20px;cursor:pointer;padding:6px}
+    .main{padding:18px 14px 80px}
+    .side{position:fixed;top:0;right:0;height:100%;width:260px;padding:16px;background:var(--card);border-left:1px solid #e9e9e9;box-shadow:-8px 0 18px rgba(0,0,0,0.05);transform:translateX(110%);transition:transform .2s ease;z-index:60}
+    .side.hidden{transform:translateX(110%)}
+    .side ul{list-style:none;padding:0;margin:0}
+    .side li{padding:10px;border-radius:6px;cursor:pointer}
+    .side li.active,.side li:hover{background:var(--primary);color:#fff}
+    .side-footer{font-size:12px;color:var(--muted);margin-top:18px;text-align:center}
+    .card{background:var(--card);border-radius:10px;padding:16px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+    .summary-grid{display:flex;justify-content:space-around;gap:14px;text-align:center}
+    .summary-item .num{font-size:28px;color:var(--primary);font-weight:700}
+    .list{list-style:disc;padding-inline-start:24px}
+    .books-list a{color:#1a0dab;text-decoration:underline}
+    .small{background:#eee;border:0;padding:8px 10px;border-radius:6px;cursor:pointer}
+    .primary{background:var(--primary);color:#fff;border:0;padding:8px 12px;border-radius:6px;cursor:pointer}
+    textarea{width:100%;min-height:100px;padding:10px;border-radius:6px;border:1px solid #ddd;font-family:inherit}
+    .flashcard{min-height:140px;width:100%;border-radius:8px;background:#fafafa;border:1px solid #eee;padding:18px;display:flex;align-items:center;justify-content:center;font-size:18px;text-align:center}
+    .flash-controls button{margin:0 6px}
+    .timer-display{font-size:48px;font-weight:700;margin:10px 0}
+    .hint{font-size:13px;color:var(--muted);margin-top:8px}
+    .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .bottombar{text-align:center;padding:14px 10px;color:var(--muted);font-size:13px}
+    @media (min-width:900px){
+      .main{max-width:980px;margin:18px auto;padding:18px}
+      .side{transform:translateX(0);right:16px}
+      .side.hidden{transform:translateX(0)}
     }
   </style>
 </head>
 <body>
-  <header>📚 StudyBuddy - مواد الأول متوسط</header>
-  <main>
-    <!-- المواد والملازم -->
-    <div class="card">
-      <h2>المواد و الملازم</h2>
+  <div id="app">
+    <header class="topbar">
+      <button id="menuBtn" class="icon-btn" aria-label="قائمة">☰</button>
+      <div class="brand">StudyBuddy 📚</div>
+      <button id="addBtn" class="icon-btn" title="أضف">＋</button>
+    </header>
+
+    <nav id="side" class="side hidden" aria-hidden="true">
       <ul>
-        <li><a href="اسلامية.pdf" target="_blank">📘 الإسلامية</a></li>
-        <li><a href="رياضيات.pdf" target="_blank">📐 الرياضيات</a></li>
-        <li><a href="احياء.pdf" target="_blank">🧬 الأحياء</a></li>
-        <li><a href="اجتماعيات.pdf" target="_blank">🌍 الاجتماعيات</a></li>
-        <li><a href="كيمياء.pdf" target="_blank">⚗️ الكيمياء</a></li>
-        <li><a href="انكليزي.pdf" target="_blank">📖 الإنجليزية</a></li>
+        <li data-view="dashboard" class="active">الملخص</li>
+        <li data-view="books">الملازم 📁</li>
+        <li data-view="subjects">المواد 📚</li>
+        <li data-view="tasks">المهام ✅</li>
+        <li data-view="flashcards">بطاقات المذاكرة 🃏</li>
+        <li data-view="timer">المؤقت ⏱</li>
+        <li data-view="notes">الملاحظات 📝</li>
+        <li data-view="settings">الإعدادات ⚙️</li>
       </ul>
-    </div>
+      <div class="side-footer">StudyBuddy • بدون اتصال</div>
+    </nav>
 
-    <!-- المؤقت -->
-    <div class="card">
-      <h2>⏳ مؤقت الدراسة</h2>
-      <div id="timerDisplay">25:00</div>
-      <div class="timer-buttons">
-        <button id="startTimer">ابدأ</button>
-        <button id="pauseTimer">إيقاف</button>
-        <button id="resetTimer">إعادة</button>
-        <button id="plus5">+5 دقائق</button>
-        <button id="minus5">-5 دقائق</button>
-      </div>
-    </div>
+    <main id="main" class="main">
+      <!-- Dashboard -->
+      <section id="dashboard" class="view card">
+        <h2>مرحباً بك!</h2>
+        <p>هذا ملخص دراستك — عدد المواد، المهام، وبطاقات المذاكرة.</p>
+        <div class="summary-grid">
+          <div class="summary-item">
+            <div class="num" id="countSubjects">0</div>
+            <div>المواد</div>
+          </div>
+          <div class="summary-item">
+            <div class="num" id="countTasks">0</div>
+            <div>المهام</div>
+          </div>
+          <div class="summary-item">
+            <div class="num" id="countFlash">0</div>
+            <div>البطاقات</div>
+          </div>
+        </div>
+      </section>
 
-    <!-- الملاحظات -->
-    <div class="card">
-      <h2>📝 ملاحظاتي</h2>
-      <textarea id="noteInput" placeholder="أدخل ملاحظتك هنا..."></textarea><br><br>
-      <button id="saveNote">حفظ الملاحظة</button>
-      <ul id="notesList"></ul>
-    </div>
-  </main>
+      <!-- Books -->
+      <section id="books" class="view hidden card">
+        <h2>الملازم 📁</h2>
+        <p>اضغط لفتح أو تحميل الملزمة (PDF). ضع ملفات الـ PDF داخل مجلد <code>/pdfs/</code> أو حدّث الروابط أدناه.</p>
+        <ul id="booksList" class="list books-list"></ul>
+        <div class="hint">إن لم ترفع الملفات سيظهر خطأ فتح — عدّل روابط الكتب أو ارفع الملفات إسمياً.</div>
+      </section>
+
+      <!-- Subjects -->
+      <section id="subjects" class="view hidden card">
+        <h2>المواد</h2>
+        <button id="addSubjectBtn" class="small">إضافة مادة</button>
+        <ul id="subjectsList" class="list"></ul>
+      </section>
+
+      <!-- Tasks -->
+      <section id="tasks" class="view hidden card">
+        <h2>المهام</h2>
+        <button id="addTaskBtn" class="small">إضافة مهمة</button>
+        <ul id="tasksList" class="list"></ul>
+      </section>
+
+      <!-- Flashcards -->
+      <section id="flashcards" class="view hidden card">
+        <h2>بطاقات المذاكرة</h2>
+        <div class="flashcard" id="flashCard">لا توجد بطاقات — أضف بطاقة للبدء</div>
+        <div class="row" style="margin-top:10px">
+          <button id="prevFlash" class="small">◀</button>
+          <button id="flipFlash" class="small">قلب</button>
+          <button id="nextFlash" class="small">▶</button>
+          <button id="addFlash" class="small">أضف بطاقة</button>
+        </div>
+      </section>
+
+      <!-- Timer -->
+      <section id="timer" class="view hidden card">
+        <h2>مؤقت بومودورو</h2>
+        <div class="timer-display" id="timerDisplay">25:00</div>
+        <div class="row">
+          <label>مدة الجلسة (دقائق): <input id="sessionMinutes" type="number" min="1" value="25" style="width:90px;margin-right:8px"></label>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <button id="startTimer" class="primary">ابدأ</button>
+          <button id="pauseTimer" class="small">إيقاف</button>
+          <button id="resetTimer" class="small">إعادة</button>
+        </div>
+      </section>
+
+      <!-- Notes -->
+      <section id="notes" class="view hidden card">
+        <h2>الملاحظات</h2>
+        <textarea id="noteText" placeholder="اكتب ملاحظتك هنا..."></textarea>
+        <div class="row" style="margin-top:8px">
+          <button id="saveNote" class="primary">حفظ الملاحظة</button>
+          <button id="clearNotes" class="small">مسح الكل</button>
+        </div>
+        <ul id="notesList" class="list" style="margin-top:12px"></ul>
+      </section>
+
+      <!-- Settings -->
+      <section id="settings" class="view hidden card">
+        <h2>الإعدادات</h2>
+        <div class="row" style="margin-bottom:10px">
+          <label><input type="checkbox" id="toggleDark"> وضع داكن</label>
+        </div>
+        <div class="row">
+          <button id="exportData" class="small">تصدير البيانات (JSON)</button>
+          <button id="importData" class="small">استيراد بيانات</button>
+          <input id="fileInput" type="file" accept=".json" style="display:none">
+        </div>
+        <div class="hint" style="margin-top:8px">التصدير يحفظ ملف JSON تحمله. الاستيراد يضيف/يحدّث البيانات من ملف JSON مشابه.</div>
+      </section>
+    </main>
+
+    <footer class="bottombar">تم التطوير بواسطة StudyBuddy 2025</footer>
+  </div>
 
   <script>
-    // ====== Timer ======
-    let timerSeconds = 25 * 60;
-    let timerInterval = null;
-    const timerDisplay = document.getElementById('timerDisplay');
+  /* =========================
+     IndexedDB wrapper (STUDYDB)
+     ========================= */
+  const STUDYDB = (() => {
+    const dbName = 'studybuddyDB';
+    const version = 1;
+    let db = null;
 
-    function updateTimerDisplay() {
-      const m = Math.floor(timerSeconds / 60).toString().padStart(2, '0');
-      const s = (timerSeconds % 60).toString().padStart(2, '0');
-      timerDisplay.textContent = `${m}:${s}`;
-    }
-
-    document.getElementById('startTimer').addEventListener('click', () => {
-      if (timerInterval) return;
-      timerInterval = setInterval(() => {
-        if (timerSeconds > 0) {
-          timerSeconds--;
-          updateTimerDisplay();
-        } else {
-          clearInterval(timerInterval);
-          timerInterval = null;
-          alert("انتهى الوقت 🎉");
-        }
-      }, 1000);
-    });
-
-    document.getElementById('pauseTimer').addEventListener('click', () => {
-      clearInterval(timerInterval);
-      timerInterval = null;
-    });
-
-    document.getElementById('resetTimer').addEventListener('click', () => {
-      clearInterval(timerInterval);
-      timerInterval = null;
-      timerSeconds = 25 * 60;
-      updateTimerDisplay();
-    });
-
-    document.getElementById('plus5').addEventListener('click', () => {
-      timerSeconds += 5 * 60;
-      updateTimerDisplay();
-    });
-
-    document.getElementById('minus5').addEventListener('click', () => {
-      timerSeconds = Math.max(0, timerSeconds - 5 * 60);
-      updateTimerDisplay();
-    });
-
-    updateTimerDisplay();
-
-    // ====== Notes ======
-    const noteInput = document.getElementById('noteInput');
-    const notesList = document.getElementById('notesList');
-
-    function loadNotes() {
-      const saved = JSON.parse(localStorage.getItem('notes') || "[]");
-      notesList.innerHTML = '';
-      saved.forEach((note, i) => {
-        const li = document.createElement('li');
-        li.textContent = note;
-        li.style.marginBottom = "5px";
-        const delBtn = document.createElement('button');
-        delBtn.textContent = "❌";
-        delBtn.style.marginRight = "10px";
-        delBtn.onclick = () => {
-          saved.splice(i, 1);
-          localStorage.setItem('notes', JSON.stringify(saved));
-          loadNotes();
-        };
-        li.prepend(delBtn);
-        notesList.appendChild(li);
+    function openDB() {
+      return new Promise((resolve, reject) => {
+        try {
+          const req = indexedDB.open(dbName, version);
+          req.onupgradeneeded = e => {
+            db = e.target.result;
+            if(!db.objectStoreNames.contains('subjects')) db.createObjectStore('subjects',{keyPath:'id'});
+            if(!db.objectStoreNames.contains('tasks')) db.createObjectStore('tasks',{keyPath:'id'});
+            if(!db.objectStoreNames.contains('flash')) db.createObjectStore('flash',{keyPath:'id'});
+            if(!db.objectStoreNames.contains('notes')) db.createObjectStore('notes',{keyPath:'id'});
+          };
+          req.onsuccess = e => { db = e.target.result; resolve(); };
+          req.onerror = e => reject(e);
+        } catch(err) { reject(err); }
       });
     }
 
-    document.getElementById('saveNote').addEventListener('click', () => {
-      const txt = noteInput.value.trim();
-      if (!txt) return;
-      const saved = JSON.parse(localStorage.getItem('notes') || "[]");
-      saved.push(txt);
-      localStorage.setItem('notes', JSON.stringify(saved));
-      noteInput.value = '';
-      loadNotes();
-    });
+    function tx(store, mode='readonly'){
+      if(!db) throw new Error('DB not opened');
+      return db.transaction(store, mode).objectStore(store);
+    }
 
-    loadNotes();
+    function getAll(store){
+      return new Promise((resolve, reject) => {
+        try {
+          const r = tx(store).getAll();
+          r.onsuccess = () => resolve(r.result || []);
+          r.onerror = () => reject(r.error || new Error('getAll error'));
+        } catch(err) { reject(err); }
+      });
+    }
+
+    function put(store, val){
+      return new Promise((resolve, reject) => {
+        try {
+          const r = tx(store, 'readwrite').put(val);
+          r.onsuccess = () => resolve(val);
+          r.onerror = () => reject(r.error || new Error('put error'));
+        } catch(err) { reject(err); }
+      });
+    }
+
+    function del(store, key){
+      return new Promise((resolve, reject) => {
+        try {
+          const r = tx(store, 'readwrite').delete(key);
+          r.onsuccess = () => resolve();
+          r.onerror = () => reject(r.error || new Error('delete error'));
+        } catch(err) { reject(err); }
+      });
+    }
+
+    return { openDB, getAll, put, del };
+  })();
+
+  /* =========================
+     Main App
+     ========================= */
+  const App = (() => {
+    // helpers
+    const $ = s => document.querySelector(s);
+    const $$ = s => Array.from(document.querySelectorAll(s));
+    const escapeHtml = s => { if(!s) return ''; return String(s).replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#39;'}[c])); };
+
+    // state
+    const state = { subjects: [], tasks: [], flash: [], notes: [] };
+    let timerInterval = null;
+    let timerSeconds = 25*60;
+    let flashIndex = 0;
+    let flashShowingBack = false;
+
+    // UI refs
+    const menuBtn = $('#menuBtn'), side = $('#side'), addBtn = $('#addBtn');
+    const views = $$('.view');
+    const countSubjects = $('#countSubjects'), countTasks = $('#countTasks'), countFlash = $('#countFlash');
+    const subjectsList = $('#subjectsList'), tasksList = $('#tasksList'), notesList = $('#notesList'), booksList = $('#booksList');
+    const flashCard = $('#flashCard'), prevFlash = $('#prevFlash'), nextFlash = $('#nextFlash'), flipFlash = $('#flipFlash'), addFlash = $('#addFlash');
+    const timerDisplay = $('#timerDisplay'), startTimer = $('#startTimer'), pauseTimer = $('#pauseTimer'), resetTimer = $('#resetTimer'), sessionMinutes = $('#sessionMinutes');
+    const noteText = $('#noteText'), saveNote = $('#saveNote'), clearNotes = $('#clearNotes');
+    const addSubjectBtn = $('#addSubjectBtn'), addTaskBtn = $('#addTaskBtn');
+    const exportBtn = $('#exportData'), importBtn = $('#importData'), fileInput = $('#fileInput'), toggleDark = $('#toggleDark');
+
+    // default books (روابط إلى مجلد pdfs/)
+    const books = [
+      { name: 'ملزمة الرياضيات', file: 'pdfs/math.pdf' },
+      { name: 'ملزمة الفيزياء', file: 'pdfs/physics.pdf' },
+      { name: 'ملزمة الكيمياء', file: 'pdfs/chemistry.pdf' },
+      { name: 'ملزمة اللغة العربية (جزء1)', file: 'pdfs/arabic1.pdf' },
+      { name: 'ملزمة اللغة العربية (جزء2)', file: 'pdfs/arabic2.pdf' },
+      { name: 'ملزمة الانكليزي', file: 'pdfs/english.pdf' },
+      { name: 'ملزمة الاسلامية', file: 'pdfs/islamic.pdf' },
+      { name: 'ملزمة الاحياء', file: 'pdfs/biology.pdf' },
+      { name: 'ملزمة الاجتماعيات', file: 'pdfs/social.pdf' }
+    ];
+
+    // init
+    async function init(){
+      try {
+        await STUDYDB.openDB();
+      } catch(err) {
+        console.warn('IndexedDB not available, falling back to localStorage', err);
+      }
+      await loadAll();
+      seedSubjectsIfEmpty();
+      bind();
+      renderBooks();
+      updateCounts();
+      showView('dashboard');
+      updateTimerDisplay();
+    }
+
+    // load from DB (with fallback)
+    async function loadAll(){
+      try {
+        state.subjects = await STUDYDB.getAll('subjects') || [];
+        state.tasks = await STUDYDB.getAll('tasks') || [];
+        state.flash = await STUDYDB.getAll('flash') || [];
+        state.notes = await STUDYDB.getAll('notes') || [];
+      } catch(e){
+        // fallback localStorage
+        const raw = localStorage.getItem('studybuddy_fallback');
+        if(raw) {
+          try {
+            const obj = JSON.parse(raw);
+            state.subjects = obj.subjects || [];
+            state.tasks = obj.tasks || [];
+            state.flash = obj.flash || [];
+            state.notes = obj.notes || [];
+          } catch(err){ console.error(err); }
+        }
+      }
+      renderAll();
+    }
+
+    // save fallback to localStorage (if IndexedDB not available)
+    function saveFallback(){
+      try {
+        localStorage.setItem('studybuddy_fallback', JSON.stringify(state));
+      } catch(e){}
+    }
+
+    // seed common subjects if empty
+    async function seedSubjectsIfEmpty(){
+      if(state.subjects.length === 0){
+        const samples = ['الرياضيات','الفيزياء','الكيمياء','اللغة العربية','الانكليزي','الاحياء','الاجتماعيات','الاسلامية'];
+        for(let i=0;i<samples.length;i++){
+          const id = 'sub-' + Date.now() + '-' + i;
+          const obj = { id, title: samples[i], desc: '' };
+          try { await STUDYDB.put('subjects', obj); } catch(e){ /* fallback handled later */ }
+          state.subjects.push(obj);
+        }
+        saveFallback();
+        renderSubjects();
+        updateCounts();
+      }
+    }
+
+    // binding UI events
+    function bind(){
+      menuBtn.addEventListener('click', ()=> side.classList.toggle('hidden'));
+      $$('.side li').forEach(li => li.addEventListener('click', e=>{
+        const v = e.currentTarget.dataset.view;
+        showView(v);
+        $$('.side li').forEach(x=>x.classList.remove('active'));
+        e.currentTarget.classList.add('active');
+      }));
+
+      addBtn.addEventListener('click', ()=> {
+        // quick action: open subjects view to add
+        showView('subjects');
+        $$('.side li').forEach(x=>x.classList.remove('active'));
+        document.querySelector('[data-view="subjects"]').classList.add('active');
+      });
+
+      addSubjectBtn.addEventListener('click', onAddSubject);
+      addTaskBtn.addEventListener('click', onAddTask);
+
+      startTimer.addEventListener('click', startPomodoro);
+      pauseTimer.addEventListener('click', pausePomodoro);
+      resetTimer.addEventListener('click', ()=> {
+        stopPomodoro();
+        const m = Math.max(1, parseInt(sessionMinutes.value || 25));
+        timerSeconds = m * 60;
+        updateTimerDisplay();
+      });
+      sessionMinutes.addEventListener('change', ()=> {
+        const m = Math.max(1, parseInt(sessionMinutes.value || 25));
+        timerSeconds = m * 60;
+        updateTimerDisplay();
+      });
+
+      prevFlash.addEventListener('click', ()=> {
+        if(state.flash.length===0) return;
+        flashIndex = (flashIndex - 1 + state.flash.length) % state.flash.length;
+        flashShowingBack = false;
+        renderFlash();
+      });
+      nextFlash.addEventListener('click', ()=> {
+        if(state.flash.length===0) return;
+        flashIndex = (flashIndex + 1) % state.flash.length;
+        flashShowingBack = false;
+        renderFlash();
+      });
+      flipFlash.addEventListener('click', ()=> { flashShowingBack = !flashShowingBack; renderFlash(); });
+      addFlash.addEventListener('click', onAddFlash);
+
+      saveNote.addEventListener('click', async ()=>{
+        const text = noteText.value.trim();
+        if(!text) return alert('اكتب نص الملاحظة');
+        const id = 'note-'+Date.now();
+        const obj = { id, text, created: Date.now() };
+        try { await STUDYDB.put('notes', obj); } catch(e){}
+        state.notes.push(obj);
+        noteText.value='';
+        renderNotes();
+        saveFallback();
+      });
+      clearNotes.addEventListener('click', async ()=>{
+        if(!confirm('هل تريد مسح كل الملاحظات؟')) return;
+        for(const n of state.notes){
+          try { await STUDYDB.del('notes', n.id); } catch(e){}
+        }
+        state.notes = [];
+        renderNotes();
+        saveFallback();
+      });
+
+      exportBtn.addEventListener('click', exportData);
+      importBtn.addEventListener('click', ()=> fileInput.click());
+      fileInput.addEventListener('change', importData);
+
+      toggleDark.addEventListener('change', ()=> document.documentElement.classList.toggle('dark', toggleDark.checked));
+    }
+
+    // view switch
+    function showView(id){
+      views.forEach(v=> v.id === id ? v.classList.remove('hidden') : v.classList.add('hidden'));
+      side.classList.add('hidden');
+    }
+
+    // Subjects
+    async function onAddSubject(){
+      const title = prompt('اسم المادة:');
+      if(!title) return;
+      const id = 'sub-'+Date.now();
+      const obj = { id, title: title.trim(), desc: '' };
+      try { await STUDYDB.put('subjects', obj); } catch(e){}
+      state.subjects.push(obj);
+      renderSubjects();
+      updateCounts();
+      saveFallback();
+    }
+
+    function renderSubjects(){
+      subjectsList.innerHTML = '';
+      if(state.subjects.length===0){ subjectsList.innerHTML = '<li>لا توجد مواد بعد</li>'; return; }
+      state.subjects.forEach(s=>{
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${escapeHtml(s.title)}</strong> <button class="small del-sub" data-id="${s.id}" style="margin-right:8px">حذف</button>`;
+        subjectsList.appendChild(li);
+      });
+      $$('.del-sub').forEach(b => b.addEventListener('click', async e=>{
+        const id = e.currentTarget.dataset.id;
+        if(!confirm('حذف المادة؟')) return;
+        try { await STUDYDB.del('subjects', id); } catch(e){}
+        state.subjects = state.subjects.filter(x=>x.id !== id);
+        renderSubjects();
+        updateCounts();
+        saveFallback();
+      }));
+    }
+
+    // Tasks
+    async function onAddTask(){
+      const title = prompt('عنوان المهمة:');
+      if(!title) return;
+      const subject = prompt('المادة (اختياري):') || '';
+      const due = prompt('تاريخ/وقت الاستحقاق بصيغة YYYY-MM-DDTHH:MM (مثال: 2025-09-30T14:30) — اتركه فارغاً إذا لم يكن') || null;
+      const id = 'task-'+Date.now();
+      const obj = { id, title: title.trim(), subject: subject.trim(), due: due || null, done: false };
+      try { await STUDYDB.put('tasks', obj); } catch(e){}
+      state.tasks.push(obj);
+      renderTasks();
+      updateCounts();
+      saveFallback();
+    }
+
+    function renderTasks(){
+      tasksList.innerHTML = '';
+      if(state.tasks.length===0){ tasksList.innerHTML = '<li>لا مهام بعد</li>'; return; }
+      state.tasks.forEach(t=>{
+        const dueText = t.due ? new Date(t.due).toLocaleString() : 'بدون موعد';
+        const li = document.createElement('li');
+        li.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div><strong>${escapeHtml(t.title)}</strong></div>
+            <div style="font-size:13px;color:var(--muted)">${escapeHtml(t.subject||'')} • ${escapeHtml(dueText)}</div>
+          </div>
+          <div>
+            <button class="small doneBtn" data-id="${t.id}">${t.done ? '✓' : '○'}</button>
+            <button class="small delTask" data-id="${t.id}">حذف</button>
+          </div>
+        </div>`;
+        tasksList.appendChild(li);
+      });
+      $$('.doneBtn').forEach(b => b.addEventListener('click', async e=>{
+        const id = e.currentTarget.dataset.id;
+        const t = state.tasks.find(x=>x.id===id); if(!t) return;
+        t.done = !t.done;
+        try { await STUDYDB.put('tasks', t); } catch(e){}
+        renderTasks(); saveFallback();
+      }));
+      $$('.delTask').forEach(b => b.addEventListener('click', async e=>{
+        const id = e.currentTarget.dataset.id;
+        if(!confirm('حذف المهمة؟')) return;
+        try { await STUDYDB.del('tasks', id); } catch(e){}
+        state.tasks = state.tasks.filter(x=>x.id!==id);
+        renderTasks(); updateCounts(); saveFallback();
+      }));
+    }
+
+    // Flashcards
+    async function onAddFlash(){
+      const front = prompt('محتوى الجهة الأولى (السؤال):');
+      if(!front) return;
+      const back = prompt('محتوى الجهة الثانية (الإجابة):') || '';
+      const id = 'flash-'+Date.now();
+      const obj = { id, front: front.trim(), back: back.trim() };
+      try { await STUDYDB.put('flash', obj); } catch(e){}
+      state.flash.push(obj);
+      renderFlash(); updateCounts(); saveFallback();
+    }
+
+    function renderFlash(){
+      if(state.flash.length===0){ flashCard.textContent = 'لا توجد بطاقات — أضف بطاقة للبدء'; return; }
+      if(flashIndex >= state.flash.length) flashIndex = 0;
+      const card = state.flash[flashIndex];
+      flashCard.textContent = flashShowingBack ? card.back : card.front;
+    }
+
+    // Notes
+    function renderNotes(){
+      notesList.innerHTML = '';
+      if(state.notes.length===0){ notesList.innerHTML = '<li>لا ملاحظات</li>'; return; }
+      // show newest first
+      state.notes.slice().reverse().forEach(n=>{
+        const li = document.createElement('li');
+        li.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-size:14px">${escapeHtml(n.text)}</div>
+            <div style="font-size:12px;color:var(--muted)">${new Date(n.created).toLocaleString()}</div>
+          </div>
+          <div><button class="small delNote" data-id="${n.id}">حذف</button></div>
+        </div>`;
+        notesList.appendChild(li);
+      });
+      $$('.delNote').forEach(b => b.addEventListener('click', async e=>{
+        const id = e.currentTarget.dataset.id;
+        if(!confirm('حذف الملاحظة؟')) return;
+        try { await STUDYDB.del('notes', id); } catch(e){}
+        state.notes = state.notes.filter(x=>x.id!==id);
+        renderNotes(); saveFallback();
+      }));
+    }
+
+    // Books
+    function renderBooks(){
+      booksList.innerHTML = '';
+      books.forEach(bk=>{
+        const li = document.createElement('li');
+        // رابط ملف PDF داخل مجلد pdfs/ — تأكد ترفع الملفات أو عدّل المسارات
+        li.innerHTML = `<a href="${bk.file}" target="_blank" rel="noopener">${escapeHtml(bk.name)}</a>`;
+        booksList.appendChild(li);
+      });
+    }
+
+    // Timer
+    function updateTimerDisplay(){
+      const m = Math.floor(timerSeconds/60).toString().padStart(2,'0');
+      const s = (timerSeconds%60).toString().padStart(2,'0');
+      timerDisplay.textContent = `${m}:${s}`;
+    }
+    function startPomodoro(){
+      if(timerInterval) return;
+      const minutes = Math.max(1, parseInt(sessionMinutes.value || 25));
+      timerSeconds = minutes * 60;
+      updateTimerDisplay();
+      timerInterval = setInterval(()=>{
+        if(timerSeconds <= 0){ stopPomodoro(); notifyFinish(); return; }
+        timerSeconds--; updateTimerDisplay();
+      }, 1000);
+    }
+    function pausePomodoro(){ stopPomodoro(); }
+    function stopPomodoro(){ clearInterval(timerInterval); timerInterval = null; }
+    function notifyFinish(){
+      try {
+        if('Notification' in window && Notification.permission === 'granted'){
+          new Notification('StudyBuddy', { body: 'انتهت مدة الجلسة' });
+        } else {
+          alert('انتهت مدة الجلسة');
+        }
+      } catch(e){ alert('انتهت مدة الجلسة'); }
+    }
+
+    // Export / Import
+    async function exportData(){
+      try {
+        const payload = {
+          subjects: await STUDYDB.getAll('subjects').catch(()=> state.subjects),
+          tasks: await STUDYDB.getAll('tasks').catch(()=> state.tasks),
+          flash: await STUDYDB.getAll('flash').catch(()=> state.flash),
+          notes: await STUDYDB.getAll('notes').catch(()=> state.notes)
+        };
+        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'studybuddy-export.json';
+        a.click();
+        URL.revokeObjectURL(url);
+      } catch(e){ alert('فشل التصدير'); console.error(e); }
+    }
+
+    async function importData(){
+      const file = fileInput.files && fileInput.files[0];
+      if(!file) return;
+      try {
+        const txt = await file.text();
+        const data = JSON.parse(txt);
+        if(Array.isArray(data.subjects)){
+          for(const s of data.subjects) try{ await STUDYDB.put('subjects', s); } catch(e){};
+        }
+        if(Array.isArray(data.tasks)){
+          for(const t of data.tasks) try{ await STUDYDB.put('tasks', t); } catch(e){};
+        }
+        if(Array.isArray(data.flash)){
+          for(const f of data.flash) try{ await STUDYDB.put('flash', f); } catch(e){};
+        }
+        if(Array.isArray(data.notes)){
+          for(const n of data.notes) try{ await STUDYDB.put('notes', n); } catch(e){};
+        }
+        await loadAll();
+        alert('تم استيراد البيانات');
+      } catch(e){ alert('خطأ عند استيراد الملف'); console.error(e); }
+    }
+
+    // update counts & render all
+    function updateCounts(){
+      countSubjects.textContent = state.subjects.length;
+      countTasks.textContent = state.tasks.length;
+      countFlash.textContent = state.flash.length;
+    }
+    function renderAll(){
+      renderSubjects(); renderTasks(); renderFlash(); renderNotes(); updateCounts();
+    }
+
+    // render helpers for local state (used after load)
+    function renderSubjects(){ /* uses state */ subjectsList && (subjectsList.innerHTML = ''); subjectsList && (state.subjects.length===0 ? (subjectsList.innerHTML = '<li>لا توجد مواد بعد</li>') : state.subjects.forEach(s => {
+      const li = document.createElement('li');
+      li.innerHTML = `<strong>${escapeHtml(s.title)}</strong> <button class="small del-sub" data-id="${s.id}" style="margin-right:8px">حذف</button>`;
+      subjectsList.appendChild(li);
+    })); setTimeout(()=>{ $$('.del-sub').forEach(b => b.addEventListener('click', async e=>{ const id = e.currentTarget.dataset.id; if(!confirm('حذف المادة؟')) return; try{ await STUDYDB.del('subjects', id);}catch(e){} state.subjects = state.subjects.filter(x=>x.id!==id); renderSubjects(); updateCounts();}), 0) }
+
+    function renderTasks(){ tasksList && (tasksList.innerHTML = ''); if(tasksList){ if(state.tasks.length===0){ tasksList.innerHTML = '<li>لا مهام بعد</li>'; return; } state.tasks.forEach(t => {
+      const dueText = t.due ? new Date(t.due).toLocaleString() : 'بدون موعد';
+      const li = document.createElement('li');
+      li.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div><strong>${escapeHtml(t.title)}</strong></div>
+          <div style="font-size:13px;color:var(--muted)">${escapeHtml(t.subject||'')} • ${escapeHtml(dueText)}</div>
+        </div>
+        <div>
+          <button class="small doneBtn" data-id="${t.id}">${t.done ? '✓' : '○'}</button>
+          <button class="small delTask" data-id="${t.id}">حذف</button>
+        </div>
+      </div>`;
+      tasksList.appendChild(li);
+    }); setTimeout(()=>{ $$('.doneBtn').forEach(b => b.addEventListener('click', async e=>{ const id = e.currentTarget.dataset.id; const t = state.tasks.find(x=>x.id===id); if(!t) return; t.done = !t.done; try{ await STUDYDB.put('tasks', t);}catch(e){} renderTasks(); saveFallback(); })); $$('.delTask').forEach(b => b.addEventListener('click', async e=>{ const id = e.currentTarget.dataset.id; if(!confirm('حذف المهمة؟')) return; try{ await STUDYDB.del('tasks', id);}catch(e){} state.tasks = state.tasks.filter(x=>x.id!==id); renderTasks(); updateCounts(); saveFallback(); })); },0) } }
+
+    function renderFlash(){ if(!flashCard) return; if(state.flash.length===0){ flashCard.textContent = 'لا توجد بطاقات — أضف بطاقة للبدء'; return; } if(flashIndex >= state.flash.length) flashIndex = 0; const card = state.flash[flashIndex]; flashCard.textContent = flashShowingBack ? card.back : card.front; }
+
+    function renderNotes(){ notesList && (notesList.innerHTML = ''); if(!notesList) return; if(state.notes.length===0){ notesList.innerHTML = '<li>لا ملاحظات</li>'; return; } state.notes.slice().reverse().forEach(n=>{ const li = document.createElement('li'); li.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:14px">${escapeHtml(n.text)}</div><div style="font-size:12px;color:var(--muted)">${new Date(n.created).toLocaleString()}</div></div><div><button class="small delNote" data-id="${n.id}">حذف</button></div></div>`; notesList.appendChild(li); }); setTimeout(()=>{ $$('.delNote').forEach(b => b.addEventListener('click', async e=>{ const id = e.currentTarget.dataset.id; if(!confirm('حذف الملاحظة؟')) return; try{ await STUDYDB.del('notes', id);}catch(e){} state.notes = state.notes.filter(x=>x.id!==id); renderNotes(); saveFallback(); })); },0) }
+
+    // expose init
+    return { init };
+  })();
+
+  // start app on DOM ready
+  document.addEventListener('DOMContentLoaded', () => {
+    App.init().catch(e => {
+      console.error('App init error', e);
+      alert('فشل تشغيل التطبيق: ' + (e && e.message ? e.message : 'خطأ غير معروف'));
+    });
+  });
   </script>
 </body>
 </html>

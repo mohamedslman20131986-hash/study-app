@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>StudyBuddy</title>
+  <title>📘 StudyBuddy - الاول متوسط</title>
   <style>
     body {
       font-family: "Tahoma", sans-serif;
@@ -19,7 +19,6 @@
       text-align: center;
       font-size: 22px;
       font-weight: bold;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
     nav {
       display: flex;
@@ -38,7 +37,6 @@
     }
     nav button:hover {
       background: #095a40;
-      transform: scale(1.05);
     }
     section {
       display: none;
@@ -66,7 +64,6 @@
     }
     ul li:hover {
       background: #f1f1f1;
-      transform: translateX(-5px);
     }
     ul li a {
       text-decoration: none;
@@ -86,11 +83,6 @@
       background: #0b6e4f;
       color: white;
       cursor: pointer;
-      transition: 0.3s;
-    }
-    .timer button:hover {
-      background: #095a40;
-      transform: scale(1.1);
     }
     textarea {
       width: 100%;
@@ -107,25 +99,10 @@
       margin: 8px 0;
       border-radius: 5px;
     }
-    footer {
-      background: #0b6e4f;
-      color: white;
-      text-align: center;
-      padding: 15px;
-      margin-top: 20px;
-    }
-    footer a {
-      color: #fff;
-      margin: 0 10px;
-      text-decoration: none;
-    }
-    footer a:hover {
-      text-decoration: underline;
-    }
   </style>
 </head>
 <body>
-  <header>📘 StudyBuddy - الاول متوسط</header>
+  <header>📘mohamed-slman> - الاول متوسط</header>
 
   <nav>
     <button onclick="showSection('lessons')">الملازم</button>
@@ -137,13 +114,13 @@
   <section id="lessons" class="active">
     <h2>📚 الملازم</h2>
     <ul>
-      <li><a href="https://drive.google.com/file/d/1ennaAbaxjJjvlebpy4z76uJI7-mdDJFH/view?usp=drivesdk" target="_blank">ملزمة الرياضيات</a></li>
-      <li><a href="https://drive.google.com/file/d/1JsLBMUzmmMOmPqxH2r6q80q-QyZnT9o8/view?usp=drivesdk" target="_blank">ملزمة الانكليزي</a></li>
-      <li><a href="https://drive.google.com/file/d/1olnxoHHGn_3bq_LR9VhV72x2iu3XvdCr/view?usp=drivesdk" target="_blank">ملزمة الاسلامية</a></li>
-      <li><a href="https://drive.google.com/file/d/1NgOeTISLW29IOKoP8esZVNvERPaTmzrR/view?usp=drivesdk" target="_blank">ملزمة الاحياء</a></li>
-      <li><a href="https://drive.google.com/file/d/1hOpg6lkaRpI5AypSGMJNgcg3sVRBK7Hp/view?usp=drivesdk" target="_blank">ملزمة الاجتماعيات</a></li>
-      <li><a href="https://drive.google.com/file/d/1AVVh_tqj711mG8SadiLE03hN-sr4MPJK/view?usp=drivesdk" target="_blank">ملزمة العربي - الجزء الأول</a></li>
-      <li><a href="https://drive.google.com/file/d/1-6ue75fdskBBe8QzAg-281UCmfu8HWOL/view?usp=drivesdk" target="_blank">ملزمة العربي - الجزء الثاني</a></li>
+      <li><a href="رابط_الرياضيات" target="_blank">ملزمة الرياضيات</a></li>
+      <li><a href="رابط_الانكليزي" target="_blank">ملزمة الانكليزي</a></li>
+      <li><a href="رابط_العربي1" target="_blank">ملزمة العربي - الجزء الأول</a></li>
+      <li><a href="رابط_العربي2" target="_blank">ملزمة العربي - الجزء الثاني</a></li>
+      <li><a href="رابط_الاسلامية" target="_blank">ملزمة الاسلامية</a></li>
+      <li><a href="رابط_الاحياء" target="_blank">ملزمة الاحياء</a></li>
+      <li><a href="رابط_الاجتماعيات" target="_blank">ملزمة الاجتماعيات</a></li>
     </ul>
   </section>
 
@@ -169,15 +146,6 @@
     <button onclick="addNote()">إضافة ملاحظة</button>
     <div id="notesList"></div>
   </section>
-
-  <!-- Footer -->
-  <footer>
-    <p>
-      <a href="privacy.html">سياسة الخصوصية</a> |
-      <a href="about.html">من نحن</a> |
-      <a href="contact.html">تواصل معنا</a>
-    </p>
-  </footer>
 
   <script>
     // التنقل بين الأقسام
@@ -226,17 +194,7 @@
       updateDisplay();
     }
 
-    // الملاحظات مع LocalStorage
-    function loadNotes(){
-      const saved = JSON.parse(localStorage.getItem("notes") || "[]");
-      saved.forEach(note => {
-        const div = document.createElement("div");
-        div.className = "note";
-        div.textContent = note;
-        document.getElementById("notesList").appendChild(div);
-      });
-    }
-
+    // الملاحظات
     function addNote(){
       const text = document.getElementById("noteInput").value.trim();
       if(!text) return;
@@ -245,15 +203,9 @@
       div.textContent = text;
       document.getElementById("notesList").appendChild(div);
       document.getElementById("noteInput").value="";
-      
-      // حفظ الملاحظات
-      const notes = JSON.parse(localStorage.getItem("notes") || "[]");
-      notes.push(text);
-      localStorage.setItem("notes", JSON.stringify(notes));
     }
 
     updateDisplay();
-    loadNotes();
   </script>
 </body>
 </html>

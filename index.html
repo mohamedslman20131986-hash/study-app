@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mohamed-Slman</title>
+  <title>mohamed-slman - StudyBuddy</title>
   <style>
     body {
       font-family: "Tahoma", sans-serif;
@@ -99,10 +99,17 @@
       margin: 8px 0;
       border-radius: 5px;
     }
+    footer {
+      background: #0b6e4f;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
-  <header>📘 Mohamed-Slman</header>
+  <header>📘 mohamed-slman - الاول متوسط</header>
 
   <nav>
     <button onclick="showSection('lessons')">الملازم</button>
@@ -114,13 +121,13 @@
   <section id="lessons" class="active">
     <h2>📚 الملازم</h2>
     <ul>
-      <li><a href="https://drive.google.com/file/d/1ennaAbaxjJjvlebpy4z76uJI7-mdDJFH/view?usp=drivesdk" target="_blank">ملزمة الرياضيات</a></li>
-      <li><a href="https://drive.google.com/file/d/1JsLBMUzmmMOmPqxH2r6q80q-QyZnT9o8/view?usp=drivesdk" target="_blank">ملزمة الانكليزي</a></li>
-      <li><a href="https://drive.google.com/file/d/1olnxoHHGn_3bq_LR9VhV72x2iu3XvdCr/view?usp=drivesdk" target="_blank">ملزمة الاسلامية</a></li>
-      <li><a href="https://drive.google.com/file/d/1NgOeTISLW29IOKoP8esZVNvERPaTmzrR/view?usp=drivesdk" target="_blank">ملزمة الاحياء</a></li>
-      <li><a href="https://drive.google.com/file/d/1hOpg6lkaRpI5AypSGMJNgcg3sVRBK7Hp/view?usp=drivesdk" target="_blank">ملزمة الاجتماعيات</a></li>
-      <li><a href="https://drive.google.com/file/d/1AVVh_tqj711mG8SadiLE03hN-sr4MPJK/view?usp=drivesdk" target="_blank">ملزمة العربي - الجزء الأول</a></li>
-      <li><a href="https://drive.google.com/file/d/1-6ue75fdskBBe8QzAg-281UCmfu8HWOL/view?usp=drivesdk" target="_blank">ملزمة العربي - الجزء الثاني</a></li>
+      <li><a href="https://drive.google.com/file/d/1ennaAbaxjJjvlebpy4z76uJI7-mdDJFH/view?usp=drivesdk" target="_blank">📘 ملزمة الرياضيات</a></li>
+      <li><a href="https://drive.google.com/file/d/1JsLBMUzmmMOmPqxH2r6q80q-QyZnT9o8/view?usp=drivesdk" target="_blank">📗 ملزمة الإنكليزي</a></li>
+      <li><a href="https://drive.google.com/file/d/1olnxoHHGn_3bq_LR9VhV72x2iu3XvdCr/view?usp=drivesdk" target="_blank">📕 ملزمة الإسلامية</a></li>
+      <li><a href="https://drive.google.com/file/d/1NgOeTISLW29IOKoP8esZVNvERPaTmzrR/view?usp=drivesdk" target="_blank">📒 ملزمة الأحياء</a></li>
+      <li><a href="https://drive.google.com/file/d/1hOpg6lkaRpI5AypSGMJNgcg3sVRBK7Hp/view?usp=drivesdk" target="_blank">📙 ملزمة الاجتماعيات</a></li>
+      <li><a href="https://drive.google.com/file/d/1AVVh_tqj711mG8SadiLE03hN-sr4MPJK/view?usp=drivesdk" target="_blank">📘 ملزمة العربي - الجزء الأول</a></li>
+      <li><a href="https://drive.google.com/file/d/1-6ue75fdskBBe8QzAg-281UCmfu8HWOL/view?usp=drivesdk" target="_blank">📗 ملزمة العربي - الجزء الثاني</a></li>
     </ul>
   </section>
 
@@ -146,6 +153,10 @@
     <button onclick="addNote()">إضافة ملاحظة</button>
     <div id="notesList"></div>
   </section>
+
+  <footer>
+    <p>© 2025 mohamed-slman - جميع الحقوق محفوظة</p>
+  </footer>
 
   <script>
     // التنقل بين الأقسام
@@ -173,7 +184,7 @@
         } else {
           clearInterval(timerInterval);
           timerInterval=null;
-          alert("انتهى الوقت!");
+          alert("⏰ انتهى الوقت!");
         }
       },1000);
     }

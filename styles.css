@@ -39,10 +39,16 @@ nav button:hover {
 section {
   display: none;
   padding: 20px;
+  animation: fade 0.4s;
 }
 
 section.active {
   display: block;
+}
+
+@keyframes fade {
+  from {opacity: 0;}
+  to {opacity: 1;}
 }
 
 ul {
@@ -51,7 +57,7 @@ ul {
 }
 
 ul li {
-  margin: 8px 0;
+  margin: 10px 0;
   background: #fff;
   border: 1px solid #ddd;
   padding: 10px;
@@ -62,10 +68,4 @@ ul li a {
   text-decoration: none;
   color: #0b6e4f;
   font-weight: bold;
-}
-
-.timer {
-  text-align: center;
-  font-size: 30px;
-  margin: 20px 0;
 }

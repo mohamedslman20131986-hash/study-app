@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>📘 الملازم</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h2>📘 الملازم</h2>
+  <button onclick="showSection('first')">📗 ملازم الأول متوسط</button>
+  <button onclick="showSection('fourth')">📘 ملازم الرابع الإعدادي</button>
+
+  <div id="first" class="section">
+    <ul>
+      <li><a href="https://drive.google.com/file/d/1ennaAbaxjJjvlebpy4z76uJI7-mdDJFH/view?usp=drivesdk" target="_blank">📘 رياضيات</a></li>
+      <li><a href="https://drive.google.com/file/d/1JsLBMUzmmMOmPqxH2r6q80q-QyZnT9o8/view?usp=drivesdk" target="_blank">📗 إنكليزي</a></li>
+      <li><a href="https://drive.google.com/file/d/1olnxoHHGn_3bq_LR9VhV72x2iu3XvdCr/view?usp=drivesdk" target="_blank">📕 إسلامية</a></li>
+      <li><a href="https://drive.google.com/file/d/1NgOeTISLW29IOKoP8esZVNvERPaTmzrR/view?usp=drivesdk" target="_blank">📒 أحياء</a></li>
+      <li><a href="https://drive.google.com/file/d/1hOpg6lkaRpI5AypSGMJNgcg3sVRBK7Hp/view?usp=drivesdk" target="_blank">📙 اجتماعيات</a></li>
+      <li><a href="https://drive.google.com/file/d/1AVVh_tqj711mG8SadiLE03hN-sr4MPJK/view?usp=drivesdk" target="_blank">📘 عربي - الجزء الأول</a></li>
+      <li><a href="https://drive.google.com/file/d/1-6ue75fdskBBe8QzAg-281UCmfu8HWOL/view?usp=drivesdk" target="_blank">📗 عربي - الجزء الثاني</a></li>
+    </ul>
+  </div>
+
+  <div id="fourth" class="section" style="display:none;">
+    <ul>
+      <li>📘 عربي ج1</li>
+      <li>📘 عربي ج2</li>
+      <li>📕 أحياء</li>
+      <li>📗 إسلامية</li>
+      <li>📘 إنكليزي</li>
+      <li>📙 فيزياء</li>
+      <li>📕 فرنسي</li>
+      <li>📒 رياضيات</li>
+      <li>📘 كيمياء</li>
+    </ul>
+  </div>
+
+  <a href="index.html" class="btn">🏠 رجوع للرئيسية</a>
+
+  <script>
+    function showSection(id) {
+      document.getElementById("first").style.display = "none";
+      document.getElementById("fourth").style.display = "none";
+      document.getElementById(id).style.display = "block";
+    }
+  </script>
+</body>
+</html>

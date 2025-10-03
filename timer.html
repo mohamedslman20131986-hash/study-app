@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>⏳ المؤقت</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h2>⏳ المؤقت</h2>
+  <div id="timerDisplay">25:00</div>
+  <button onclick="startTimer()">▶️ بدء</button>
+  <button onclick="pauseTimer()">⏸️ إيقاف مؤقت</button>
+  <button onclick="resetTimer()">⏹️ إعادة</button>
+  <a href="index.html" class="btn">🏠 رجوع للرئيسية</a>
+
+  <script>
+    let timer;
+    let timeLeft = 1500;
+
+    function updateTimerDisplay() {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      document.getElementById("timerDisplay").textContent =
+        String(minutes).padStart(2, '0') + ":" + String(seconds).padStart(2, '0');
+    }
+
+    function startTimer() {
+      if (!timer) {
+        timer = setInterval(() => {
+          if (timeLeft > 0) {
+            timeLeft--;
+            updateTimerDisplay();
+          } else {
+            clearInterval(timer);
+            timer = null;
+            alert("⏳ انتهى الوقت!");
+          }
+        }, 1000);
+      }
+    }
+
+    function pauseTimer() {
+      clearInterval(timer);
+      timer = null;
+    }
+
+    function resetTimer() {
+      pauseTimer();
+      timeLeft = 1500;
+      updateTimerDisplay();
+    }
+
+    updateTimerDisplay();
+  </script>
+</body>
+</html>

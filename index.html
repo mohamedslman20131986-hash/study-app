@@ -2,119 +2,155 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>📚 مكتبة محمد سلمان</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مكتبة محمد سلمان 📚</title>
   <style>
-    body {font-family: 'Cairo', sans-serif; margin:0; padding:0; background:#f9f9f9; direction:rtl; font-size:26px;}
-    header {background:#006400; color:white; padding:25px; text-align:center; font-size:32px;}
-    nav {margin-top:20px;}
-    nav a {text-decoration:none; color:white; background:#228B22; padding:18px 25px; margin:8px; border-radius:10px; display:inline-block; font-size:26px;}
-    nav a:hover {background:#32CD32;}
-    section {padding:30px;}
-    .menu-btns {display:flex; flex-direction:column; gap:15px; margin-top:25px;}
-    .menu-btns a {background:#e6ffe6; border:3px solid #228B22; padding:20px; border-radius:12px; font-weight:bold; text-decoration:none; color:#006400; display:block; transition:0.3s; font-size:26px;}
-    .menu-btns a:hover {background:#ccffcc;}
-    .subject {display:none; background:white; margin:25px auto; padding:30px; border-radius:14px; border:2px solid #ddd; font-size:26px;}
-    .subject.active {display:block;}
-    .back-btn {display:inline-block; margin-bottom:25px; background:#228B22; color:white; padding:12px 18px; border-radius:8px; text-decoration:none; font-size:24px;}
-    ul li {margin:15px 0; font-size:26px;}
-    ul li a {text-decoration:none; color:#004400; font-weight:bold; font-size:26px;}
-    ul li a:hover {text-decoration:underline;}
-    textarea {width:100%; height:200px; padding:15px; font-size:24px;}
-    #timer {font-size:34px; margin:20px 0; font-weight:bold;}
-    button {margin:8px; padding:12px 20px; font-size:22px;}
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f7f7f7;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    header {
+      background-color: #006400;
+      color: white;
+      padding: 20px;
+      font-size: 48px; /* كبرنا العنوان */
+      font-weight: bold;
+    }
+    nav {
+      margin: 20px 0;
+    }
+    nav button {
+      background-color: #228B22;
+      color: white;
+      border: none;
+      padding: 20px 40px;
+      margin: 10px;
+      font-size: 38px; /* كبرنا أزرار الأقسام */
+      cursor: pointer;
+      border-radius: 8px;
+    }
+    nav button:hover {
+      background-color: #006400;
+    }
+    .content {
+      background: white;
+      margin: 20px;
+      padding: 20px;
+      border-radius: 10px;
+      font-size: 36px; /* كبرنا النصوص */
+      text-align: right;
+    }
+    h2 {
+      font-size: 40px; /* كبرنا العناوين */
+      color: #222;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    ul li {
+      margin: 15px 0;
+      font-size: 36px; /* كبرنا الروابط */
+    }
+    ul li a {
+      text-decoration: none;
+      color: #004080;
+    }
+    ul li a:hover {
+      text-decoration: underline;
+      color: #c00;
+    }
+    .back-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 15px 30px;
+      background-color: #228B22;
+      color: white;
+      font-size: 36px; /* كبرنا زر الرجوع */
+      border-radius: 8px;
+      text-decoration: none;
+    }
+    .back-btn:hover {
+      background-color: #006400;
+    }
   </style>
 </head>
 <body>
-  <header>
-    <h1>📚 مكتبة محمد سلمان</h1>
-    <nav>
-      <a href="#" onclick="openSection('books')">📖 الكتب</a>
-      <a href="#" onclick="openSection('notes')">📝 الملاحظات</a>
-      <a href="#" onclick="openSection('timerSection')">⏳ المؤقت</a>
-      <a href="#" onclick="openSection('mllazem')">📘 الملازم</a>
-    </nav>
-  </header>
 
-  <section id="books" class="subject">
-    <a href="#" class="back-btn" onclick="goBack()">⬅️ رجوع</a>
-    <h2>📖 كتب الاول متوسط</h2>
-    <ul>
-      <li><a href="https://drive.google.com/file/d/1hS7-vB2-B2mBtsPhZZoC9xNWUSiVUw4T/view" target="_blank">📥 كتاب عربي 1</a></li>
-      <li><a href="https://drive.google.com/file/d/1XQ5x49hWv-K0rK3gOcAjVzE6jdZTltoO/view" target="_blank">📥 كتاب عربي 2</a></li>
-      <li><a href="https://drive.google.com/file/d/1O2i7V3lL2vNhtFidAjXlqAGtxsqP2pH6/view" target="_blank">📥 كتاب احياء</a></li>
-      <li><a href="https://drive.google.com/file/d/1ZPj8qNWBmTDcBlbJ8uFrFVKZLqY9N5OZ/view" target="_blank">📥 كتاب اسلامية</a></li>
-      <li><a href="https://drive.google.com/file/d/1V4u0R1yQNkKkiUtLdpAF2Txh9GhdVY7l/view" target="_blank">📥 كتاب انكليزي</a></li>
-      <li><a href="https://drive.google.com/file/d/1M35V9rEZH5t0u2D84Tni5G7e7VwN0V5o/view" target="_blank">📥 كتاب فيزياء</a></li>
-      <li><a href="https://drive.google.com/file/d/1YmZkO2nmtXtMiJGwn9cXz8Hfn2W1pZW2/view" target="_blank">📥 كتاب كيمياء</a></li>
-      <li><a href="https://drive.google.com/file/d/1Sh5H4g5w3JXJ4KrYbVtjhA3eRQQZokx7/view" target="_blank">📥 كتاب رياضيات</a></li>
-      <li><a href="https://drive.google.com/file/d/1yrh7eWB0skUQxU6hxiVh6aUsBd2bG9Ab/view" target="_blank">📥 كتاب اجتماعيات</a></li>
-    </ul>
-  </section>
+  <header>📚 مكتبة محمد سلمان 📚</header>
 
-  <section id="mllazem" class="subject">
-    <a href="#" class="back-btn" onclick="goBack()">⬅️ رجوع</a>
-    <h2>📘 اختر الصف</h2>
-    <div class="menu-btns">
-      <a href="#" onclick="openSubject('firstMid')">📘 ملازم الاول متوسط</a>
-      <a href="#" onclick="openSubject('fourthPrep')">📘 ملازم الرابع الاعدادي</a>
-    </div>
-  </section>
+  <nav>
+    <button onclick="showSection('books')">📘 الكتب</button>
+    <button onclick="showSection('notes')">📝 الملاحظات</button>
+    <button onclick="showSection('timer')">⏳ المؤقت</button>
+    <button onclick="showSection('lessons')">📑 الملازم</button>
+  </nav>
 
-  <section id="firstMid" class="subject">
-    <a href="#" class="back-btn" onclick="goBack()">⬅️ رجوع</a>
-    <h2>📘 ملازم الاول متوسط</h2>
-    <ul>
-      <li><a href="https://drive.google.com/file/d/1s4FS7A7QoafQHnV50mPt9a9EzOZPC9vC/view" target="_blank">📥 فيزياء</a></li>
-      <li><a href="https://drive.google.com/file/d/1RB3o1uvXjECILj0xLEAG4StbS2Xr-j3j/view" target="_blank">📥 كيمياء</a></li>
-      <li><a href="https://drive.google.com/file/d/1MJshq_zm5V0FkU9Irj6M8IlFtrn1mRWX/view" target="_blank">📥 احياء</a></li>
-      <li><a href="https://drive.google.com/file/d/1sQlLPf3w5r5mb0_GYDUxUduz6sKXxYkQ/view" target="_blank">📥 عربي 1</a></li>
-      <li><a href="https://drive.google.com/file/d/1xEw8bqpE1CuG6UqkKq4Fxk21gpmXDRvS/view" target="_blank">📥 عربي 2</a></li>
-      <li><a href="https://drive.google.com/file/d/1nK3oPwL6gwTAEB0q0FNdHl5Je2q8WfZc/view" target="_blank">📥 رياضيات</a></li>
-      <li><a href="https://drive.google.com/file/d/1wsvkiUoLB0YWcuP-RlSLh1EQZgFjxB0i/view" target="_blank">📥 اسلامية</a></li>
-      <li><a href="https://drive.google.com/file/d/1eWWoRuqDaX-lAfFPOjAzdojX6UePbLQF/view" target="_blank">📥 انكليزي</a></li>
-    </ul>
-  </section>
-
-  <section id="fourthPrep" class="subject">
-    <a href="#" class="back-btn" onclick="goBack()">⬅️ رجوع</a>
-    <h2>📘 ملازم الرابع الاعدادي</h2>
-    <ul>
-      <li><a href="https://drive.google.com/file/d/1mABy7AmVtd6Q0pQvmf8uT7fM2wRhpF2L/view" target="_blank">📥 فيزياء</a></li>
-      <li><a href="https://drive.google.com/file/d/1XQmI7GZC7bcN9jBx3rFwV2U_RqU9wsuV/view" target="_blank">📥 كيمياء</a></li>
-      <li><a href="https://drive.google.com/file/d/1hT7EpT9m_TZlxnS1c9Qk9g3Qcf2xkEnY/view" target="_blank">📥 احياء</a></li>
-      <li><a href="https://drive.google.com/file/d/1HbQ5Eo8oLwJaa7PMI_7gLqG4VXzssMpg/view" target="_blank">📥 عربي</a></li>
-      <li><a href="https://drive.google.com/file/d/1XqkWECZ0Jq5WfZfRbq7VbV29e2cJ9aGd/view" target="_blank">📥 رياضيات</a></li>
-      <li><a href="https://drive.google.com/file/d/1u3X-ecFR1uyB-Q5DDItRr9cpxk0AdJ6T/view" target="_blank">📥 اسلامية</a></li>
-      <li><a href="https://drive.google.com/file/d/1zvFRdml0fG8B7DLazQo6o3E2JjD9nmh5/view" target="_blank">📥 انكليزي</a></li>
-    </ul>
-  </section>
-
-  <section id="notes" class="subject">
-    <a href="#" class="back-btn" onclick="goBack()">⬅️ رجوع</a>
-    <h2>📝 الملاحظات</h2>
-    <textarea id="notesArea" placeholder="اكتب ملاحظاتك هنا..."></textarea>
-    <button onclick="saveNotes()">💾 حفظ</button>
-  </section>
-
-  <section id="timerSection" class="subject">
-    <a href="#" class="back-btn" onclick="goBack()">⬅️ رجوع</a>
-    <h2>⏳ المؤقت</h2>
-    <div id="timer">00:00</div>
-    <button onclick="startTimer()">▶️ ابدأ</button>
-    <button onclick="stopTimer()">⏸️ إيقاف</button>
-    <button onclick="resetTimer()">🔄 إعادة</button>
-  </section>
+  <div id="content" class="content">
+    <h2>👈 اختر قسم من الأقسام أعلاه</h2>
+  </div>
 
   <script>
-    function openSection(id){document.querySelectorAll(".subject").forEach(s=>s.classList.remove("active"));document.getElementById(id).classList.add("active");}
-    function openSubject(id){document.querySelectorAll(".subject").forEach(s=>s.classList.remove("active"));document.getElementById(id).classList.add("active");}
-    function goBack(){document.querySelectorAll(".subject").forEach(s=>s.classList.remove("active"));}
-    function saveNotes(){localStorage.setItem("notes",document.getElementById("notesArea").value);alert("تم حفظ الملاحظات ✅");}
-    window.onload=function(){if(localStorage.getItem("notes"))document.getElementById("notesArea").value=localStorage.getItem("notes");}
-    let timerInterval,seconds=0;function updateTimer(){let m=Math.floor(seconds/60),s=seconds%60;document.getElementById("timer").textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;}
-    function startTimer(){if(!timerInterval)timerInterval=setInterval(()=>{seconds++;updateTimer();},1000);}
-    function stopTimer(){clearInterval(timerInterval);timerInterval=null;}
-    function resetTimer(){stopTimer();seconds=0;updateTimer();}
+    function showSection(section) {
+      let content = document.getElementById("content");
+      if (section === "lessons") {
+        content.innerHTML = `
+          <h2>📑 الملازم</h2>
+          <ul>
+            <li><a href="#">📘 ملازم الاول المتوسط</a></li>
+            <li><a href="#">📘 ملازم الرابع الاعدادي</a></li>
+          </ul>
+        `;
+      } else if (section === "books") {
+        content.innerHTML = `
+          <h2>📘 كتب الاول المتوسط</h2>
+          <ul>
+            <li><a href="#">📕 كتاب عربي</a></li>
+            <li><a href="#">📕 كتاب رياضيات</a></li>
+          </ul>
+        `;
+      } else if (section === "notes") {
+        content.innerHTML = `
+          <h2>📝 الملاحظات</h2>
+          <p>اكتب ملاحظاتك هنا...</p>
+        `;
+      } else if (section === "timer") {
+        content.innerHTML = `
+          <h2>⏳ المؤقت</h2>
+          <p id="timerDisplay">00:00</p>
+          <button onclick="startTimer()">ابدأ</button>
+          <button onclick="stopTimer()">توقف</button>
+          <button onclick="resetTimer()">إعادة</button>
+        `;
+      }
+    }
+
+    let timer;
+    let seconds = 0;
+    function startTimer() {
+      if (!timer) {
+        timer = setInterval(() => {
+          seconds++;
+          let mins = String(Math.floor(seconds / 60)).padStart(2, '0');
+          let secs = String(seconds % 60).padStart(2, '0');
+          document.getElementById("timerDisplay").innerText = mins + ":" + secs;
+        }, 1000);
+      }
+    }
+    function stopTimer() {
+      clearInterval(timer);
+      timer = null;
+    }
+    function resetTimer() {
+      clearInterval(timer);
+      timer = null;
+      seconds = 0;
+      document.getElementById("timerDisplay").innerText = "00:00";
+    }
   </script>
+
 </body>
 </html>

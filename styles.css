@@ -1,71 +1,151 @@
+/* ----------------- تنسيقات عامة ----------------- */
 body {
-  font-family: "Tahoma", sans-serif;
-  background: #f9f9f9;
+  font-family: "Tahoma", Arial, sans-serif;
   margin: 0;
   padding: 0;
-  color: #222;
+  background: #f4f4f9;
+  color: #333;
+  direction: rtl;
+  text-align: center;
 }
 
 header {
-  background: #0b6e4f;
+  background: #28a745;
   color: white;
-  padding: 15px;
-  text-align: center;
-  font-size: 22px;
-  font-weight: bold;
+  padding: 20px;
+  border-bottom: 4px solid #155724;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 28px;
 }
 
 nav {
+  margin-top: 15px;
   display: flex;
-  justify-content: space-around;
-  background: #ddd;
-  padding: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
 }
 
 nav button {
-  background: #0b6e4f;
+  background: #155724;
   color: white;
   border: none;
   padding: 10px 15px;
-  border-radius: 5px;
+  border-radius: 6px;
+  font-size: 16px;
   cursor: pointer;
   transition: 0.3s;
 }
 
 nav button:hover {
-  background: #095a40;
+  background: #218838;
+  transform: scale(1.05);
 }
 
-section {
+/* ----------------- الأقسام ----------------- */
+.page-section {
   display: none;
   padding: 20px;
-  animation: fade 0.4s;
 }
 
-section.active {
+.page-section.active {
   display: block;
 }
 
-@keyframes fade {
-  from {opacity: 0;}
-  to {opacity: 1;}
+h2 {
+  color: #155724;
+  margin-bottom: 20px;
 }
 
-ul {
+/* ----------------- الأزرار (الكتب والملازم) ----------------- */
+.lessons-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.lesson-btn {
+  display: block;
+  background: #28a745;
+  color: white;
+  text-align: center;
+  padding: 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: bold;
+  transition: 0.3s;
+  border: 2px solid #155724;
+}
+
+.lesson-btn:hover {
+  background: #218838;
+  transform: scale(1.03);
+}
+
+/* ----------------- الملاحظات ----------------- */
+#notes input {
+  padding: 10px;
+  width: 60%;
+  border: 2px solid #28a745;
+  border-radius: 6px;
+  margin: 5px;
+}
+
+#notes button {
+  padding: 10px 15px;
+  border: none;
+  background: #28a745;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#notes button:hover {
+  background: #218838;
+}
+
+#notesList {
   list-style: none;
   padding: 0;
+  margin-top: 15px;
 }
 
-ul li {
-  margin: 10px 0;
-  background: #fff;
-  border: 1px solid #ddd;
+#notesList li {
+  background: #e9f7ef;
+  margin: 5px auto;
   padding: 10px;
+  border: 1px solid #155724;
   border-radius: 6px;
+  max-width: 400px;
 }
 
-ul li a {
-  text-decoration: none;
-  color: #0b6e4f;
+/* ----------------- المؤقت ----------------- */
+#timerDisplay {
+  font-size: 40px;
+  margin: 20px 0;
+  color: #155724;
   font-weight: bold;
+}
+
+.controls button {
+  margin: 5px;
+  padding: 10px 15px;
+  background: #28a745;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.controls button:hover {
+  background: #218838;
+  transform: scale(1.05);
 }

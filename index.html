@@ -21,7 +21,7 @@
   --card: #ffffff;
   --accent: #0b6e4f;
   --text: #0b2b21;
-  --big: 22px; /* الحجم الجديد (أصغر من 28px) */
+  --big: 22px;
 }
 
     html,body{
@@ -93,7 +93,6 @@
       gap:12px;
     }
 
-    /* زر الرجوع داخل بطاقة */
     .back-btn{
       display:inline-block;
       float:left;
@@ -105,7 +104,6 @@
       text-decoration:none;
     }
 
-    /* قائمة الكتب / الملازم */
     .list-right{
       direction:rtl;
       text-align:right;
@@ -122,7 +120,6 @@
       font-weight:700;
     }
 
-    /* أقسام الملازم: أزرار الصفوف */
     .class-row{
       display:flex;
       gap:18px;
@@ -143,7 +140,6 @@
     }
     .class-card:active{ transform:translateY(1px); }
 
-    /* قائمة المواد داخل صف (يمين) */
     .subjects{
       display:flex;
       gap:20px;
@@ -159,7 +155,6 @@
 
     .subjects ul{ padding-right:18px; }
 
-    /* أزرار الملازم (روابط كبيرة) */
     .lesson-btn{
       display:block;
       background:#fff;
@@ -173,7 +168,6 @@
       font-size:26px;
     }
 
-    /* الملاحظات */
     .notes-area{
       display:flex;
       gap:12px;
@@ -218,7 +212,6 @@
       font-size:18px;
     }
 
-    /* المؤقت */
     .timer-box{
       display:flex;
       gap:20px;
@@ -265,7 +258,7 @@
 
   <div class="nav" role="navigation" aria-label="قائمة">
     <button onclick="showSection('books')">📕 الكتب</button>
-    <button onclick="showSection('lessons')">📗 الملازم</button>
+    <button onclick="showSection('lessons', true)">📗 الملازم</button>
     <button onclick="showSection('notes')">📝 الملاحظات</button>
     <button onclick="showSection('timer')">⏳ المؤقت</button>
   </div>
@@ -278,18 +271,18 @@
 
       <div class="list-right">
         <ul>
-          <li><a href="https://drive.google.com/file/d/1MTGDHwq2otPMsUDIs2OcngH5VNQb23KJ/view?usp=drivesdk" target="_blank" rel="noopener">اللغة العربية - الجزء الأول</a></li>
-          <li><a href="https://drive.google.com/file/d/1cxk-MWLakARNXNTbL8eZjbL08JTkO8Ue/view?usp=drivesdk" target="_blank" rel="noopener">اللغة العربية - الجزء الثاني</a></li>
-          <li><a href="https://drive.google.com/file/d/1LYQfsvNQDJ5T2YI-eBiEbGYGs1XZrciQ/view?usp=drivesdk" target="_blank" rel="noopener">أحياء</a></li>
-          <li><a href="https://drive.google.com/file/d/1fgVXQf8t2czQrTBpWZ5IqFBzHRSH9Mtj/view?usp=drivesdk" target="_blank" rel="noopener">إسلامية</a></li>
-          <li><a href="https://drive.google.com/file/d/1X5x2pBJOHcmLiFFRF2DEsKFlqOzXpfba/view?usp=drivesdk" target="_blank" rel="noopener">إنكليزي</a></li>
-          <li><a href="https://drive.google.com/file/d/1ybbl5KKtyovEJr9RJcbmT3YQ1KKxDJx7/view?usp=drivesdk" target="_blank" rel="noopener">فيزياء</a></li>
-          <li><a href="https://drive.google.com/file/d/1556Wqvs4HXxLyJxHDwgF7znRbooVFAjl/view?usp=drivesdk" target="_blank" rel="noopener">كيمياء</a></li>
-          <li><a href="https://drive.google.com/file/d/1Fbg3oG9okburkz10e3jy1eW-LDmremsA/view?usp=drivesdk" target="_blank" rel="noopener">رياضيات</a></li>
-          <li><a href="https://drive.google.com/file/d/1oIGD2RQ_NJVcX_Yhvy5UTBP4M_Mpj0jK/view?usp=drivesdk" target="_blank" rel="noopener">اجتماعيات</a></li>
-          <li><a href="https://drive.google.com/file/d/1A6nGumwN0RXL9h4G0_5fQYtGQA6emr6h/view?usp=drivesdk" target="_blank" rel="noopener">حاسوب</a></li>
-          <li><a href="https://drive.google.com/file/d/1FzNb-2dpgGxDX9k-MxZ68NBfs10lTCh3/view?usp=drivesdk" target="_blank" rel="noopener">نشاط إنكليزي</a></li>
-          <li><a href="https://drive.google.com/file/d/1p4wHo7yhRQzznTiW-pjb-wDQtMT787ES/view?usp=drivesdk" target="_blank" rel="noopener">تربية أخلاقية</a></li>
+          <li><a href="https://drive.google.com/uc?export=download&id=1MTGDHwq2otPMsUDIs2OcngH5VNQb23KJ" target="_blank" rel="noopener">اللغة العربية - الجزء الأول</a></li>
+          <li><a href="https://drive.google.com/uc?export=download&id=1cxk-MWLakARNXNTbL8eZjbL08JTkO8Ue" target="_blank" rel="noopener">اللغة العربية - الجزء الثاني</a></li>
+          <li><a href="https://drive.google.com/uc?export=download&id=1LYQfsvNQDJ5T2YI-eBiEbGYGs1XZrciQ" target="_blank" rel="noopener">أحياء</a></li>
+          <li><a href="https://drive.google.com/uc?export=download&id=1fgVXQf8t2czQrTBpWZ5IqFBzHRSH9Mtj" target="_blank" rel="noopener">إسلامية</a></li>
+          <li><a href="https://drive.google.com/uc?export=download&id=1X5x2pBJOHcmLiFFRF2DEsKFlqOzXpfba" target="_blank" rel="noopener">إنكليزي</a></li>
+          <li><a href="https://drive.google.com/uc?export=download&id=1ybbl5KKtyovEJr9RJcbmT3YQ1KKxDJx7" target="_blank" rel="noopener">فيزياء</a></li>
+          <li><a href="https://drive.google.com/uc?export=download&id=1556Wqvs4HXxLyJxHDwgF7znRbooVFAjl" target="_blank" rel="noopener">كيمياء</a></li>
+          <li><a href="https://drive.google.com/uc?export=download&id=1Fbg3oG9okburkz10e3jy1eW-LDmremsA" target="_blank" rel="noopener">رياضيات</a></li>
+          <li><a href="https://drive.google.com/uc?export=download&id=1oIGD2RQ_NJVcX_Yhvy5UTBP4M_Mpj0jK" target="_blank" rel="noopener">اجتماعيات</a></li>
+          <li><a href="https://drive.google.com/uc?export=download&id=1A6nGumwN0RXL9h4G0_5fQYtGQA6emr6h" target="_blank" rel="noopener">حاسوب</a></li>
+          <li><a href="https://drive.google.com/uc?export=download&id=1FzNb-2dpgGxDX9k-MxZ68NBfs10lTCh3" target="_blank" rel="noopener">نشاط إنكليزي</a></li>
+          <li><a href="https://drive.google.com/uc?export=download&id=1p4wHo7yhRQzznTiW-pjb-wDQtMT787ES" target="_blank" rel="noopener">تربية أخلاقية</a></li>
         </ul>
       </div>
     </section>
@@ -308,30 +301,30 @@
         <div id="firstList" class="list" style="display:none;">
           <h3 style="font-size:28px;margin:0 0 6px">ملازم الأول متوسط</h3>
           <div>
-            <a class="lesson-btn" href="https://drive.google.com/file/d/1tNS70RdL3KcrgKNiVzUKRoCKc2qCYaVd/view?usp=drivesdk" target="_blank">فيزياء</a>
-            <a class="lesson-btn" href="https://drive.google.com/file/d/1Q6E8XyumkomM7LzXNX04LuZ89irSmDRb/view?usp=drivesdk" target="_blank">كيمياء</a>
-            <a class="lesson-btn" href="https://drive.google.com/file/d/14SpJNuvK2p_skrnGZq-WXOA1qPBI_yBE/view?usp=drivesdk" target="_blank">أحياء</a>
-            <a class="lesson-btn" href="https://drive.google.com/file/d/1oIGD2RQ_NJVcX_Yhvy5UTBP4M_Mpj0jK/view?usp=drivesdk" target="_blank">اجتماعيات</a>
-            <a class="lesson-btn" href="https://drive.google.com/file/d/1Cypj2pG5IsfEBCgF5S3kTFKq9J2LZuxn/view?usp=drivesdk" target="_blank">عربي ج1</a>
-            <a class="lesson-btn" href="https://drive.google.com/file/d/1Om0KngYuSIuGhAY6gtbcvWMO-a0WKdjF/view?usp=drivesdk" target="_blank">عربي ج2</a>
-            <a class="lesson-btn" href="https://drive.google.com/file/d/1v7JT7H3XXvoZ0WkZBnocXr7gLdR6Pa3T/view?usp=drivesdk" target="_blank">رياضيات</a>
-            <a class="lesson-btn" href="https://drive.google.com/file/d/10l8n_L9X1BnBNMr-Tvo6b8T_rOAIfnji/view?usp=drivesdk" target="_blank">إسلامية</a>
-            <a class="lesson-btn" href="https://drive.google.com/file/d/1HL3Wak7iGIH5VvnnJdRMIs2sz-059P63/view?usp=drivesdk" target="_blank">إنكليزي</a>
+            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1tNS70RdL3KcrgKNiVzUKRoCKc2qCYaVd" target="_blank">فيزياء</a>
+            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1Q6E8XyumkomM7LzXNX04LuZ89irSmDRb" target="_blank">كيمياء</a>
+            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=14SpJNuvK2p_skrnGZq-WXOA1qPBI_yBE" target="_blank">أحياء</a>
+            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1oIGD2RQ_NJVcX_Yhvy5UTBP4M_Mpj0jK" target="_blank">اجتماعيات</a>
+            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1Cypj2pG5IsfEBCgF5S3kTFKq9J2LZuxn" target="_blank">عربي ج1</a>
+            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1Om0KngYuSIuGhAY6gtbcvWMO-a0WKdjF" target="_blank">عربي ج2</a>
+            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1v7JT7H3XXvoZ0WkZBnocXr7gLdR6Pa3T" target="_blank">رياضيات</a>
+            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=10l8n_L9X1BnBNMr-Tvo6b8T_rOAIfnji" target="_blank">إسلامية</a>
+            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1HL3Wak7iGIH5VvnnJdRMIs2sz-059P63" target="_blank">إنكليزي</a>
           </div>
         </div>
 
         <div id="fourthList" class="list" style="display:none;">
           <h3 style="font-size:28px;margin:0 0 6px">ملازم الرابع الإعدادي</h3>
           <div>
-            <a class="lesson-btn" href="https://drive.google.com/file/d/1_F-jIezozP-1b-xVJgWthkdR3Zvp15dC/view?usp=drivesdk" target="_blank">عربي ج1</a>
-            <a class="lesson-btn" href="https://drive.google.com/file/d/1ngdBCGrngqmiYOo7GGzBSC1-AzgtOXAF/view?usp=drivesdk" target="_blank">عربي ج2</a>
-            <a class="lesson-btn" href="https://drive.google.com/file/d/1RH4RCagziERV9MS75WD_tPBRV3YSSVrx/view?usp=drivesdk" target="_blank">أحياء</a>
-            <a class="lesson-btn" href="https://drive.google.com/file/d/1feqQpH-r2614_MN3dmtlM2Zqn3pMH8SU/view?usp=drivesdk" target="_blank">إسلامية</a>
-            <a class="lesson-btn" href="https://drive.google.com/file/d/1Kg-stdFCtgi5hiPu_LM9QL08z0OjUipG/view?usp=drivesdk" target="_blank">إنكليزي</a>
-            <a class="lesson-btn" href="https://drive.google.com/file/d/1-K49sgd6Zz1YcFW1RJ1RjIQuuAfIiI-C/view?usp=drivesdk" target="_blank">فيزياء</a>
-            <a class="lesson-btn" href="https://drive.google.com/file/d/1yxB6Hk7kEaU-us48dz2wTnmrRsDB7D7a/view?usp=drivesdk" target="_blank">فرنسي</a>
-            <a class="lesson-btn" href="https://drive.google.com/file/d/1CMZHmt44trLM1wlyjZ2W-HGBvjr78Z-v/view?usp=drivesdk" target="_blank">رياضيات</a>
-            <a class="lesson-btn" href="https://drive.google.com/file/d/1mNoFpG2J9LhwBZs52_fAp3bQHlTZPpih/view?usp=drivesdk" target="_blank">كيمياء</a>
+            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1_F-jIezozP-1b-xVJgWthkdR3Zvp15dC" target="_blank">عربي ج1</a>
+            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1ngdBCGrngqmiYOo7GGzBSC1-AzgtOXAF" target="_blank">عربي ج2</a>
+            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1RH4RCagziERV9MS75WD_tPBRV3YSSVrx" target="_blank">أحياء</a>
+            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1feqQpH-r2614_MN3dmtlM2Zqn3pMH8SU" target="_blank">إسلامية</a>
+            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1Kg-stdFCtgi5hiPu_LM9QL08z0OjUipG" target="_blank">إنكليزي</a>
+            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1-K49sgd6Zz1YcFW1RJ1RjIQuuAfIiI-C" target="_blank">فيزياء</a>
+            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1yxB6Hk7kEaU-us48dz2wTnmrRsDB7D7a" target="_blank">فرنسي</a>
+            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1CMZHmt44trLM1wlyjZ2W-HGBvjr78Z-v" target="_blank">رياضيات</a>
+            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1mNoFpG2J9LhwBZs52_fAp3bQHlTZPpih" target="_blank">كيمياء</a>
           </div>
         </div>
 
@@ -372,12 +365,11 @@
 
   <script>
     // --- التنقل بين الأقسام ---
-    function showSection(id){
+    function showSection(id, hideLessons = false){
       document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
       document.getElementById(id).classList.add('active');
-      // إخفاء قوائم الصفوف كلما دخلنا على الملازم (يتطلب اختيار الصف)
-      if(id === 'lessons'){
-        // لا نعرض شيئ حتى يضغط المستخدم على صف
+      // إذا طلبنا إخفاء قوائم الملازم (عند الضغط على زر الملازم من القائمة)
+      if(id === 'lessons' && hideLessons){
         document.getElementById('firstList').style.display = 'none';
         document.getElementById('fourthList').style.display = 'none';
       }
@@ -385,6 +377,8 @@
 
     // --- اختيار الصف في الملازم ---
     function selectClass(key){
+      // تأكد أن قسم الملازم ظاهر (لا نمرر hideLessons هنا)
+      showSection('lessons');
       if(key === 'first'){
         document.getElementById('firstList').style.display = 'block';
         document.getElementById('fourthList').style.display = 'none';
@@ -392,8 +386,6 @@
         document.getElementById('firstList').style.display = 'none';
         document.getElementById('fourthList').style.display = 'block';
       }
-      // تأكد أن قسم الملازم ظاهر
-      showSection('lessons');
       // مرر للعرض قليلًا
       window.scrollTo({ top: document.getElementById('classContent').offsetTop - 20, behavior:'smooth' });
     }

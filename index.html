@@ -1,496 +1,198 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>📚 مكتبة محمد سلمان</title>
-
+  <meta charset="UTF-8">
+  <title>الملازم - mohamed-slman 📘</title>
   <style>
-    /* خطوط */
-    @font-face {
-      font-family: 'Foda';
-      src: local('Foda'), local('Foda Regular');
-      font-weight: 400;
-      font-style: normal;
+    body {
+      font-family: "Tahoma", sans-serif;
+      direction: rtl;
+      text-align: right;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 0;
     }
-
-:root{
-  --bg: #f6f6f6;
-  --green: #147a38;
-  --green-dark: #0f6a30;
-  --card: #ffffff;
-  --accent: #0b6e4f;
-  --text: #0b2b21;
-  --big: 22px;
-}
-
-    html,body{
-      height:100%;
-      margin:0;
-      padding:0;
-      background:var(--bg);
-      font-family: "Foda", "Tahoma", "Arial", sans-serif;
-      color:var(--text);
-      font-size: var(--big);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      line-height:1.25;
+    header {
+      background: #065f46;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
     }
-
-    header{
-      background:var(--green);
-      color:#fff;
-      padding:24px 12px;
-      text-align:center;
-      box-shadow:0 2px 0 rgba(0,0,0,0.06);
+    nav {
+      display: flex;
+      justify-content: center;
+      margin: 15px 0;
+      gap: 10px;
     }
-    header h1{
-      margin:0;
-      font-size:44px;
-      font-weight:700;
-      letter-spacing:1px;
+    nav button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background: #047857;
+      color: white;
     }
-
-    .nav{
-      display:flex;
-      gap:18px;
-      justify-content:center;
-      padding:18px 12px;
-      flex-wrap:wrap;
+    nav button:hover {
+      background: #065f46;
     }
-
-    .nav button{
-      background:var(--green);
-      color:#fff;
-      border:none;
-      padding:18px 30px;
-      border-radius:12px;
-      cursor:pointer;
-      font-size:30px;
-      box-shadow:0 4px 0 rgba(0,0,0,0.08);
-      transition:transform .08s ease;
+    .section {
+      display: none;
+      padding: 15px;
     }
-    .nav button:active{ transform:translateY(1px); }
-    .container{
-      max-width:1100px;
-      margin:20px auto;
-      padding:0 14px 80px;
+    .section.active {
+      display: block;
     }
-
-    .card{
-      background:var(--card);
-      border-radius:12px;
-      padding:22px;
-      box-shadow:0 6px 18px rgba(0,0,0,0.05);
-      margin-bottom:18px;
+    ul {
+      list-style: none;
+      padding: 0;
     }
-
-    h2.section-title{
-      margin:0 0 8px;
-      font-size:34px;
-      display:flex;
-      align-items:center;
-      gap:12px;
+    li {
+      background: white;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: 1px solid #ddd;
     }
-
-    .back-btn{
-      display:inline-block;
-      float:left;
-      background:var(--green);
-      color:#fff;
-      padding:8px 14px;
-      border-radius:8px;
-      font-size:18px;
-      text-decoration:none;
+    a {
+      text-decoration: none;
+      color: #065f46;
+      font-weight: bold;
     }
-
-    .list-right{
-      direction:rtl;
-      text-align:right;
-      column-count:1;
+    #timer {
+      font-size: 18px;
+      text-align: center;
+      margin-top: 10px;
     }
-    .list-right ul{ padding:0 12px; margin:10px 0; list-style:disc; }
-    .list-right li{
-      margin:10px 0;
-      font-size:26px;
-    }
-    .list-right a{
-      color:var(--accent);
-      text-decoration:underline;
-      font-weight:700;
-    }
-
-    .class-row{
-      display:flex;
-      gap:18px;
-      flex-wrap:wrap;
-      margin:12px 0 20px;
-      justify-content:center;
-    }
-    .class-card{
-      background: #1f8a46;
-      color:#fff;
-      padding:22px 28px;
-      border-radius:12px;
-      cursor:pointer;
-      font-size:30px;
-      min-width:240px;
-      text-align:center;
-      box-shadow:0 5px 0 rgba(0,0,0,0.06);
-    }
-    .class-card:active{ transform:translateY(1px); }
-
-    .subjects{
-      display:flex;
-      gap:20px;
-      align-items:flex-start;
-      justify-content:space-between;
-      flex-wrap:wrap;
-    }
-
-    .subjects .list{
-      width:46%;
-      min-width:260px;
-    }
-
-    .subjects ul{ padding-right:18px; }
-
-    .lesson-btn{
-      display:block;
-      background:#fff;
-      border-radius:10px;
-      border:1px solid #e6e6e6;
-      padding:14px 16px;
-      margin:10px 0;
-      text-decoration:none;
-      color:var(--accent);
-      font-weight:700;
-      font-size:26px;
-    }
-
-    .notes-area{
-      display:flex;
-      gap:12px;
-      align-items:center;
-      margin-top:10px;
-      flex-wrap:wrap;
-    }
-    .notes-area input{
-      flex:1 1 420px;
-      padding:12px;
-      border-radius:10px;
-      border:1px solid #ddd;
-      font-size:24px;
-    }
-    .notes-area button{
-      background:var(--green);
-      color:#fff;
-      border:none;
-      padding:12px 18px;
-      border-radius:10px;
-      font-size:22px;
-      cursor:pointer;
-    }
-    #notesList{ margin-top:12px; padding-right:14px; }
-    #notesList li{
-      background:#fff;
-      padding:10px 12px;
-      border-radius:8px;
-      margin-bottom:8px;
-      font-size:22px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-    }
-    .note-del{
-      background:transparent;
-      border:1px solid #e33;
-      color:#b00;
-      padding:6px 8px;
-      border-radius:6px;
-      cursor:pointer;
-      font-size:18px;
-    }
-
-    .timer-box{
-      display:flex;
-      gap:20px;
-      align-items:center;
-      justify-content:space-between;
-      flex-wrap:wrap;
-    }
-    .timer-left{
-      font-size:42px;
-      font-weight:700;
-    }
-    .timer-controls{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
-    }
-    .timer-controls button{
-      background:#f3f3f3;
-      border:1px solid #ddd;
-      padding:10px 16px;
-      border-radius:8px;
-      cursor:pointer;
-      font-size:20px;
-    }
-
-    /* responsiveness */
-    @media (max-width:820px){
-      .subjects .list{ width:100%; }
-      .list-right li{ font-size:22px; }
-      .nav button{ font-size:26px; padding:12px 18px; }
-      header h1{ font-size:36px; }
-      :root{ --big:20px; }
-      .timer-left{ font-size:36px; }
+    #notesList li {
+      cursor: pointer;
     }
   </style>
 </head>
-
 <body>
-
   <header>
-    <h1>مكتبة محمد سلمان 📚</h1>
+    موقع الملازم - mohamed-slman 📘
   </header>
 
-  <div class="nav" role="navigation" aria-label="قائمة">
-    <button onclick="showSection('books')">📕 الكتب</button>
-    <button onclick="showSection('lessons', true)">📗 الملازم</button>
-    <button onclick="showSection('notes')">📝 الملاحظات</button>
-    <button onclick="showSection('timer')">⏳ المؤقت</button>
+  <nav>
+    <button onclick="showSection('first')">📘 ملازم الأول متوسط</button>
+    <button onclick="showSection('fourth')">📗 ملازم الرابع الإعدادي</button>
+    <button onclick="showSection('timerSection')">⏳ المؤقت</button>
+    <button onclick="showSection('notesSection')">📝 الملاحظات</button>
+  </nav>
+
+  <!-- قسم الأول متوسط -->
+  <div id="first" class="section">
+    <h2>ملازم الأول متوسط</h2>
+    <ul>
+      <li><a href="#">الفيزياء</a></li>
+      <li><a href="#">الكيمياء</a></li>
+      <li><a href="#">الأحياء</a></li>
+      <li><a href="#">الإجتماعيات</a></li>
+      <li><a href="#">اللغة العربية (ج1)</a></li>
+      <li><a href="#">اللغة العربية (ج2)</a></li>
+      <li><a href="#">الرياضيات</a></li>
+      <li><a href="#">الإسلامية</a></li>
+      <li><a href="#">الإنكليزي</a></li>
+    </ul>
   </div>
 
-  <main class="container">
+  <!-- قسم الرابع الإعدادي -->
+  <div id="fourth" class="section">
+    <h2>ملازم الرابع الإعدادي</h2>
+    <ul>
+      <li><a href="https://drive.google.com/file/d/1_F-jIezozP-1b-xVJgWthkdR3Zvp15dC/view?usp=drivesdk" target="_blank">اللغة العربية (ج1)</a></li>
+      <li><a href="https://drive.google.com/file/d/1ngdBCGrngqmiYOo7GGzBSC1-AzgtOXAF/view?usp=drivesdk" target="_blank">اللغة العربية (ج2)</a></li>
+      <li><a href="https://drive.google.com/file/d/1RH4RCagziERV9MS75WD_tPBRV3YSSVrx/view?usp=drivesdk" target="_blank">الأحياء</a></li>
+      <li><a href="https://drive.google.com/file/d/1feqQpH-r2614_MN3dmtlM2Zqn3pMH8SU/view?usp=drivesdk" target="_blank">الإسلامية</a></li>
+      <li><a href="https://drive.google.com/file/d/1Kg-stdFCtgi5hiPu_LM9QL08z0OjUipG/view?usp=drivesdk" target="_blank">الإنكليزي</a></li>
+      <li><a href="https://drive.google.com/file/d/1-K49sgd6Zz1YcFW1RJ1RjIQuuAfIiI-C/view?usp=drivesdk" target="_blank">الفيزياء</a></li>
+      <li><a href="https://drive.google.com/file/d/1yxB6Hk7kEaU-us48dz2wTnmrRsDB7D7a/view?usp=drivesdk" target="_blank">الفرنسي</a></li>
+      <li><a href="https://drive.google.com/file/d/1CMZHmt44trLM1wlyjZ2W-HGBvjr78Z-v/view?usp=drivesdk" target="_blank">الرياضيات</a></li>
+      <li><a href="https://drive.google.com/file/d/1mNoFpG2J9LhwBZs52_fAp3bQHlTZPpih/view?usp=drivesdk" target="_blank">الكيمياء</a></li>
+    </ul>
+  </div>
 
-    <!-- الكتب (الاول متوسط) -->
-    <section id="books" class="card page-section active">
-      <h2 class="section-title">📘 كتب الأول متوسط</h2>
+  <!-- قسم المؤقت -->
+  <div id="timerSection" class="section">
+    <h2>⏳ المؤقت</h2>
+    <div id="timer">00:00</div>
+    <button onclick="startTimer()">ابدأ</button>
+    <button onclick="stopTimer()">أوقف</button>
+    <button onclick="resetTimer()">صفر</button>
+  </div>
 
-      <div class="list-right">
-        <ul>
-          <li><a href="https://drive.google.com/uc?export=download&id=1MTGDHwq2otPMsUDIs2OcngH5VNQb23KJ" target="_blank" rel="noopener">اللغة العربية - الجزء الأول</a></li>
-          <li><a href="https://drive.google.com/uc?export=download&id=1cxk-MWLakARNXNTbL8eZjbL08JTkO8Ue" target="_blank" rel="noopener">اللغة العربية - الجزء الثاني</a></li>
-          <li><a href="https://drive.google.com/uc?export=download&id=1LYQfsvNQDJ5T2YI-eBiEbGYGs1XZrciQ" target="_blank" rel="noopener">أحياء</a></li>
-          <li><a href="https://drive.google.com/uc?export=download&id=1fgVXQf8t2czQrTBpWZ5IqFBzHRSH9Mtj" target="_blank" rel="noopener">إسلامية</a></li>
-          <li><a href="https://drive.google.com/uc?export=download&id=1X5x2pBJOHcmLiFFRF2DEsKFlqOzXpfba" target="_blank" rel="noopener">إنكليزي</a></li>
-          <li><a href="https://drive.google.com/uc?export=download&id=1ybbl5KKtyovEJr9RJcbmT3YQ1KKxDJx7" target="_blank" rel="noopener">فيزياء</a></li>
-          <li><a href="https://drive.google.com/uc?export=download&id=1556Wqvs4HXxLyJxHDwgF7znRbooVFAjl" target="_blank" rel="noopener">كيمياء</a></li>
-          <li><a href="https://drive.google.com/uc?export=download&id=1Fbg3oG9okburkz10e3jy1eW-LDmremsA" target="_blank" rel="noopener">رياضيات</a></li>
-          <li><a href="https://drive.google.com/uc?export=download&id=1oIGD2RQ_NJVcX_Yhvy5UTBP4M_Mpj0jK" target="_blank" rel="noopener">اجتماعيات</a></li>
-          <li><a href="https://drive.google.com/uc?export=download&id=1A6nGumwN0RXL9h4G0_5fQYtGQA6emr6h" target="_blank" rel="noopener">حاسوب</a></li>
-          <li><a href="https://drive.google.com/uc?export=download&id=1FzNb-2dpgGxDX9k-MxZ68NBfs10lTCh3" target="_blank" rel="noopener">نشاط إنكليزي</a></li>
-          <li><a href="https://drive.google.com/uc?export=download&id=1p4wHo7yhRQzznTiW-pjb-wDQtMT787ES" target="_blank" rel="noopener">تربية أخلاقية</a></li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- الملازم -->
-    <section id="lessons" class="card page-section" aria-live="polite">
-      <h2 class="section-title">📙 الملازم</h2>
-
-      <div class="class-row">
-        <div class="class-card" onclick="selectClass('first')">الأول متوسط</div>
-        <div class="class-card" onclick="selectClass('fourth')">الرابع الإعدادي</div>
-      </div>
-
-      <div id="classContent" class="subjects">
-        <!-- محتوى الصفوف سيظهر هنا -->
-        <div id="firstList" class="list" style="display:none;">
-          <h3 style="font-size:28px;margin:0 0 6px">ملازم الأول متوسط</h3>
-          <div>
-            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1tNS70RdL3KcrgKNiVzUKRoCKc2qCYaVd" target="_blank">فيزياء</a>
-            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1Q6E8XyumkomM7LzXNX04LuZ89irSmDRb" target="_blank">كيمياء</a>
-            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=14SpJNuvK2p_skrnGZq-WXOA1qPBI_yBE" target="_blank">أحياء</a>
-            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1oIGD2RQ_NJVcX_Yhvy5UTBP4M_Mpj0jK" target="_blank">اجتماعيات</a>
-            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1Cypj2pG5IsfEBCgF5S3kTFKq9J2LZuxn" target="_blank">عربي ج1</a>
-            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1Om0KngYuSIuGhAY6gtbcvWMO-a0WKdjF" target="_blank">عربي ج2</a>
-            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1v7JT7H3XXvoZ0WkZBnocXr7gLdR6Pa3T" target="_blank">رياضيات</a>
-            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=10l8n_L9X1BnBNMr-Tvo6b8T_rOAIfnji" target="_blank">إسلامية</a>
-            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1HL3Wak7iGIH5VvnnJdRMIs2sz-059P63" target="_blank">إنكليزي</a>
-          </div>
-        </div>
-
-        <div id="fourthList" class="list" style="display:none;">
-          <h3 style="font-size:28px;margin:0 0 6px">ملازم الرابع الإعدادي</h3>
-          <div>
-            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1_F-jIezozP-1b-xVJgWthkdR3Zvp15dC" target="_blank">عربي ج1</a>
-            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1ngdBCGrngqmiYOo7GGzBSC1-AzgtOXAF" target="_blank">عربي ج2</a>
-            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1RH4RCagziERV9MS75WD_tPBRV3YSSVrx" target="_blank">أحياء</a>
-            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1feqQpH-r2614_MN3dmtlM2Zqn3pMH8SU" target="_blank">إسلامية</a>
-            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1Kg-stdFCtgi5hiPu_LM9QL08z0OjUipG" target="_blank">إنكليزي</a>
-            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1-K49sgd6Zz1YcFW1RJ1RjIQuuAfIiI-C" target="_blank">فيزياء</a>
-            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1yxB6Hk7kEaU-us48dz2wTnmrRsDB7D7a" target="_blank">فرنسي</a>
-            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1CMZHmt44trLM1wlyjZ2W-HGBvjr78Z-v" target="_blank">رياضيات</a>
-            <a class="lesson-btn" href="https://drive.google.com/uc?export=download&id=1mNoFpG2J9LhwBZs52_fAp3bQHlTZPpih" target="_blank">كيمياء</a>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- الملاحظات -->
-    <section id="notes" class="card page-section">
-      <h2 class="section-title">📝 الملاحظات</h2>
-      <div class="notes-area">
-        <input id="noteInput" placeholder="اكتب ملاحظتك هنا..." aria-label="أدخل ملاحظة">
-        <button id="addNoteBtn">➕ أضف</button>
-      </div>
-      <ul id="notesList" aria-live="polite"></ul>
-    </section>
-
-    <!-- المؤقت -->
-    <section id="timer" class="card page-section">
-      <h2 class="section-title">⏳ المؤقت</h2>
-
-      <div class="timer-box">
-        <div class="timer-left">
-          <div>المؤقت</div>
-          <div id="timerDisplay" style="margin-top:10px;font-size:52px">25:00</div>
-        </div>
-
-        <div class="timer-controls" style="min-width:240px;">
-          <button id="startBtn">▶️ ابدأ</button>
-          <button id="pauseBtn">⏸️ إيقاف</button>
-          <button id="resetBtn">🔄 إعادة</button>
-          <button id="plusBtn">+1 دقيقة</button>
-          <button id="minusBtn">-1 دقيقة</button>
-        </div>
-      </div>
-    </section>
-
-  </main>
+  <!-- قسم الملاحظات -->
+  <div id="notesSection" class="section">
+    <h2>📝 الملاحظات</h2>
+    <input type="text" id="noteInput" placeholder="أكتب ملاحظة">
+    <button onclick="addNote()">إضافة</button>
+    <ul id="notesList"></ul>
+  </div>
 
   <script>
-    // --- التنقل بين الأقسام ---
-    function showSection(id, hideLessons = false){
-      document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+    // التنقل بين الأقسام
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
       document.getElementById(id).classList.add('active');
-      // إذا طلبنا إخفاء قوائم الملازم (عند الضغط على زر الملازم من القائمة)
-      if(id === 'lessons' && hideLessons){
-        document.getElementById('firstList').style.display = 'none';
-        document.getElementById('fourthList').style.display = 'none';
+    }
+
+    // المؤقت
+    let timerInterval;
+    let seconds = 0;
+    function updateTimer() {
+      const min = String(Math.floor(seconds / 60)).padStart(2, '0');
+      const sec = String(seconds % 60).padStart(2, '0');
+      document.getElementById("timer").textContent = `${min}:${sec}`;
+    }
+    function startTimer() {
+      if (!timerInterval) {
+        timerInterval = setInterval(() => {
+          seconds++;
+          updateTimer();
+        }, 1000);
       }
     }
-
-    // --- اختيار الصف في الملازم ---
-    function selectClass(key){
-      // تأكد أن قسم الملازم ظاهر (لا نمرر hideLessons هنا)
-      showSection('lessons');
-      if(key === 'first'){
-        document.getElementById('firstList').style.display = 'block';
-        document.getElementById('fourthList').style.display = 'none';
-      } else {
-        document.getElementById('firstList').style.display = 'none';
-        document.getElementById('fourthList').style.display = 'block';
-      }
-      // مرر للعرض قليلًا
-      window.scrollTo({ top: document.getElementById('classContent').offsetTop - 20, behavior:'smooth' });
-    }
-
-    // --- الملاحظات: إضافة، حذف، حفظ في localStorage ---
-    const noteInput = document.getElementById('noteInput');
-    const addNoteBtn = document.getElementById('addNoteBtn');
-    const notesList = document.getElementById('notesList');
-
-    function renderNote(text){
-      const li = document.createElement('li');
-      const span = document.createElement('span');
-      span.textContent = text;
-      li.appendChild(span);
-
-      const del = document.createElement('button');
-      del.className = 'note-del';
-      del.textContent = 'حذف';
-      del.onclick = () => {
-        li.remove();
-        saveNotes();
-      };
-      li.appendChild(del);
-      notesList.appendChild(li);
-    }
-
-    function addNote(){
-      const val = noteInput.value.trim();
-      if(!val) return;
-      renderNote(val);
-      noteInput.value = '';
-      saveNotes();
-    }
-    addNoteBtn.addEventListener('click', addNote);
-    noteInput.addEventListener('keydown', e => { if(e.key === 'Enter') addNote(); });
-
-    function saveNotes(){
-      const arr = [];
-      document.querySelectorAll('#notesList li span').forEach(sp => arr.push(sp.textContent));
-      localStorage.setItem('ms_notes', JSON.stringify(arr));
-    }
-
-    function loadNotes(){
-      const arr = JSON.parse(localStorage.getItem('ms_notes') || '[]');
-      arr.forEach(n => renderNote(n));
-    }
-    window.addEventListener('load', ()=> {
-      loadNotes();
-      // افتراضيًا افتح قسم الكتب عند الدخول
-      showSection('books');
-    });
-    window.addEventListener('beforeunload', saveNotes);
-
-    // --- المؤقت (عد تنازلي قابل للتعديل) ---
-    let timeLeft = 25 * 60; // بالثواني
-    let timerInterval = null;
-    const timerDisplay = document.getElementById('timerDisplay');
-    const startBtn = document.getElementById('startBtn');
-    const pauseBtn = document.getElementById('pauseBtn');
-    const resetBtn = document.getElementById('resetBtn');
-    const plusBtn = document.getElementById('plusBtn');
-    const minusBtn = document.getElementById('minusBtn');
-
-    function formatTime(s){
-      const m = Math.floor(s/60).toString().padStart(2,'0');
-      const sec = (s%60).toString().padStart(2,'0');
-      return `${m}:${sec}`;
-    }
-    function updateTimerUI(){ timerDisplay.textContent = formatTime(timeLeft); }
-
-    function startTimer(){
-      if(timerInterval) return;
-      timerInterval = setInterval(()=>{
-        if(timeLeft > 0){
-          timeLeft--;
-          updateTimerUI();
-        } else {
-          clearInterval(timerInterval);
-          timerInterval = null;
-          alert('انتهى الوقت!');
-        }
-      },1000);
-    }
-    function pauseTimer(){
+    function stopTimer() {
       clearInterval(timerInterval);
       timerInterval = null;
     }
-    function resetTimer(){
-      pauseTimer();
-      timeLeft = 25*60;
-      updateTimerUI();
-    }
-    function changeMinutes(deltaMin){
-      timeLeft = Math.max(0, timeLeft + deltaMin*60);
-      updateTimerUI();
+    function resetTimer() {
+      stopTimer();
+      seconds = 0;
+      updateTimer();
     }
 
-    startBtn.addEventListener('click', startTimer);
-    pauseBtn.addEventListener('click', pauseTimer);
-    resetBtn.addEventListener('click', resetTimer);
-    plusBtn.addEventListener('click', ()=> changeMinutes(1));
-    minusBtn.addEventListener('click', ()=> changeMinutes(-1));
+    // الملاحظات
+    function addNote() {
+      const input = document.getElementById("noteInput");
+      if (input.value.trim() === "") return;
+      const li = document.createElement("li");
+      li.textContent = input.value;
+      document.getElementById("notesList").appendChild(li);
+      input.value = "";
+      saveNotes();
+    }
+    function saveNotes(){
+      const notes = [];
+      document.querySelectorAll("#notesList li").forEach(li => notes.push(li.textContent));
+      localStorage.setItem("notes", JSON.stringify(notes));
+    }
+    function loadNotes(){
+      const notes = JSON.parse(localStorage.getItem("notes") || "[]");
+      notes.forEach(note => {
+        const li = document.createElement("li");
+        li.textContent = note;
+        document.getElementById("notesList").appendChild(li);
+      });
+    }
+    window.addEventListener("beforeunload", saveNotes);
+    window.addEventListener("load", loadNotes);
 
-    updateTimerUI();
-
+    // أول قسم يفتح
+    showSection('first');
   </script>
 </body>
 </html>

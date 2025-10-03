@@ -1,43 +1,18 @@
-let db;
-const request = indexedDB.open("mohamedSlmanDB", 1);
-
-request.onupgradeneeded = function(e) {
-  db = e.target.result;
-  if (!db.objectStoreNames.contains("notes")) {
-    db.createObjectStore("notes", { keyPath: "id", autoIncrement: true });
-  }
-};
-
-request.onsuccess = function(e) {
-  db = e.target.result;
-  loadNotes();
-};
-
-function saveNote(text) {
-  const tx = db.transaction("notes", "readwrite");
-  tx.objectStore("notes").add({ text });
+// حفظ الملاحظات في LocalStorage
+function saveNotes(){
+  const notes = [];
+  document.querySelectorAll("#notesList li").forEach(li => notes.push(li.textContent));
+  localStorage.setItem("notes", JSON.stringify(notes));
 }
 
-function loadNotes() {
-  const tx = db.transaction("notes", "readonly");
-  const store = tx.objectStore("notes");
-  const req = store.getAll();
-  req.onsuccess = () => {
-    const notesList = document.getElementById("notesList");
-    notesList.innerHTML = "";
-    req.result.forEach(note => {
-      const div = document.createElement("div");
-      div.className = "note";
-      div.textContent = note.text;
-      notesList.appendChild(div);
-    });
-  };
+function loadNotes(){
+  const notes = JSON.parse(localStorage.getItem("notes") || "[]");
+  notes.forEach(note => {
+    const li = document.createElement("li");
+    li.textContent = note;
+    document.getElementById("notesList").appendChild(li);
+  });
 }
 
-function addNote() {
-  const text = document.getElementById("noteInput").value.trim();
-  if (!text) return;
-  saveNote(text);
-  loadNotes();
-  document.getElementById("noteInput").value = "";
-}
+window.addEventListener("beforeunload", saveNotes);
+window.addEventListener("load", loadNotes);

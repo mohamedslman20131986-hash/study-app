@@ -1,55 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>📘 mohamed-slman - الاول متوسط</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="manifest" href="manifest.json">
-</head>
-<body>
-  <header>📘 mohamed-slman - الاول متوسط</header>
-
-  <nav>
-    <button onclick="showSection('books')">📚 الكتب</button>
-    <button onclick="showSection('malazem')">📑 الملازم</button>
-    <button onclick="showSection('timer')">⏳ المؤقت</button>
-    <button onclick="showSection('notes')">📝 الملاحظات</button>
-  </nav>
-
-  <section id="books" class="active">
-    <h2>📚 الكتب</h2>
-    <ul id="books-list"></ul>
-  </section>
-
-  <section id="malazem">
-    <h2>📑 الملازم</h2>
-    <ul id="malazem-list"></ul>
-  </section>
-
-  <section id="timer">
-    <h2>⏳ المؤقت</h2>
-    <div class="timer" id="timerDisplay">25:00</div>
-    <div style="text-align:center">
-      <button onclick="startTimer()">▶️ بدء</button>
-      <button onclick="pauseTimer()">⏸️ إيقاف مؤقت</button>
-      <button onclick="resetTimer()">🔄 إعادة</button>
-    </div>
-    <div style="text-align:center;margin-top:10px;">
-      <button onclick="changeTime(60)">+1 دقيقة</button>
-      <button onclick="changeTime(-60)">-1 دقيقة</button>
-    </div>
-  </section>
-
-  <section id="notes">
-    <h2>📝 الملاحظات</h2>
-    <textarea id="noteInput" placeholder="أكتب ملاحظتك هنا..."></textarea>
-    <button onclick="addNote()">إضافة ملاحظة</button>
-    <div id="notesList"></div>
-  </section>
-
-  <script src="main.js"></script>
-  <script src="timer.js"></script>
-  <script src="db.js"></script>
-</body>
-</html>

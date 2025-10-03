@@ -1,57 +1,70 @@
-// التنقل بين الأقسام
-function showSection(id){
-  document.querySelectorAll("section").forEach(sec => sec.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
+// إظهار الأقسام
+function showSection(id) {
+  document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
 }
 
-// الملاحظات
-function addNote(){
-  const text = document.getElementById("noteInput").value.trim();
-  if(!text) return;
-  const li = document.createElement("li");
-  li.textContent = text;
-  document.getElementById("notesList").appendChild(li);
-  document.getElementById("noteInput").value="";
+// 📝 الملاحظات
+function addNote() {
+  const input = document.getElementById("noteInput");
+  if (input.value.trim() !== "") {
+    const li = document.createElement("li");
+    li.textContent = input.value;
+    document.getElementById("notesList").appendChild(li);
+    input.value = "";
+    saveNotes();
+  }
 }
-
-// المؤقت
-let timerSeconds = 25*60;
-let timerInterval = null;
-
-function updateDisplay(){
-  const m = String(Math.floor(timerSeconds/60)).padStart(2,'0');
-  const s = String(timerSeconds%60).padStart(2,'0');
-  document.getElementById("timerDisplay").textContent = `${m}:${s}`;
+function saveNotes() {
+  const notes = [];
+  document.querySelectorAll("#notesList li").forEach(li => notes.push(li.textContent));
+  localStorage.setItem("notes", JSON.stringify(notes));
 }
-
-function startTimer(){
-  if(timerInterval) return;
-  timerInterval = setInterval(()=>{
-    if(timerSeconds>0){
-      timerSeconds--;
-      updateDisplay();
-    } else {
-      clearInterval(timerInterval);
-      timerInterval=null;
-      alert("⏰ انتهى الوقت!");
-    }
-  },1000);
+function loadNotes() {
+  const notes = JSON.parse(localStorage.getItem("notes") || "[]");
+  notes.forEach(note => {
+    const li = document.createElement("li");
+    li.textContent = note;
+    document.getElementById("notesList").appendChild(li);
+  });
 }
+window.addEventListener("load", loadNotes);
 
-function pauseTimer(){
-  clearInterval(timerInterval);
-  timerInterval=null;
+// ⏳ المؤقت
+let timer;
+let timeLeft = 1500; // 25 دقيقة
+
+function updateDisplay() {
+  const minutes = Math.floor(timeLeft / 60);
+  const seconds = timeLeft % 60;
+  document.getElementById("timerDisplay").textContent =
+    `${minutes}:${seconds.toString().padStart(2, "0")}`;
 }
-
-function resetTimer(){
-  pauseTimer();
-  timerSeconds = 25*60;
+function startTimer() {
+  if (!timer) {
+    timer = setInterval(() => {
+      if (timeLeft > 0) {
+        timeLeft--;
+        updateDisplay();
+      } else {
+        clearInterval(timer);
+        timer = null;
+        alert("انتهى الوقت ⏳");
+      }
+    }, 1000);
+  }
+}
+function pauseTimer() {
+  clearInterval(timer);
+  timer = null;
+}
+function resetTimer() {
+  timeLeft = 1500;
   updateDisplay();
 }
-
-function changeTime(sec){
-  timerSeconds = Math.max(0, timerSeconds+sec);
+function changeTime(seconds) {
+  timeLeft += seconds;
+  if (timeLeft < 0) timeLeft = 0;
   updateDisplay();
 }
-
 updateDisplay();

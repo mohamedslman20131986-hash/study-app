@@ -1,198 +1,92 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>الملازم - mohamed-slman 📘</title>
-  <style>
-    body {
-      font-family: "Tahoma", sans-serif;
-      direction: rtl;
-      text-align: right;
-      background: #f9f9f9;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background: #065f46;
-      color: white;
-      padding: 10px;
-      text-align: center;
-      font-size: 20px;
-      font-weight: bold;
-    }
-    nav {
-      display: flex;
-      justify-content: center;
-      margin: 15px 0;
-      gap: 10px;
-    }
-    nav button {
-      padding: 10px 20px;
-      font-size: 16px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      background: #047857;
-      color: white;
-    }
-    nav button:hover {
-      background: #065f46;
-    }
-    .section {
-      display: none;
-      padding: 15px;
-    }
-    .section.active {
-      display: block;
-    }
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-    li {
-      background: white;
-      padding: 12px;
-      margin: 8px 0;
-      border-radius: 8px;
-      border: 1px solid #ddd;
-    }
-    a {
-      text-decoration: none;
-      color: #065f46;
-      font-weight: bold;
-    }
-    #timer {
-      font-size: 18px;
-      text-align: center;
-      margin-top: 10px;
-    }
-    #notesList li {
-      cursor: pointer;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📚 مكتبة محمد سلمان</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
 </head>
 <body>
   <header>
-    موقع الملازم - mohamed-slman 📘
+    <h1>📚 مكتبة محمد سلمان</h1>
+    <nav>
+      <button onclick="showSection('books')">📖 كتب الأول متوسط</button>
+      <button onclick="showSection('lessons1')">📘 ملازم الأول متوسط</button>
+      <button onclick="showSection('lessons4')">📗 ملازم الرابع الإعدادي</button>
+      <button onclick="showSection('notes')">📝 الملاحظات</button>
+      <button onclick="showSection('timer')">⏳ المؤقت</button>
+    </nav>
   </header>
 
-  <nav>
-    <button onclick="showSection('first')">📘 ملازم الأول متوسط</button>
-    <button onclick="showSection('fourth')">📗 ملازم الرابع الإعدادي</button>
-    <button onclick="showSection('timerSection')">⏳ المؤقت</button>
-    <button onclick="showSection('notesSection')">📝 الملاحظات</button>
-  </nav>
-
-  <!-- قسم الأول متوسط -->
-  <div id="first" class="section">
-    <h2>ملازم الأول متوسط</h2>
+  <!-- كتب الاول متوسط -->
+  <section id="books" class="page-section active">
+    <h2>📖 كتب الأول متوسط</h2>
     <ul>
-      <li><a href="#">الفيزياء</a></li>
-      <li><a href="#">الكيمياء</a></li>
-      <li><a href="#">الأحياء</a></li>
-      <li><a href="#">الإجتماعيات</a></li>
-      <li><a href="#">اللغة العربية (ج1)</a></li>
-      <li><a href="#">اللغة العربية (ج2)</a></li>
-      <li><a href="#">الرياضيات</a></li>
-      <li><a href="#">الإسلامية</a></li>
-      <li><a href="#">الإنكليزي</a></li>
+      <li><a href="https://drive.google.com/file/d/1MTGDHwq2otPMsUDIs2OcngH5VNQb23KJ/view?usp=drivesdk" target="_blank">عربي ج1</a></li>
+      <li><a href="https://drive.google.com/file/d/1cxk-MWLakARNXNTbL8eZjbL08JTkO8Ue/view?usp=drivesdk" target="_blank">عربي ج2</a></li>
+      <li><a href="https://drive.google.com/file/d/1LYQfsvNQDJ5T2YI-eBiEbGYGs1XZrciQ/view?usp=drivesdk" target="_blank">أحياء</a></li>
+      <li><a href="https://drive.google.com/file/d/1fgVXQf8t2czQrTBpWZ5IqFBzHRSH9Mtj/view?usp=drivesdk" target="_blank">إسلامية</a></li>
+      <li><a href="https://drive.google.com/file/d/1X5x2pBJOHcmLiFFRF2DEsKFlqOzXpfba/view?usp=drivesdk" target="_blank">إنكليزي</a></li>
+      <li><a href="https://drive.google.com/file/d/1ybbl5KKtyovEJr9RJcbmT3YQ1KKxDJx7/view?usp=drivesdk" target="_blank">فيزياء</a></li>
+      <li><a href="https://drive.google.com/file/d/1556Wqvs4HXxLyJxHDwgF7znRbooVFAjl/view?usp=drivesdk" target="_blank">كيمياء</a></li>
+      <li><a href="https://drive.google.com/file/d/1Fbg3oG9okburkz10e3jy1eW-LDmremsA/view?usp=drivesdk" target="_blank">رياضيات</a></li>
+      <li><a href="https://drive.google.com/file/d/1oIGD2RQ_NJVcX_Yhvy5UTBP4M_Mpj0jK/view?usp=drivesdk" target="_blank">اجتماعيات</a></li>
     </ul>
-  </div>
+  </section>
 
-  <!-- قسم الرابع الإعدادي -->
-  <div id="fourth" class="section">
-    <h2>ملازم الرابع الإعدادي</h2>
+  <!-- ملازم الاول متوسط -->
+  <section id="lessons1" class="page-section">
+    <h2>📘 ملازم الأول متوسط</h2>
     <ul>
-      <li><a href="https://drive.google.com/file/d/1_F-jIezozP-1b-xVJgWthkdR3Zvp15dC/view?usp=drivesdk" target="_blank">اللغة العربية (ج1)</a></li>
-      <li><a href="https://drive.google.com/file/d/1ngdBCGrngqmiYOo7GGzBSC1-AzgtOXAF/view?usp=drivesdk" target="_blank">اللغة العربية (ج2)</a></li>
-      <li><a href="https://drive.google.com/file/d/1RH4RCagziERV9MS75WD_tPBRV3YSSVrx/view?usp=drivesdk" target="_blank">الأحياء</a></li>
-      <li><a href="https://drive.google.com/file/d/1feqQpH-r2614_MN3dmtlM2Zqn3pMH8SU/view?usp=drivesdk" target="_blank">الإسلامية</a></li>
-      <li><a href="https://drive.google.com/file/d/1Kg-stdFCtgi5hiPu_LM9QL08z0OjUipG/view?usp=drivesdk" target="_blank">الإنكليزي</a></li>
-      <li><a href="https://drive.google.com/file/d/1-K49sgd6Zz1YcFW1RJ1RjIQuuAfIiI-C/view?usp=drivesdk" target="_blank">الفيزياء</a></li>
-      <li><a href="https://drive.google.com/file/d/1yxB6Hk7kEaU-us48dz2wTnmrRsDB7D7a/view?usp=drivesdk" target="_blank">الفرنسي</a></li>
-      <li><a href="https://drive.google.com/file/d/1CMZHmt44trLM1wlyjZ2W-HGBvjr78Z-v/view?usp=drivesdk" target="_blank">الرياضيات</a></li>
-      <li><a href="https://drive.google.com/file/d/1mNoFpG2J9LhwBZs52_fAp3bQHlTZPpih/view?usp=drivesdk" target="_blank">الكيمياء</a></li>
+      <li><a href="https://drive.google.com/file/d/1tNS70RdL3KcrgKNiVzUKRoCKc2qCYaVd/view?usp=drivesdk" target="_blank">فيزياء</a></li>
+      <li><a href="https://drive.google.com/file/d/1Q6E8XyumkomM7LzXNX04LuZ89irSmDRb/view?usp=drivesdk" target="_blank">كيمياء</a></li>
+      <li><a href="https://drive.google.com/file/d/14SpJNuvK2p_skrnGZq-WXOA1qPBI_yBE/view?usp=drivesdk" target="_blank">أحياء</a></li>
+      <li><a href="https://drive.google.com/file/d/1Cypj2pG5IsfEBCgF5S3kTFKq9J2LZuxn/view?usp=drivesdk" target="_blank">عربي ج1</a></li>
+      <li><a href="https://drive.google.com/file/d/1Om0KngYuSIuGhAY6gtbcvWMO-a0WKdjF/view?usp=drivesdk" target="_blank">عربي ج2</a></li>
+      <li><a href="https://drive.google.com/file/d/1v7JT7H3XXvoZ0WkZBnocXr7gLdR6Pa3T/view?usp=drivesdk" target="_blank">رياضيات</a></li>
+      <li><a href="https://drive.google.com/file/d/10l8n_L9X1BnBNMr-Tvo6b8T_rOAIfnji/view?usp=drivesdk" target="_blank">إسلامية</a></li>
+      <li><a href="https://drive.google.com/file/d/1HL3Wak7iGIH5VvnnJdRMIs2sz-059P63/view?usp=drivesdk" target="_blank">إنكليزي</a></li>
     </ul>
-  </div>
+  </section>
 
-  <!-- قسم المؤقت -->
-  <div id="timerSection" class="section">
-    <h2>⏳ المؤقت</h2>
-    <div id="timer">00:00</div>
-    <button onclick="startTimer()">ابدأ</button>
-    <button onclick="stopTimer()">أوقف</button>
-    <button onclick="resetTimer()">صفر</button>
-  </div>
+  <!-- ملازم الرابع الاعدادي -->
+  <section id="lessons4" class="page-section">
+    <h2>📗 ملازم الرابع الإعدادي</h2>
+    <ul>
+      <li><a href="https://drive.google.com/file/d/1_F-jIezozP-1b-xVJgWthkdR3Zvp15dC/view?usp=drivesdk" target="_blank">عربي ج1</a></li>
+      <li><a href="https://drive.google.com/file/d/1ngdBCGrngqmiYOo7GGzBSC1-AzgtOXAF/view?usp=drivesdk" target="_blank">عربي ج2</a></li>
+      <li><a href="https://drive.google.com/file/d/1RH4RCagziERV9MS75WD_tPBRV3YSSVrx/view?usp=drivesdk" target="_blank">أحياء</a></li>
+      <li><a href="https://drive.google.com/file/d/1feqQpH-r2614_MN3dmtlM2Zqn3pMH8SU/view?usp=drivesdk" target="_blank">إسلامية</a></li>
+      <li><a href="https://drive.google.com/file/d/1Kg-stdFCtgi5hiPu_LM9QL08z0OjUipG/view?usp=drivesdk" target="_blank">إنكليزي</a></li>
+      <li><a href="https://drive.google.com/file/d/1-K49sgd6Zz1YcFW1RJ1RjIQuuAfIiI-C/view?usp=drivesdk" target="_blank">فيزياء</a></li>
+      <li><a href="https://drive.google.com/file/d/1yxB6Hk7kEaU-us48dz2wTnmrRsDB7D7a/view?usp=drivesdk" target="_blank">فرنسي</a></li>
+      <li><a href="https://drive.google.com/file/d/1CMZHmt44trLM1wlyjZ2W-HGBvjr78Z-v/view?usp=drivesdk" target="_blank">رياضيات</a></li>
+      <li><a href="https://drive.google.com/file/d/1mNoFpG2J9LhwBZs52_fAp3bQHlTZPpih/view?usp=drivesdk" target="_blank">كيمياء</a></li>
+    </ul>
+  </section>
 
-  <!-- قسم الملاحظات -->
-  <div id="notesSection" class="section">
+  <!-- الملاحظات -->
+  <section id="notes" class="page-section">
     <h2>📝 الملاحظات</h2>
-    <input type="text" id="noteInput" placeholder="أكتب ملاحظة">
-    <button onclick="addNote()">إضافة</button>
+    <input id="noteInput" type="text" placeholder="أدخل ملاحظة">
+    <button onclick="addNote()">➕ أضف</button>
     <ul id="notesList"></ul>
-  </div>
+  </section>
 
-  <script>
-    // التنقل بين الأقسام
-    function showSection(id) {
-      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-    }
+  <!-- المؤقت -->
+  <section id="timer" class="page-section">
+    <h2>⏳ المؤقت</h2>
+    <div id="timerDisplay">25:00</div>
+    <div class="controls">
+      <button onclick="startTimer()">▶️ ابدأ</button>
+      <button onclick="pauseTimer()">⏸️ إيقاف</button>
+      <button onclick="resetTimer()">🔄 إعادة</button>
+      <button onclick="changeTime(60)">+1 دقيقة</button>
+      <button onclick="changeTime(-60)">-1 دقيقة</button>
+    </div>
+  </section>
 
-    // المؤقت
-    let timerInterval;
-    let seconds = 0;
-    function updateTimer() {
-      const min = String(Math.floor(seconds / 60)).padStart(2, '0');
-      const sec = String(seconds % 60).padStart(2, '0');
-      document.getElementById("timer").textContent = `${min}:${sec}`;
-    }
-    function startTimer() {
-      if (!timerInterval) {
-        timerInterval = setInterval(() => {
-          seconds++;
-          updateTimer();
-        }, 1000);
-      }
-    }
-    function stopTimer() {
-      clearInterval(timerInterval);
-      timerInterval = null;
-    }
-    function resetTimer() {
-      stopTimer();
-      seconds = 0;
-      updateTimer();
-    }
-
-    // الملاحظات
-    function addNote() {
-      const input = document.getElementById("noteInput");
-      if (input.value.trim() === "") return;
-      const li = document.createElement("li");
-      li.textContent = input.value;
-      document.getElementById("notesList").appendChild(li);
-      input.value = "";
-      saveNotes();
-    }
-    function saveNotes(){
-      const notes = [];
-      document.querySelectorAll("#notesList li").forEach(li => notes.push(li.textContent));
-      localStorage.setItem("notes", JSON.stringify(notes));
-    }
-    function loadNotes(){
-      const notes = JSON.parse(localStorage.getItem("notes") || "[]");
-      notes.forEach(note => {
-        const li = document.createElement("li");
-        li.textContent = note;
-        document.getElementById("notesList").appendChild(li);
-      });
-    }
-    window.addEventListener("beforeunload", saveNotes);
-    window.addEventListener("load", loadNotes);
-
-    // أول قسم يفتح
-    showSection('first');
-  </script>
+  <script src="main.js"></script>
 </body>
 </html>

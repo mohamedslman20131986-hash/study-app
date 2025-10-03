@@ -2,164 +2,116 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>📚 مكتبة محمد سلمان</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    body {font-family: 'Cairo', sans-serif; margin:0; padding:0; background:#f9f9f9; direction:rtl;}
+    header {background:#006400; color:white; padding:15px; text-align:center;}
+    nav {margin-top:10px;}
+    nav a {text-decoration:none; color:white; background:#228B22; padding:10px 15px; margin:5px; border-radius:5px; display:inline-block;}
+    nav a:hover {background:#32CD32;}
+    section {padding:20px;}
+    .menu-btns {display:flex; flex-direction:column; gap:10px; margin-top:15px;}
+    .menu-btns a {background:#e6ffe6; border:2px solid #228B22; padding:12px; border-radius:8px; font-weight:bold; text-decoration:none; color:#006400; display:block; transition:0.3s;}
+    .menu-btns a:hover {background:#ccffcc;}
+    .subject {display:none; background:white; margin:20px auto; padding:20px; border-radius:10px; border:1px solid #ddd;}
+    .subject.active {display:block;}
+    .back-btn {display:inline-block; margin-bottom:15px; background:#228B22; color:white; padding:8px 12px; border-radius:5px; text-decoration:none;}
+    textarea {width:100%; height:120px; padding:10px;}
+    #timer {font-size:20px; margin:10px 0;}
+    button {margin:3px; padding:5px 10px;}
+  </style>
 </head>
 <body>
   <header>
     <h1>📚 مكتبة محمد سلمان</h1>
     <nav>
-      <button onclick="showSection('books')">📕 كتب الأول متوسط</button>
-      <button onclick="showSection('lessons')">📗 ملازم الأول متوسط</button>
-      <button onclick="showSection('lessons4')">📘 ملازم الرابع الإعدادي</button>
-      <button onclick="showSection('notes')">📝 الملاحظات</button>
-      <button onclick="showSection('timer')">⏳ المؤقت</button>
+      <a href="#" onclick="openSection('books')">📖 الكتب</a>
+      <a href="#" onclick="openSection('notes')">📝 الملاحظات</a>
+      <a href="#" onclick="openSection('timerSection')">⏳ المؤقت</a>
+      <a href="#" onclick="openSection('mllazem')">📘 الملازم</a>
     </nav>
   </header>
 
-  <!-- كتب الأول متوسط -->
-  <section id="books" class="page-section active">
-    <h2>📕 كتب الأول متوسط</h2>
-    <div class="lessons-buttons">
-      <a class="lesson-btn" href="https://drive.google.com/file/d/1LYQfsvNQDJ5T2YI-eBiEbGYGs1XZrciQ/view?usp=drivesdk" target="_blank">أحياء</a>
-      <a class="lesson-btn" href="https://drive.google.com/file/d/1ybbl5KKtyovEJr9RJcbmT3YQ1KKxDJx7/view?usp=drivesdk" target="_blank">فيزياء</a>
-      <a class="lesson-btn" href="https://drive.google.com/file/d/16Q5BdiQ66spmioFBYwc2HcqABmxVzl7O/view?usp=drivesdk" target="_blank">اجتماعيات</a>
-      <a class="lesson-btn" href="https://drive.google.com/file/d/1Fbg3oG9okburkz10e3jy1eW-LDmremsA/view?usp=drivesdk" target="_blank">رياضيات</a>
-      <a class="lesson-btn" href="https://drive.google.com/file/d/1fgVXQf8t2czQrTBpWZ5IqFBzHRSH9Mtj/view?usp=drivesdk" target="_blank">إسلامية</a>
-      <a class="lesson-btn" href="https://drive.google.com/file/d/1p4wHo7yhRQzznTiW-pjb-wDQtMT787ES/view?usp=drivesdk" target="_blank">تربية أخلاقية</a>
-      <a class="lesson-btn" href="https://drive.google.com/file/d/1X5x2pBJOHcmLiFFRF2DEsKFlqOzXpfba/view?usp=drivesdk" target="_blank">إنكليزي</a>
-      <a class="lesson-btn" href="https://drive.google.com/file/d/1556Wqvs4HXxLyJxHDwgF7znRbooVFAjl/view?usp=drivesdk" target="_blank">كيمياء</a>
-      <a class="lesson-btn" href="https://drive.google.com/file/d/1MTGDHwq2otPMsUDIs2OcngH5VNQb23KJ/view?usp=drivesdk" target="_blank">لغة عربية ج1</a>
-      <a class="lesson-btn" href="https://drive.google.com/file/d/1cxk-MWLakARNXNTbL8eZjbL08JTkO8Ue/view?usp=drivesdk" target="_blank">لغة عربية ج2</a>
-      <a class="lesson-btn" href="https://drive.google.com/file/d/1A6nGumwN0RXL9h4G0_5fQYtGQA6emr6h/view?usp=drivesdk" target="_blank">حاسوب</a>
-      <a class="lesson-btn" href="https://drive.google.com/file/d/1FzNb-2dpgGxDX9k-MxZ68NBfs10lTCh3/view?usp=drivesdk" target="_blank">نشاط إنكليزي</a>
+  <section id="books" class="subject">
+    <a href="#" class="back-btn" onclick="goBack()">⬅️ رجوع</a>
+    <h2>📖 كتب الاول متوسط</h2>
+    <ul>
+      <li><a href="https://drive.google.com/file/d/1hS7-vB2-B2mBtsPhZZoC9xNWUSiVUw4T/view" target="_blank">📥 كتاب عربي 1</a></li>
+      <li><a href="https://drive.google.com/file/d/1XQ5x49hWv-K0rK3gOcAjVzE6jdZTltoO/view" target="_blank">📥 كتاب عربي 2</a></li>
+      <li><a href="https://drive.google.com/file/d/1O2i7V3lL2vNhtFidAjXlqAGtxsqP2pH6/view" target="_blank">📥 كتاب احياء</a></li>
+      <li><a href="https://drive.google.com/file/d/1ZPj8qNWBmTDcBlbJ8uFrFVKZLqY9N5OZ/view" target="_blank">📥 كتاب اسلامية</a></li>
+      <li><a href="https://drive.google.com/file/d/1V4u0R1yQNkKkiUtLdpAF2Txh9GhdVY7l/view" target="_blank">📥 كتاب انكليزي</a></li>
+      <li><a href="https://drive.google.com/file/d/1M35V9rEZH5t0u2D84Tni5G7e7VwN0V5o/view" target="_blank">📥 كتاب فيزياء</a></li>
+      <li><a href="https://drive.google.com/file/d/1YmZkO2nmtXtMiJGwn9cXz8Hfn2W1pZW2/view" target="_blank">📥 كتاب كيمياء</a></li>
+      <li><a href="https://drive.google.com/file/d/1Sh5H4g5w3JXJ4KrYbVtjhA3eRQQZokx7/view" target="_blank">📥 كتاب رياضيات</a></li>
+      <li><a href="https://drive.google.com/file/d/1yrh7eWB0skUQxU6hxiVh6aUsBd2bG9Ab/view" target="_blank">📥 كتاب اجتماعيات</a></li>
+    </ul>
+  </section>
+
+  <section id="mllazem" class="subject">
+    <a href="#" class="back-btn" onclick="goBack()">⬅️ رجوع</a>
+    <h2>📘 اختر الصف</h2>
+    <div class="menu-btns">
+      <a href="#" onclick="openSubject('firstMid')">📘 ملازم الاول متوسط</a>
+      <a href="#" onclick="openSubject('fourthPrep')">📘 ملازم الرابع الاعدادي</a>
     </div>
   </section>
 
-  <!-- ملازم الأول متوسط -->
-  <section id="lessons" class="page-section">
-    <h2>📗 ملازم الأول متوسط</h2>
-    <div class="lessons-buttons">
-      <a class="lesson-btn" href="https://drive.google.com/file/d/1tNS70RdL3KcrgKNiVzUKRoCKc2qCYaVd/view?usp=drivesdk" target="_blank">فيزياء</a>
-      <a class="lesson-btn" href="https://drive.google.com/file/d/1Q6E8XyumkomM7LzXNX04LuZ89irSmDRb/view?usp=drivesdk" target="_blank">كيمياء</a>
-      <a class="lesson-btn" href="https://drive.google.com/file/d/14SpJNuvK2p_skrnGZq-WXOA1qPBI_yBE/view?usp=drivesdk" target="_blank">أحياء</a>
-      <a class="lesson-btn" href="https://drive.google.com/file/d/1oIGD2RQ_NJVcX_Yhvy5UTBP4M_Mpj0jK/view?usp=drivesdk" target="_blank">اجتماعيات</a>
-      <a class="lesson-btn" href="https://drive.google.com/file/d/1Cypj2pG5IsfEBCgF5S3kTFKq9J2LZuxn/view?usp=drivesdk" target="_blank">عربي ج1</a>
-      <a class="lesson-btn" href="https://drive.google.com/file/d/1Om0KngYuSIuGhAY6gtbcvWMO-a0WKdjF/view?usp=drivesdk" target="_blank">عربي ج2</a>
-      <a class="lesson-btn" href="https://drive.google.com/file/d/1v7JT7H3XXvoZ0WkZBnocXr7gLdR6Pa3T/view?usp=drivesdk" target="_blank">رياضيات</a>
-      <a class="lesson-btn" href="https://drive.google.com/file/d/10l8n_L9X1BnBNMr-Tvo6b8T_rOAIfnji/view?usp=drivesdk" target="_blank">إسلامية</a>
-      <a class="lesson-btn" href="https://drive.google.com/file/d/1HL3Wak7iGIH5VvnnJdRMIs2sz-059P63/view?usp=drivesdk" target="_blank">إنكليزي</a>
-    </div>
+  <section id="firstMid" class="subject">
+    <a href="#" class="back-btn" onclick="goBack()">⬅️ رجوع</a>
+    <h2>📘 ملازم الاول متوسط</h2>
+    <ul>
+      <li><a href="https://drive.google.com/file/d/1s4FS7A7QoafQHnV50mPt9a9EzOZPC9vC/view" target="_blank">📥 فيزياء</a></li>
+      <li><a href="https://drive.google.com/file/d/1RB3o1uvXjECILj0xLEAG4StbS2Xr-j3j/view" target="_blank">📥 كيمياء</a></li>
+      <li><a href="https://drive.google.com/file/d/1MJshq_zm5V0FkU9Irj6M8IlFtrn1mRWX/view" target="_blank">📥 احياء</a></li>
+      <li><a href="https://drive.google.com/file/d/1sQlLPf3w5r5mb0_GYDUxUduz6sKXxYkQ/view" target="_blank">📥 عربي 1</a></li>
+      <li><a href="https://drive.google.com/file/d/1xEw8bqpE1CuG6UqkKq4Fxk21gpmXDRvS/view" target="_blank">📥 عربي 2</a></li>
+      <li><a href="https://drive.google.com/file/d/1nK3oPwL6gwTAEB0q0FNdHl5Je2q8WfZc/view" target="_blank">📥 رياضيات</a></li>
+      <li><a href="https://drive.google.com/file/d/1wsvkiUoLB0YWcuP-RlSLh1EQZgFjxB0i/view" target="_blank">📥 اسلامية</a></li>
+      <li><a href="https://drive.google.com/file/d/1eWWoRuqDaX-lAfFPOjAzdojX6UePbLQF/view" target="_blank">📥 انكليزي</a></li>
+    </ul>
   </section>
 
-  <!-- ملازم الرابع الإعدادي -->
-  <section id="lessons4" class="page-section">
-    <h2>📘 ملازم الرابع الإعدادي</h2>
-    <div class="lessons-buttons">
-      <a class="lesson-btn" href="https://drive.google.com/file/d/1_F-jIezozP-1b-xVJgWthkdR3Zvp15dC/view?usp=drivesdk" target="_blank">عربي ج1</a>
-      <a class="lesson-btn" href="https://drive.google.com/file/d/1ngdBCGrngqmiYOo7GGzBSC1-AzgtOXAF/view?usp=drivesdk" target="_blank">عربي ج2</a>
-      <a class="lesson-btn" href="https://drive.google.com/file/d/1RH4RCagziERV9MS75WD_tPBRV3YSSVrx/view?usp=drivesdk" target="_blank">أحياء</a>
-      <a class="lesson-btn" href="https://drive.google.com/file/d/1feqQpH-r2614_MN3dmtlM2Zqn3pMH8SU/view?usp=drivesdk" target="_blank">إسلامية</a>
-      <a class="lesson-btn" href="https://drive.google.com/file/d/1Kg-stdFCtgi5hiPu_LM9QL08z0OjUipG/view?usp=drivesdk" target="_blank">إنكليزي</a>
-      <a class="lesson-btn" href="https://drive.google.com/file/d/1-K49sgd6Zz1YcFW1RJ1RjIQuuAfIiI-C/view?usp=drivesdk" target="_blank">فيزياء</a>
-      <a class="lesson-btn" href="https://drive.google.com/file/d/1yxB6Hk7kEaU-us48dz2wTnmrRsDB7D7a/view?usp=drivesdk" target="_blank">فرنسي</a>
-      <a class="lesson-btn" href="https://drive.google.com/file/d/1CMZHmt44trLM1wlyjZ2W-HGBvjr78Z-v/view?usp=drivesdk" target="_blank">رياضيات</a>
-      <a class="lesson-btn" href="https://drive.google.com/file/d/1mNoFpG2J9LhwBZs52_fAp3bQHlTZPpih/view?usp=drivesdk" target="_blank">كيمياء</a>
-    </div>
+  <section id="fourthPrep" class="subject">
+    <a href="#" class="back-btn" onclick="goBack()">⬅️ رجوع</a>
+    <h2>📘 ملازم الرابع الاعدادي</h2>
+    <ul>
+      <li><a href="https://drive.google.com/file/d/1mABy7AmVtd6Q0pQvmf8uT7fM2wRhpF2L/view" target="_blank">📥 فيزياء</a></li>
+      <li><a href="https://drive.google.com/file/d/1XQmI7GZC7bcN9jBx3rFwV2U_RqU9wsuV/view" target="_blank">📥 كيمياء</a></li>
+      <li><a href="https://drive.google.com/file/d/1hT7EpT9m_TZlxnS1c9Qk9g3Qcf2xkEnY/view" target="_blank">📥 احياء</a></li>
+      <li><a href="https://drive.google.com/file/d/1HbQ5Eo8oLwJaa7PMI_7gLqG4VXzssMpg/view" target="_blank">📥 عربي</a></li>
+      <li><a href="https://drive.google.com/file/d/1XqkWECZ0Jq5WfZfRbq7VbV29e2cJ9aGd/view" target="_blank">📥 رياضيات</a></li>
+      <li><a href="https://drive.google.com/file/d/1u3X-ecFR1uyB-Q5DDItRr9cpxk0AdJ6T/view" target="_blank">📥 اسلامية</a></li>
+      <li><a href="https://drive.google.com/file/d/1zvFRdml0fG8B7DLazQo6o3E2JjD9nmh5/view" target="_blank">📥 انكليزي</a></li>
+    </ul>
   </section>
 
-  <!-- الملاحظات -->
-  <section id="notes" class="page-section">
+  <section id="notes" class="subject">
+    <a href="#" class="back-btn" onclick="goBack()">⬅️ رجوع</a>
     <h2>📝 الملاحظات</h2>
-    <input id="noteInput" type="text" placeholder="أدخل ملاحظة">
-    <button onclick="addNote()">➕ أضف</button>
-    <ul id="notesList"></ul>
+    <textarea id="notesArea" placeholder="اكتب ملاحظاتك هنا..."></textarea>
+    <button onclick="saveNotes()">💾 حفظ</button>
   </section>
 
-  <!-- المؤقت -->
-  <section id="timer" class="page-section">
+  <section id="timerSection" class="subject">
+    <a href="#" class="back-btn" onclick="goBack()">⬅️ رجوع</a>
     <h2>⏳ المؤقت</h2>
-    <div id="timerDisplay">25:00</div>
-    <div class="controls">
-      <button onclick="startTimer()">▶️ ابدأ</button>
-      <button onclick="pauseTimer()">⏸️ إيقاف</button>
-      <button onclick="resetTimer()">🔄 إعادة</button>
-      <button onclick="changeTime(60)">+1 دقيقة</button>
-      <button onclick="changeTime(-60)">-1 دقيقة</button>
-    </div>
+    <div id="timer">00:00</div>
+    <button onclick="startTimer()">▶️ ابدأ</button>
+    <button onclick="stopTimer()">⏸️ إيقاف</button>
+    <button onclick="resetTimer()">🔄 إعادة</button>
   </section>
 
   <script>
-    // تبديل الأقسام
-    function showSection(id) {
-      document.querySelectorAll(".page-section").forEach(sec => sec.classList.remove("active"));
-      document.getElementById(id).classList.add("active");
-    }
-
-    // ---------------- الملاحظات ----------------
-    function addNote() {
-      const input = document.getElementById("noteInput");
-      if (input.value.trim() === "") return;
-      const li = document.createElement("li");
-      li.textContent = input.value;
-      document.getElementById("notesList").appendChild(li);
-      input.value = "";
-      saveNotes();
-    }
-    function saveNotes(){
-      const notes = [];
-      document.querySelectorAll("#notesList li").forEach(li => notes.push(li.textContent));
-      localStorage.setItem("notes", JSON.stringify(notes));
-    }
-    function loadNotes(){
-      const notes = JSON.parse(localStorage.getItem("notes") || "[]");
-      notes.forEach(note => {
-        const li = document.createElement("li");
-        li.textContent = note;
-        document.getElementById("notesList").appendChild(li);
-      });
-    }
-    window.addEventListener("beforeunload", saveNotes);
-    window.addEventListener("load", loadNotes);
-
-    // ---------------- المؤقت ----------------
-    let timer;
-    let timeLeft = 1500;
-    let isRunning = false;
-
-    function updateDisplay(){
-      const minutes = Math.floor(timeLeft / 60).toString().padStart(2,"0");
-      const seconds = (timeLeft % 60).toString().padStart(2,"0");
-      document.getElementById("timerDisplay").textContent = `${minutes}:${seconds}`;
-    }
-    function startTimer(){
-      if(isRunning) return;
-      isRunning = true;
-      timer = setInterval(()=>{
-        if(timeLeft > 0){
-          timeLeft--;
-          updateDisplay();
-        } else {
-          pauseTimer();
-        }
-      },1000);
-    }
-    function pauseTimer(){
-      clearInterval(timer);
-      isRunning = false;
-    }
-    function resetTimer(){
-      pauseTimer();
-      timeLeft = 1500;
-      updateDisplay();
-    }
-    function changeTime(sec){
-      timeLeft += sec;
-      if(timeLeft < 0) timeLeft = 0;
-      updateDisplay();
-    }
-    updateDisplay();
+    function openSection(id){document.querySelectorAll(".subject").forEach(s=>s.classList.remove("active"));document.getElementById(id).classList.add("active");}
+    function openSubject(id){document.querySelectorAll(".subject").forEach(s=>s.classList.remove("active"));document.getElementById(id).classList.add("active");}
+    function goBack(){document.querySelectorAll(".subject").forEach(s=>s.classList.remove("active"));}
+    function saveNotes(){localStorage.setItem("notes",document.getElementById("notesArea").value);alert("تم حفظ الملاحظات ✅");}
+    window.onload=function(){if(localStorage.getItem("notes"))document.getElementById("notesArea").value=localStorage.getItem("notes");}
+    let timerInterval,seconds=0;function updateTimer(){let m=Math.floor(seconds/60),s=seconds%60;document.getElementById("timer").textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;}
+    function startTimer(){if(!timerInterval)timerInterval=setInterval(()=>{seconds++;updateTimer();},1000);}
+    function stopTimer(){clearInterval(timerInterval);timerInterval=null;}
+    function resetTimer(){stopTimer();seconds=0;updateTimer();}
   </script>
 </body>
 </html>

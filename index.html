@@ -3,53 +3,75 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>📘 mohamed-slman - الاول متوسط</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>📚 مكتبة محمد سلمان</title>
+  <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
-  <header>📘 mohamed-slman - الاول متوسط</header>
+  <header>
+    <h1>📚 مكتبة محمد سلمان</h1>
+    <nav>
+      <button onclick="showSection('books')">الكتب</button>
+      <button onclick="showSection('lessons')">الملازم</button>
+      <button onclick="showSection('notes')">الملاحظات</button>
+      <button onclick="showSection('timer')">المؤقت</button>
+    </nav>
+  </header>
 
-  <nav>
-    <button onclick="showSection('books')">📚 الكتب</button>
-    <button onclick="showSection('malazem')">📑 الملازم</button>
-    <button onclick="showSection('timer')">⏳ المؤقت</button>
-    <button onclick="showSection('notes')">📝 الملاحظات</button>
-  </nav>
-
-  <section id="books" class="active">
-    <h2>📚 الكتب</h2>
-    <ul id="books-list"></ul>
+  <!-- الكتب -->
+  <section id="books" class="page-section active">
+    <h2>📖 الكتب</h2>
+    <ul>
+      <li><a href="https://drive.google.com/file/d/1MTGDHwq2otPMsUDIs2OcngH5VNQb23KJ/view?usp=drivesdk" target="_blank">عربي ج1</a></li>
+      <li><a href="https://drive.google.com/file/d/1cxk-MWLakARNXNTbL8eZjbL08JTkO8Ue/view?usp=drivesdk" target="_blank">عربي ج2</a></li>
+      <li><a href="https://drive.google.com/file/d/1LYQfsvNQDJ5T2YI-eBiEbGYGs1XZrciQ/view?usp=drivesdk" target="_blank">أحياء</a></li>
+      <li><a href="https://drive.google.com/file/d/1fgVXQf8t2czQrTBpWZ5IqFBzHRSH9Mtj/view?usp=drivesdk" target="_blank">إسلامية</a></li>
+      <li><a href="https://drive.google.com/file/d/1X5x2pBJOHcmLiFFRF2DEsKFlqOzXpfba/view?usp=drivesdk" target="_blank">إنكليزي</a></li>
+      <li><a href="https://drive.google.com/file/d/1ybbl5KKtyovEJr9RJcbmT3YQ1KKxDJx7/view?usp=drivesdk" target="_blank">فيزياء</a></li>
+      <li><a href="https://drive.google.com/file/d/1556Wqvs4HXxLyJxHDwgF7znRbooVFAjl/view?usp=drivesdk" target="_blank">كيمياء</a></li>
+      <li><a href="https://drive.google.com/file/d/1Fbg3oG9okburkz10e3jy1eW-LDmremsA/view?usp=drivesdk" target="_blank">رياضيات</a></li>
+      <li><a href="https://drive.google.com/file/d/1oIGD2RQ_NJVcX_Yhvy5UTBP4M_Mpj0jK/view?usp=drivesdk" target="_blank">اجتماعيات</a></li>
+    </ul>
   </section>
 
-  <section id="malazem">
-    <h2>📑 الملازم</h2>
-    <ul id="malazem-list"></ul>
+  <!-- الملازم -->
+  <section id="lessons" class="page-section">
+    <h2>📘 الملازم</h2>
+    <ul>
+      <li><a href="https://drive.google.com/file/d/1tNS70RdL3KcrgKNiVzUKRoCKc2qCYaVd/view?usp=drivesdk" target="_blank">فيزياء</a></li>
+      <li><a href="https://drive.google.com/file/d/1Q6E8XyumkomM7LzXNX04LuZ89irSmDRb/view?usp=drivesdk" target="_blank">كيمياء</a></li>
+      <li><a href="https://drive.google.com/file/d/14SpJNuvK2p_skrnGZq-WXOA1qPBI_yBE/view?usp=drivesdk" target="_blank">أحياء</a></li>
+      <li><a href="https://drive.google.com/file/d/1Cypj2pG5IsfEBCgF5S3kTFKq9J2LZuxn/view?usp=drivesdk" target="_blank">عربي ج1</a></li>
+      <li><a href="https://drive.google.com/file/d/1Om0KngYuSIuGhAY6gtbcvWMO-a0WKdjF/view?usp=drivesdk" target="_blank">عربي ج2</a></li>
+      <li><a href="https://drive.google.com/file/d/1v7JT7H3XXvoZ0WkZBnocXr7gLdR6Pa3T/view?usp=drivesdk" target="_blank">رياضيات</a></li>
+      <li><a href="https://drive.google.com/file/d/10l8n_L9X1BnBNMr-Tvo6b8T_rOAIfnji/view?usp=drivesdk" target="_blank">إسلامية</a></li>
+      <li><a href="https://drive.google.com/file/d/1HL3Wak7iGIH5VvnnJdRMIs2sz-059P63/view?usp=drivesdk" target="_blank">إنكليزي</a></li>
+    </ul>
   </section>
 
-  <section id="timer">
+  <!-- الملاحظات -->
+  <section id="notes" class="page-section">
+    <h2>📝 الملاحظات</h2>
+    <input id="noteInput" type="text" placeholder="أدخل ملاحظة">
+    <button onclick="addNote()">➕ أضف</button>
+    <ul id="notesList"></ul>
+  </section>
+
+  <!-- المؤقت -->
+  <section id="timer" class="page-section">
     <h2>⏳ المؤقت</h2>
-    <div class="timer" id="timerDisplay">25:00</div>
-    <div style="text-align:center">
-      <button onclick="startTimer()">▶️ بدء</button>
-      <button onclick="pauseTimer()">⏸️ إيقاف مؤقت</button>
+    <div id="timerDisplay">25:00</div>
+    <div class="controls">
+      <button onclick="startTimer()">▶️ ابدأ</button>
+      <button onclick="pauseTimer()">⏸️ إيقاف</button>
       <button onclick="resetTimer()">🔄 إعادة</button>
-    </div>
-    <div style="text-align:center;margin-top:10px;">
       <button onclick="changeTime(60)">+1 دقيقة</button>
       <button onclick="changeTime(-60)">-1 دقيقة</button>
     </div>
   </section>
 
-  <section id="notes">
-    <h2>📝 الملاحظات</h2>
-    <textarea id="noteInput" placeholder="أكتب ملاحظتك هنا..."></textarea>
-    <button onclick="addNote()">إضافة ملاحظة</button>
-    <div id="notesList"></div>
-  </section>
-
+  <!-- ملفات الجافاسكربت -->
   <script src="main.js"></script>
-  <script src="timer.js"></script>
   <script src="db.js"></script>
 </body>
 </html>
